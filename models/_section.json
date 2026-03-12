@@ -101,8 +101,16 @@
           ]
         },
         {
-          "component": "container",
+          "component": "reference",
+          "valueType": "string",
+          "name": "image",
           "label": "Background Image",
+          "description": "Optional background image for this section. For tablet/mobile variants, set Background style to \"Background Image\" and use the options below.",
+          "multi": false
+        },
+        {
+          "component": "container",
+          "label": "Background Image (tablet/mobile)",
           "name": "container",
           "valueType": "string",
           "collapsible": true,
@@ -110,13 +118,6 @@
             "==": [{ "var": "style" }, "bg-image"]
           },
           "fields": [
-            {
-              "component": "reference",
-              "valueType": "string",
-              "name": "image",
-              "label": "Background Image",
-              "multi": false
-            },
             {
               "component": "reference",
               "valueType": "string",

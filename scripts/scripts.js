@@ -275,6 +275,8 @@ export function decorateMain(main) {
   decorateIcons(main);
   buildAutoBlocks(main);
   decorateSections(main);
+  // Apply section background images as soon as section metadata (e.g. data-image) is set
+  decorateSectionImages(document);
   decorateBlocks(main);
   decorateDMImages(main);
 }

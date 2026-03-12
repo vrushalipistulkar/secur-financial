@@ -278,6 +278,14 @@
         "description": "The label shown for this section in the Content Tree"
       },
       {
+        "component": "reference",
+        "valueType": "string",
+        "name": "image",
+        "label": "Background Image",
+        "description": "Optional background image for this section.",
+        "multi": false
+      },
+      {
         "component": "multiselect",
         "name": "style",
         "label": "Style",
