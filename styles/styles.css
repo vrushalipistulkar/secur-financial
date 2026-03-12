@@ -837,6 +837,19 @@ main > .section[data-sec-full-width="true"] > div {
   padding: 0;
 }
 
+/* With background image + full section width: section is full width (bg fills it), content stays max 1200px like bg colors */
+main > .section.section-has-bg[data-sec-full-width="true"] > div {
+  max-width: 1200px;
+  margin-left: auto;
+  margin-right: auto;
+  padding: 0 24px;
+}
+@media (width >= 900px) {
+  main > .section.section-has-bg[data-sec-full-width="true"] > div {
+    padding: 0 32px;
+  }
+}
+
 /* Section horizontal layout with percentage item widths (Item widths (%) field) */
 .section.section-horizontal-widths {
   display: flex;
