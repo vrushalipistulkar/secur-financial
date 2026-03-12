@@ -1,5 +1,5 @@
 // ==========================================
-// DataLayer Management System - WKND Fly
+// DataLayer Management System - Secur Financial
 // Only properties present in data-elements.json are initialized.
 // No checkout (not in data-elements). Cart has only total (Reservation-TotalValue).
 // ==========================================
@@ -10,8 +10,8 @@ window._dataLayerUpdating = false;
 
 let _dataLayer = null;
 
-const STORAGE_KEY = 'wkndfly_dataLayer';
-const STORAGE_TIMESTAMP_KEY = 'wkndfly_dataLayer_timestamp';
+const STORAGE_KEY = 'secur_financial_dataLayer';
+const STORAGE_TIMESTAMP_KEY = 'secur_financial_dataLayer_timestamp';
 const STORAGE_TTL = 30 * 24 * 60 * 60 * 1000;
 const ECID_SESSION_KEY = 'com.adobe.reactor.dataElements.ECID';
 
@@ -63,12 +63,6 @@ function applyEcidToDataLayer() {
   _dataLayer._demosystem4.identification.core.ecid = ecid || _dataLayer._demosystem4.identification.core.ecid || '';
 }
 
-function normalizeDemosystem4Email() {
-  if (!_dataLayer?._demosystem4?.identification?.core) return;
-  const core = _dataLayer._demosystem4.identification.core;
-  if (core.email === '') core.email = null;
-}
-
 function dispatchDataLayerEvent(eventType = 'initialized') {
   document.dispatchEvent(
     new CustomEvent('dataLayerUpdated', {
@@ -109,101 +103,12 @@ function processDataLayerQueue() {
  * cart: only total (Reservation-TotalValue).
  */
 function getInitialDataLayerFromDataElements() {
-  return {
-    project: {
-      id: 'wknd-fly',
-      currency: 'USD',
-    },
-    page: {
-      thumbnail: '',
-      name: '',
-      title: '',
-    },
-    product: {
-      id: '',
-      image: '',
-      name: '',
-      category: '',
-    },
-    cart: {
-      products: {},
-      productCount: 0,
-      subTotal: 0,
-      total: 0,
-    },
-    bookingReference: '',
-    flightLength: 0,
-    flightNumber: '',
-    ticketNumber: '',
-    itineraryNumber: '',
-    class: '',
-    upgradeWithPoints: 'n',
-    travelPreferences: {
-      seat: '',
-      seatSection: '',
-      meal: '',
-    },
-    wizard: {
-      name: '',
-    },
-    options: {},
-    partnerData: {
-      Presence_of_premimum_credit_card: 'n',
-      VacationSpenders: 87,
-      PartnerID: "Partner456"
-    },
-    payment: {
-      nameOnCard: '',
-      cardExpiration: '',
-      cvv: '',
-      cardNumber: '',
-    },
-    smsConsent: 'n',
-    loyaltyConsent: 'n',
-    person: {
-      name: {
-        firstName: '',
-        middleName: '',
-        lastName: '',
-      },
-      gender: '',
-      birthDate: '',
-      isMember: 'n',
-    },
-    consents: {},
-    homeAddress: {
-      postalCode: '',
-      city: '',
-      street1: '',
-    },
-    profile: {
-      cookiePolicy: '',
-    },
-    _demosystem4: {
-      identification: {
-        core: {
-          ecid: '',
-          email: null,
-          loyaltyId: '',
-          isMember: 'n',
-        },
-      },
-      demoEnvironment: {
-        brandName: 'wknd-fly',
-      },
-      interactionDetails: {
-        core: {
-          channel: 'web',
-        },
-      },
-    },
-    personalEmail: {
-      address: '',
-    },
-    mobilePhone: {
-      number: '',
-    },
-  };
+  return window.dataLayer = {
+    page: {},
+    product: {},
+    mortgage: {},
+    partnerData: {}
+  };;
 }
 
 export function buildCustomDataLayer() {
@@ -221,16 +126,12 @@ export function buildCustomDataLayer() {
         localStorage.removeItem(STORAGE_TIMESTAMP_KEY);
       }
     }
-
     if (savedDataLayer && isDataValid) {
       _dataLayer = JSON.parse(savedDataLayer);
-      normalizeDemosystem4Email();
     } else {
       _dataLayer = getInitialDataLayerFromDataElements();
     }
-
     applyEcidToDataLayer();
-
     if (!_dataLayer.page) _dataLayer.page = {};
     _dataLayer.page.title = document.title || _dataLayer.page.title;
     _dataLayer.page.name = (document.title || '').toLowerCase() || _dataLayer.page.name;
@@ -290,7 +191,6 @@ window.updateDataLayer = function (updates, merge = true) {
   } else {
     _dataLayer = { ..._dataLayer, ...updates };
   }
-  normalizeDemosystem4Email();
   try {
     const now = Date.now().toString();
     localStorage.setItem(STORAGE_KEY, JSON.stringify(_dataLayer));
@@ -329,49 +229,6 @@ window.getDataLayerQueueStatus = function () {
     dataLayerQueueLength: window._dataLayerQueue ? window._dataLayerQueue.length : 0,
     dataLayerQueue: window._dataLayerQueue || [],
   };
-};
-
-// Normalize boolean/checkbox/radio to Oxygen pattern: 'y' or 'n' for dataLayer/XDM
-window.getDataLayerYesNo = function (val) {
-  if (val === true || val === 'y' || val === 'yes' || val === 1) return 'y';
-  if (val === false || val === 'n' || val === 'no' || val === 0 || val === '' || val == null) return 'n';
-  return String(val).toLowerCase() === 'y' || String(val).toLowerCase() === 'yes' ? 'y' : 'n';
-};
-
-// Normalize flight class to AEP enum (first class | business class | premium economy | economy)
-window.getDataLayerFlightClass = function (val) {
-  if (val == null || val === '') return '';
-  const v = String(val).trim().toLowerCase();
-  if (v === 'standard') return 'economy';
-  if (v === 'business') return 'business class';
-  if (v === 'first class' || v === 'first') return 'first class';
-  if (v === 'premium economy') return 'premium economy';
-  if (v === 'economy') return 'economy';
-  return 'economy';
-};
-
-// Normalize flight length to integer for dataLayer/XDM (minutes)
-window.getDataLayerFlightLength = function (val) {
-  if (val == null || val === '') return 0;
-  const n = typeof val === 'number' ? val : parseInt(String(val).trim(), 10);
-  return Number.isNaN(n) ? 0 : Math.max(0, Math.floor(n));
-};
-
-// Normalize date to ISO 8601 for dataLayer/XDM (e.g. "2026-03-10T18:30:00Z" — no milliseconds)
-window.getDataLayerDate = function (val) {
-  if (val == null || val === '') return '';
-  const s = String(val).trim();
-  if (!s) return '';
-  const stripMs = (iso) => (typeof iso === 'string' ? iso.replace(/\.\d{3}Z$/i, 'Z') : iso);
-  if (s.indexOf('T') !== -1) return stripMs(s); // already ISO-like
-  const match = s.match(/^(\d{4})-(\d{2})-(\d{2})/);
-  if (match) return `${match[1]}-${match[2]}-${match[3]}T00:00:00Z`;
-  try {
-    const d = new Date(s);
-    return Number.isNaN(d.getTime()) ? '' : stripMs(d.toISOString());
-  } catch {
-    return '';
-  }
 };
 
 buildCustomDataLayer();
