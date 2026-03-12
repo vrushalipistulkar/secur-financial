@@ -283,14 +283,14 @@
   display: none;
 }
 .cards > ul > li.image-right .cards-card-image {
-  flex: 0 0 50%;
+  flex: 50%;
   display: block;
   overflow: hidden;
   min-height: 220px;
   min-width: 0;
 }
 .cards > ul > li.image-right .cards-card-body {
-  flex: 0 0 50%;
+  flex: 50%;
   min-width: 0;
   box-sizing: border-box;
   padding: 0;
