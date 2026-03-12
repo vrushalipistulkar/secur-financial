@@ -6,7 +6,7 @@ export default async function decorate(block) {
 }
 */
 
-import { createOptimizedPicture } from '../../scripts/aem.js';
+import { createOptimizedPicture, toClassName } from '../../scripts/aem.js';
 import { moveInstrumentation } from '../../scripts/scripts.js';
 import { getSiteName, PATH_PREFIX } from '../../scripts/utils.js';
 import { isAuthorEnvironment } from '../../scripts/scripts.js';
@@ -68,10 +68,15 @@ export default function decorate(block) {
     const buttonWebhookUrl = getCell(9);
     const buttonFormId = getCell(10);
     const buttonData = getCell(11);
-    const customStyles = getCell(12);
+    // Read custom styles by data-aue-prop so it works regardless of column order (UE authoring)
+    const customStylesEl = row.querySelector('p[data-aue-prop="customstyles"]') || row.querySelector('[data-aue-prop="customstyles"]');
+    const customStylesRaw = customStylesEl?.textContent?.trim() || getCell(12) || '';
 
-    if (customStyles && String(customStyles).trim()) {
-      li.classList.add(String(customStyles).trim());
+    if (customStylesRaw) {
+      customStylesRaw.split(/[\s,]+/).forEach((part) => {
+        const cls = toClassName(part.trim());
+        if (cls) li.classList.add(cls);
+      });
     }
 
     li.classList.add(`cards-card--alignment-${alignment}`);
