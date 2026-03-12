@@ -324,7 +324,9 @@ body.gray-theme {
   filter: grayscale(100%);
 }
 
-
+ul {
+  padding-inline-start: 15px;
+}
 body.red-theme {
   --main-accent-color: #DC2626;
   --link-hover-color: #EF4444;
