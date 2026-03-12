@@ -78,7 +78,10 @@
 .cards .cards-card-body ul {
   list-style: disc;
 }
-
+.cards .cards-card-body {
+  padding-left: 10% !important;
+  padding-right: 10% !important;
+}
 .cards .cards-card-body p > strong,
 .cards .cards-card-body h2 {
   line-height: 30px;
