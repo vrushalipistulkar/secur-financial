@@ -1323,3 +1323,9 @@ table {
 #consentModal #disable.btn_3.action_btn:hover {
   filter: brightness(1.1);
 }
+
+/*custom-classes-start*/
+.custom-text-class {
+  color: #fff !important;
+}
+/*custom-classes-end*/
