@@ -40,7 +40,7 @@
   /* brand-scoped header/footer variables with sensible defaults */
   --nav-background-color: var(--brand-nav-background-color, #0000008c);
   --nav-text-color: var(--brand-nav-text-color, #ffffff);
-  --footer-background-color: var(--brand-footer-background-color, #01153a);
+  --footer-background-color: var(--brand-footer-background-color, #000);
   --footer-text-color: var(--brand-footer-text-color, #ffffff);
   
   /* fonts */
@@ -344,27 +344,6 @@ body.green-theme {
   --main-accent-color: #00c4ff;
   --nav-text-color:#000000;
 }
-
-/* Fly theme (copy of wehealthcare – buttons, header, etc.) */
-.fly-theme {
-  --main-accent-color: #00c4ff;
-  --nav-text-color: #000000;
-}
-
-body.fly-theme header .nav-wrapper,
-body.fly-theme footer {
-  background-color: #fff;
-  color: var(--nav-text-color);
-}
-
-body.fly-theme header .nav-wrapper nav .nav-sections ul > li > a::before {
-  background: var(--main-accent-color);
-}
-
-body.fly-theme header .nav-wrapper nav .nav-sections ul > li > a:hover {
-  color: var(--main-accent-color);
-}
-
 /*brand header footer brand themes*/
 body header .nav-wrapper{
   background-color: var(--nav-background-color);
@@ -501,14 +480,6 @@ textarea,
 select,
 button {
   font: inherit;
-}
-
-/*section padding*/
-.section.section-horizontal-widths.cards-container{
-    padding: 0 32px;
-}
-.section.section-horizontal-widths.cards-container div {
-    padding: 0;
 }
 
 /* links */
@@ -676,24 +647,6 @@ main > .section {
   min-height: 50px;
 }
 
-/* When full width is not selected, constrain section to content width and center */
-main > .section:not([data-sec-full-width="true"]) {
-  max-width: 1200px;
-  margin-left: auto !important;
-  margin-right: auto !important;
-}
-
-main > .section.bg-dark:not([data-sec-full-width="true"]) {
-  max-width: unset;
-}
-main > .section.bg-light:not([data-sec-full-width="true"]) {
-  max-width: unset;
-}
-main > .section.bg-theme:not([data-sec-full-width="true"]) {
-  max-width: unset;
-}
-
-
 main > .section > div {
   max-width: 1200px;
   margin: auto;
@@ -834,26 +787,6 @@ main > .section[data-sec-full-width="true"] > div {
   padding: 0;
 }
 
-/* Section horizontal layout with percentage item widths (Item widths (%) field) */
-.section.section-horizontal-widths {
-  display: flex;
-}
-main .section.section-horizontal-widths > .default-content-wrapper {
-  display: flex;
-  flex-direction: row;
-  flex-wrap: nowrap;
-  width: 100%;
-  gap: 24px;
-}
-main .section.section-horizontal-widths > .default-content-wrapper > div,
-main .section.section-horizontal-widths > .default-content-wrapper > p {
-  box-sizing: border-box;
-}
-/* When section is the flex container (e.g. image + sign-in 40,60), size direct children correctly */
-main .section.section-horizontal-widths > * {
-  box-sizing: border-box;
-  min-width: 0;
-}
 
 /* Section Background Colors */
 main .section.bg-theme {  
@@ -1176,121 +1109,4 @@ table {
 :root {
   --main-accent-color: #C2410C; /* darker orange for contrast */
   --link-hover-color: #9A3412;  /* darker hover */
-}
-
-/* Cookie consent modal (injected by Launch) – slightly above bottom (30px), horizontally centered */
-#consentModal {
-  position: fixed;
-  inset: 0;
-  z-index: 99999;
-  display: flex;
-  align-items: flex-end;
-  justify-content: center;
-  background-color: rgba(0, 0, 0, 0.5);
-  padding: 1.5rem;
-  padding-bottom: 30px;
-  box-sizing: border-box;
-}
-
-/* Ensure modal card stays centered when Launch adds wrapper divs */
-#consentModal > * {
-  margin-left: auto;
-  margin-right: auto;
-}
-
-#consentModal .consentmodal-content {
-  position: fixed;
-  bottom: 50px !important;
-  left: 50%;
-  transform: translateX(-50%);
-  max-width: 560px;
-  width: 100%;
-  border-radius: 10px;
-  background-color: #fff;
-  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.15);
-  box-sizing: border-box;
-  margin: 0 auto;
-}
-
-#consentModal .close {
-  position: absolute;
-  top: 1rem;
-  right: 1rem;
-  width: 32px;
-  height: 32px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 1.25rem;
-  line-height: 1;
-  color: #555;
-  background-color: #e9ecef;
-  border: 1px solid #dee2e6;
-  border-radius: 50%;
-  cursor: pointer;
-  transition: background-color 0.2s, color 0.2s;
-}
-
-#consentModal .close:hover {
-  background-color: #dee2e6;
-  color: #333;
-}
-
-#consentModal .consentmodal-content p {
-  font-weight: normal;
-  font-size: 1rem;
-  line-height: 1.5;
-  color: #333;
-  margin: 0 2rem 0 0;
-  padding-right: 0.5rem;
-}
-
-#consentModal .consentmodal-content a[href="#"] {
-  color: #0563c1;
-  text-decoration: underline;
-}
-
-#consentModal .consentmodal-content a[href="#"]:hover {
-  color: #034a94;
-}
-
-#consentModal .consentmodal-content > div {
-  margin-top: 1.25rem;
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.75rem;
-}
-
-#consentModal .action_btn {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  padding: 0.6rem 1.5rem;
-  font-size: 1rem;
-  font-weight: 600;
-  font-family: inherit;
-  text-decoration: none;
-  border: none;
-  border-radius: 6px;
-  cursor: pointer;
-  transition: filter 0.2s, background-color 0.2s;
-}
-
-#consentModal #allow.btn_1.action_btn {
-  background-color: #0563c1;
-  color: #fff;
-  margin-right: 0;
-}
-
-#consentModal #allow.btn_1.action_btn:hover {
-  filter: brightness(1.08);
-}
-
-#consentModal #disable.btn_3.action_btn {
-  background-color: #6c757d;
-  color: #fff;
-}
-
-#consentModal #disable.btn_3.action_btn:hover {
-  filter: brightness(1.1);
 }

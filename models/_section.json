@@ -152,14 +152,6 @@
           "condition": {
             "!=": [{ "var": "style" }, "bg-image"]
           }
-        },
-        {
-          "component": "text",
-          "valueType": "string",
-          "name": "sec-item-widths",
-          "value": "",
-          "label": "Item widths (%)",
-          "description": "Comma-separated width percentages for items (e.g. 25,25,50). When set, items are arranged horizontally with these widths."
         }
       ]
     }
@@ -171,12 +163,6 @@
 	      "button",
       	"cards",
       	"carousel",
-      	"checkout",
-      	"application-form",
-      	"new-account",
-      	"loan-calculator",
-      	"insurance",
-      	"add-external",
       	"columns",
       	"contentfragment",
       	"dm-asset",

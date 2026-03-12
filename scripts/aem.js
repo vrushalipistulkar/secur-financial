@@ -160,7 +160,6 @@ function init() {
   setup();
   sampleRUM.collectBaseURL = window.origin;
   sampleRUM();
-  setupSectionItemWidthsUE();
 }
 
 /**
@@ -523,136 +522,7 @@ function decorateSections(main) {
       });
       sectionMeta.parentNode.remove();
     }
-    applySectionItemWidths(section);
   });
-}
-
-/**
- * Applies horizontal layout and percentage widths to section items when sec-item-widths is set.
- * When section has multiple direct children (e.g. default-content-wrapper + sign-in-wrapper),
- * applies flex to the section and widths to those children so image and block sit side by side (e.g. 40,60).
- * Otherwise applies to immediate children of .default-content-wrapper.
- * @param {Element} section The section element
- */
-function applySectionItemWidths(section) {
-  const raw = (section.dataset?.secItemWidths
-    || section.getAttribute('data-sec-item-widths')
-    || '').trim();
-  let sectionChildren = [...section.children].filter((el) => !el.classList?.contains('section-metadata'));
-  let inner = section.querySelector('.default-content-wrapper') || section.firstElementChild;
-  if (!inner) return;
-
-  const widths = raw ? raw.split(',')
-    .map((s) => parseInt(s.trim(), 10))
-    .filter((n) => !Number.isNaN(n) && n > 0 && n <= 100) : [];
-  const dcw = section.querySelector('.default-content-wrapper');
-  if (widths.length > 0 && dcw && dcw.children.length > 1) {
-    const otherCount = sectionChildren.length - 1;
-    const totalItems = dcw.children.length + otherCount;
-    if (totalItems === widths.length) {
-      const newWrappers = [];
-      [...dcw.children].forEach((child) => {
-        const wrap = document.createElement('div');
-        wrap.appendChild(child);
-        newWrappers.push(wrap);
-      });
-      const idx = sectionChildren.indexOf(dcw);
-      newWrappers.forEach((w) => section.insertBefore(w, dcw));
-      dcw.remove();
-      sectionChildren = [...section.children].filter((el) => !el.classList?.contains('section-metadata'));
-      inner = section.firstElementChild;
-    }
-  }
-
-  const clearWidths = (el) => {
-    if (!el) return;
-    el.style.flex = '';
-    el.style.maxWidth = '';
-    el.style.boxSizing = '';
-  };
-  const clearSectionFlex = () => {
-    section.style.display = '';
-    section.style.flexDirection = '';
-    section.style.flexWrap = '';
-    section.style.gap = '';
-    sectionChildren.forEach(clearWidths);
-  };
-  const clearInnerFlex = () => {
-    inner.style.display = '';
-    inner.style.flexDirection = '';
-    inner.style.flexWrap = '';
-    inner.style.gap = '';
-    [...inner.querySelectorAll(':scope > *')].forEach(clearWidths);
-    inner.querySelectorAll('[style*="flex:"], [style*="max-width"]').forEach(clearWidths);
-  };
-  if (!raw) {
-    section.classList.remove('section-horizontal-widths');
-    clearSectionFlex();
-    clearInnerFlex();
-    return;
-  }
-  if (widths.length === 0) return;
-  const immediateChildren = [...inner.querySelectorAll(':scope > *')];
-  const useSectionLevel = sectionChildren.length >= widths.length && sectionChildren.length > 1;
-  if (useSectionLevel) {
-    clearInnerFlex();
-    section.classList.add('section-horizontal-widths');
-    section.style.display = 'flex';
-    section.style.flexDirection = 'row';
-    section.style.flexWrap = 'nowrap';
-    section.style.gap = '24px';
-    sectionChildren.forEach((el, i) => {
-      if (widths[i] != null) {
-        el.style.flex = `0 0 ${widths[i]}%`;
-        el.style.maxWidth = `${widths[i]}%`;
-        el.style.boxSizing = 'border-box';
-      } else {
-        clearWidths(el);
-      }
-    });
-  } else {
-    clearSectionFlex();
-    const set = new Set(immediateChildren);
-    inner.querySelectorAll('[style*="flex:"], [style*="max-width"]').forEach((el) => {
-      if (!set.has(el)) clearWidths(el);
-    });
-    section.classList.add('section-horizontal-widths');
-    inner.style.display = 'flex';
-    inner.style.flexDirection = 'row';
-    inner.style.flexWrap = 'nowrap';
-    inner.style.gap = '24px';
-    immediateChildren.forEach((el, i) => {
-      if (widths[i] != null) {
-        el.style.flex = `0 0 ${widths[i]}%`;
-        el.style.maxWidth = `${widths[i]}%`;
-        el.style.boxSizing = 'border-box';
-      } else {
-        clearWidths(el);
-      }
-    });
-  }
-}
-
-function setupSectionItemWidthsUE() {
-  const handler = (event) => {
-    const resource = event.detail?.request?.target?.resource;
-    const section = document.querySelector(`.section[data-aue-resource="${resource}"]`);
-    if (!section) return;
-    if (event.type === 'aue:content-details') {
-      const content = event.detail?.content || {};
-      const val = content['sec-item-widths'] ?? content.secItemWidths ?? '';
-      if (val !== '') {
-        section.dataset.secItemWidths = String(val);
-        applySectionItemWidths(section);
-      }
-    }
-    if (event.type === 'aue:content-patch' && event.detail?.patch?.name === 'sec-item-widths') {
-      section.dataset.secItemWidths = String(event.detail.patch.value || '');
-      applySectionItemWidths(section);
-    }
-  };
-  document.body.addEventListener('aue:content-details', handler);
-  document.body.addEventListener('aue:content-patch', handler);
 }
 
 /**
@@ -942,7 +812,6 @@ async function loadSections(element) {
 init();
 
 export {
-  applySectionItemWidths,
   buildBlock,
   createOptimizedPicture,
   decorateBlock,

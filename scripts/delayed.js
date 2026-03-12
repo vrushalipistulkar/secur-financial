@@ -10,9 +10,6 @@ import {
   isInternalPage,
 } from './utils.js';
 
-// Custom events for Launch (e.g. page-view)
-import { initializeCustomEvents } from "./custom-events.js";
-
 // Adobe Target - start
 
 window.targetGlobalSettings = {

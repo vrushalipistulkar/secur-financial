@@ -28,13 +28,8 @@ export default function decorate(block) {
       span({ class: 'button-text' }, buttonLabel)
     )
   );
-
-  /* Hide config rows (index >= 4) on published/live, same as hero (index >= 7) and cards (.cards-config) */
-  [...block.children].forEach((row, index) => {
-    if (index >= 4) row.style.display = 'none';
-  });
-
-  /* Replace first 4 rows with the rendered button */
-  for (let i = 0; i < 4 && block.firstChild; i++) block.removeChild(block.firstChild);
-  block.insertBefore(buttonElement, block.firstChild);
+  
+  // Replace the entire block content with the rendered button
+  block.innerHTML = '';
+  block.appendChild(buttonElement);
 }

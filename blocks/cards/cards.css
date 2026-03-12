@@ -21,33 +21,12 @@
 .cards > ul > li img {
   width: 100%;
   aspect-ratio: 16 / 9;
-  object-fit: cover; /* Cover (default) */
+  object-fit: cover;
   min-height: 255px;
   max-height: 255px;
   overflow: hidden;
   transition: transform 0.4s ease;
   transform-origin: 50% 50%;
-}
-
-/* Card image style options: Contain, Fill, None, Scale Down (Cover is default above) */
-.cards > ul > li .cards-card-image.contain img,
-.cards > ul > li .cards-card-image.contain picture img {
-  object-fit: contain;
-}
-
-.cards > ul > li .cards-card-image.fill img,
-.cards > ul > li .cards-card-image.fill picture img {
-  object-fit: fill;
-}
-
-.cards > ul > li .cards-card-image.none img,
-.cards > ul > li .cards-card-image.none picture img {
-  object-fit: none;
-}
-
-.cards > ul > li .cards-card-image.scale-down img,
-.cards > ul > li .cards-card-image.scale-down picture img {
-  object-fit: scale-down;
 }
 
 .card-link .cards li:hover img{
@@ -139,11 +118,6 @@
   box-sizing: border-box;
   margin: 0;
 }
-
-/* When card has custom background color, body must not cover it */
-.cards > ul > li.cards-card--custom-bg .cards-card-body {
-  background-color: transparent;
-}
 .cards > ul > li .cards-card-body h1 {
   margin: 0;
   font-size: 26px;
@@ -159,19 +133,6 @@
 }
 
 
-
-/* Card Icon Cards – centered text, smaller image min-height */
-.cards > ul > li.icon-cards .cards-card-body h1,
-.cards > ul > li.icon-cards .cards-card-body h2,
-.cards > ul > li.icon-cards .cards-card-body h3,
-.cards > ul > li.icon-cards .cards-card-body h4,
-.cards > ul > li.icon-cards .cards-card-body p {
-  text-align: center;
-}
-
-.cards > ul > li.icon-cards img {
-  min-height: 100px;
-}
 
 /* Card Image Top */
 .cards > ul > li.image-top {
@@ -214,7 +175,7 @@
 }
 
 
-/* Card Image Left – image 50% left, text 50% right. Hide config divs so only image + body are in the row. */
+/* Card Image Left */
 .cards > ul > li.image-left {
   background: var(--background-color) 0 0 no-repeat padding-box;
   box-shadow: 0 3px 20px #00000010;
@@ -223,26 +184,24 @@
   flex-direction: row;
   gap: 20px;
 }
-.cards > ul > li.image-left .cards-config {
-  display: none;
-}
 .cards > ul > li.image-left .cards-card-image {
-  flex: 0 0 50%;
-  display: block;
-  overflow: hidden;
-  min-height: 220px;
+  display: inline-flex;
+  flex-grow: 1;
+  flex-basis: 0;
 }
 .cards > ul > li.image-left .cards-card-body {
-  /*flex: 0 0 50%;*/
   padding: 0;
   margin: 10px 20px;
   display: inline-flex;
+  flex-grow: 1;
+  flex-basis: 0;
   align-items: center;
 }
 .cards > ul > li.image-left .cards-card-body h1 {
   margin: 0;
   font-size: 22px;
   line-height: 32px;
+
 }
 .cards > ul > li.image-left .cards-card-body p {
   margin: 10px 0;
@@ -251,21 +210,20 @@
 }
 .cards > ul > li.image-left picture {
   width: 100%;
-  display: block;
-  line-height: 0;
-  min-height: 220px;
+  height: 100%;
 }
 .cards > ul > li.image-left img {
   width: 100%;
   height: 100%;
-  min-height: 220px;
-  display: block;
-  object-fit: contain;
+  max-height: initial;
+  min-height: initial;
+  object-fit: cover;
   object-position: center;
 }
 
 
-/* Card Image Right – text 50% left, image 50% right. Hide config divs so only image + body are in the row. */
+
+/* Card Image Right */
 .cards > ul > li.image-right {
   background: var(--background-color) 0 0 no-repeat padding-box;
   box-shadow: 0 3px 20px #00000010;
@@ -274,26 +232,24 @@
   flex-direction: row-reverse;
   gap: 20px;
 }
-.cards > ul > li.image-right .cards-config {
-  display: none;
-}
 .cards > ul > li.image-right .cards-card-image {
-  flex: 0 0 50%;
-  display: block;
-  overflow: hidden;
-  min-height: 220px;
+  display: inline-flex;
+  flex-grow: 1;
+  flex-basis: 0;
 }
 .cards > ul > li.image-right .cards-card-body {
-  /*flex: 0 0 50%;*/
   padding: 0;
   margin: 10px 20px;
   display: inline-flex;
+  flex-grow: 1;
+  flex-basis: 0;
   align-items: center;
 }
 .cards > ul > li.image-right .cards-card-body h1 {
   margin: 0;
   font-size: 22px;
   line-height: 32px;
+
 }
 .cards > ul > li.image-right .cards-card-body p {
   margin: 10px 0;
@@ -302,16 +258,14 @@
 }
 .cards > ul > li.image-right picture {
   width: 100%;
-  display: block;
-  line-height: 0;
-  min-height: 220px;
+  height: 100%;
 }
 .cards > ul > li.image-right img {
   width: 100%;
   height: 100%;
-  min-height: 220px;
-  display: block;
-  object-fit: contain;
+  max-height: initial;
+  min-height: initial;
+  object-fit: cover;
   object-position: center;
 }
 
@@ -451,31 +405,6 @@
 }
 
 
-/* Card Image Style - Compact Style */
-.cards > ul > li .cards-card-image.compact-style img {
-  width: 100%;
-  height: 150px;
-  min-height: 150px;
-  object-fit: cover;
-  object-position: center;
-}
-
-.cards > ul > li .cards-card-image.compact-style picture {
-  width: 100%;
-  height: 150px;
-  min-height: 150px;
-  display: block;
-}
-
-.cards > ul > li .cards-card-image.compact-style picture img {
-  width: 100%;
-  height: 150px;
-  min-height: 150px;
-  object-fit: cover;
-  object-position: center;
-}
-
-
 /* Responsive Styles */
 @media (width < 1024px) {
 
@@ -528,86 +457,4 @@
     padding: 0 4%;
   }
   
-}
-
-/*
-  --------------------------
-  Card block: Alignment, vertical alignment, selectable, section link (Oxygen2 Card-like)
-  Uncomment when ready to test with new card authoring fields.
-  --------------------------
-
-  Alignment */ 
-.cards > ul > li.cards-card--alignment-left,
-.cards > ul > li.cards-card--alignment-left .cards-card-body {
-  text-align: left;
-}
-
-.cards > ul > li.cards-card--alignment-center,
-.cards > ul > li.cards-card--alignment-center .cards-card-body {
-  text-align: center;
-}
-
-.cards > ul > li.cards-card--alignment-right,
-.cards > ul > li.cards-card--alignment-right .cards-card-body {
-  text-align: right;
-}
-
-/*
-.cards > ul > li.cards-card--verticalalignment-top .cards-card-body {
-  justify-content: flex-start;
-}
-
-.cards > ul > li.cards-card--verticalalignment-middle .cards-card-body {
-  justify-content: center;
-}
-
-.cards > ul > li.cards-card--verticalalignment-bottom .cards-card-body {
-  justify-content: flex-end;
-}*/
-
- /* Selectable*/
-.cards > ul > li.cards-card--selectable {
-  cursor: pointer;
-  border: 2px solid transparent;
-}
-
-.cards > ul > li.cards-card--selected {
-  border: 2px solid var(--main-accent-color, #008edd);
-  border-radius: 4px;
-}
-
-   /*Section link (card clickable)*/
-.cards > ul > li[data-section-link] {
-  cursor: pointer;
-}
-
-  --------------------------
-*/
-
-/* Hide new button/CTA config fields so they don't appear in HTML */
-.cards [data-aue-prop="eventType"],
-.cards [data-aue-prop="webhookUrl"],
-.cards [data-aue-prop="formId"],
-.cards [data-aue-prop="data"],
-.cards [data-aue-prop="alignment"],
-.cards [data-aue-prop="textUppercase"],
-.cards [data-aue-prop="backgroundcolor"],
-.cards [data-aue-prop="backgroundColor"],
-.cards [data-aue-prop="backgroundColorOnHover"],
-.cards [data-aue-prop="textColor"],
-.cards [data-aue-prop="textColorOnHover"],
-.cards [data-aue-prop="borderColor"],
-.cards [data-aue-prop="borderColorOnHover"],
-.cards [data-aue-prop="borderWidth"],
-.cards [data-aue-prop="customStyles"] {
-  display: none !important;
-}
-.cards div:has(> [data-aue-prop="eventType"]),
-.cards div:has(> [data-aue-prop="webhookUrl"]),
-.cards div:has(> [data-aue-prop="formId"]),
-.cards div:has(> [data-aue-prop="data"]),
-.cards div:has(> [data-aue-prop="alignment"]),
-.cards div:has(> [data-aue-prop="backgroundcolor"]),
-.cards div:has(> [data-aue-prop="customStyles"]) {
-  display: none !important;
 }

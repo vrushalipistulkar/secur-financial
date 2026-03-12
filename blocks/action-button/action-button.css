@@ -141,34 +141,4 @@
 .default-button-dark a.button:active::after {
   transform: translateX(0);
 }
-
-/*
- * Hide button model config fields in the action-button block (EDS/authoring fallback).
- * Same config hiding is applied in JS (display:none on rows index >= 4) like hero/cards.
- * These rules ensure config is hidden before JS runs or when block is viewed in EDS.
- */
-.action-button [data-aue-prop="eventType"],
-.action-button [data-aue-prop="webhookUrl"],
-.action-button [data-aue-prop="formId"],
-.action-button [data-aue-prop="data"],
-.action-button [data-aue-prop="alignment"],
-.action-button [data-aue-prop="textUppercase"],
-.action-button [data-aue-prop="backgroundColor"],
-.action-button [data-aue-prop="backgroundColorOnHover"],
-.action-button [data-aue-prop="textColor"],
-.action-button [data-aue-prop="textColorOnHover"],
-.action-button [data-aue-prop="borderColor"],
-.action-button [data-aue-prop="borderColorOnHover"],
-.action-button [data-aue-prop="borderWidth"],
-.action-button [data-aue-prop="customStyles"] {
-  display: none !important;
-}
-
-.action-button div:has(> [data-aue-prop="eventType"]),
-.action-button div:has(> [data-aue-prop="webhookUrl"]),
-.action-button div:has(> [data-aue-prop="formId"]),
-.action-button div:has(> [data-aue-prop="data"]),
-.action-button div:has(> [data-aue-prop="alignment"]),
-.action-button div:has(> [data-aue-prop="customStyles"]) {
-  display: none !important;
-}
+  
