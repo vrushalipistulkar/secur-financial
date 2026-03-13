@@ -1328,4 +1328,12 @@ table {
 .custom-text-class {
   color: #fff !important;
 }
+li.credit-cards-custom.cards-card--alignment-left {
+  border: 0 !important;
+  box-shadow: none !important;
+}
+li.image-right.credit-cards-custom.cards-card--alignment-left img {
+  min-height: 400px;
+}
+
 /*custom-classes-end*/
