@@ -68,15 +68,44 @@ function getCellLinkOrText(container, prop) {
 function readConfigFromBlock(blockOrContainer) {
   const el = blockOrContainer;
   const byProp = el.querySelector('[data-aue-prop="interest-rate"]');
+  let applyNowLink = '';
+  let applyNowText = 'Apply now';
+
+  if (byProp) {
+    applyNowLink = getCellLinkOrText(el, 'apply-now-link');
+    applyNowText = (el.querySelector('[data-aue-prop="apply-now-text"]')?.textContent ?? 'Apply now').trim();
+  } else {
+    const tableCfg = readBlockConfig(el) || {};
+    applyNowLink = (tableCfg['apply-now-link'] ?? tableCfg.applynowlink ?? tableCfg.applyNowLink ?? '').toString().trim();
+    applyNowText = (tableCfg['apply-now-text'] ?? tableCfg.applynowtext ?? tableCfg.applyNowText ?? 'Apply now').toString().trim();
+  }
+
+  /* Fallback: block may contain .button-container a.button with the Apply link (e.g. from UE) */
+  if (!applyNowLink || applyNowLink === '#') {
+    const buttonLink = el.querySelector('.button-container a[href], .button-container a.button, p.button-container a[href]');
+    if (buttonLink) {
+      const href = (buttonLink.getAttribute('href') || buttonLink.href || '').trim();
+      if (href && href !== '#') applyNowLink = href;
+      const text = (buttonLink.textContent ?? '').trim();
+      /* Use link text as label only if it looks like a short label, not a URL path */
+      if (text && text !== href && text.length < 80 && !text.startsWith('/content/')) applyNowText = text;
+    }
+  }
+
   if (byProp) {
     return {
       'interest-rate': (el.querySelector('[data-aue-prop="interest-rate"]')?.textContent ?? '').trim(),
-      'apply-now-link': getCellLinkOrText(el, 'apply-now-link'),
-      'apply-now-text': (el.querySelector('[data-aue-prop="apply-now-text"]')?.textContent ?? 'Apply now').trim(),
+      'apply-now-link': applyNowLink,
+      'apply-now-text': applyNowText,
       description: (el.querySelector('[data-aue-prop="description"]')?.textContent ?? 'Estimate how much you could be paying monthly for your loan').trim(),
     };
   }
-  return readBlockConfig(el) || {};
+  const tableCfg = readBlockConfig(el) || {};
+  return {
+    ...tableCfg,
+    'apply-now-link': applyNowLink || tableCfg['apply-now-link'] || tableCfg.applynowlink || tableCfg.applyNowLink,
+    'apply-now-text': applyNowText,
+  };
 }
 
 export default async function decorate(block) {
