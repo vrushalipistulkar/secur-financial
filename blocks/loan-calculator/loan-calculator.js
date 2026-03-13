@@ -51,6 +51,19 @@ function buildSlider(id, label, value, min, max, step, formatter) {
   return { wrap, valueEl, input };
 }
 
+/** Get value from a config cell: use anchor href if present (UE link field), else textContent. */
+function getCellLinkOrText(container, prop) {
+  const cell = container.querySelector(`[data-aue-prop="${prop}"]`);
+  if (!cell) return '';
+  const anchor = cell.tagName === 'A' ? cell : cell.querySelector('a[href]');
+  if (anchor && anchor.href) {
+    const href = anchor.getAttribute('href') || anchor.href;
+    if (href && href !== '#') return href.trim();
+  }
+  const text = (cell.textContent ?? '').trim();
+  return text && text !== '#' ? text : '';
+}
+
 /** Read config from block: UE structure (data-aue-prop) or table (readBlockConfig). */
 function readConfigFromBlock(blockOrContainer) {
   const el = blockOrContainer;
@@ -58,7 +71,7 @@ function readConfigFromBlock(blockOrContainer) {
   if (byProp) {
     return {
       'interest-rate': (el.querySelector('[data-aue-prop="interest-rate"]')?.textContent ?? '').trim(),
-      'apply-now-link': (el.querySelector('[data-aue-prop="apply-now-link"]')?.textContent ?? '').trim(),
+      'apply-now-link': getCellLinkOrText(el, 'apply-now-link'),
       'apply-now-text': (el.querySelector('[data-aue-prop="apply-now-text"]')?.textContent ?? 'Apply now').trim(),
       description: (el.querySelector('[data-aue-prop="description"]')?.textContent ?? 'Estimate how much you could be paying monthly for your loan').trim(),
     };
