@@ -107,7 +107,10 @@ function getInitialDataLayerFromDataElements() {
     page: {},
     product: {},
     mortgage: {},
-    partnerData: {}
+    partnerData: {},
+    project: {
+      id: "securfinancial2"
+    }
   };;
 }
 
