@@ -26,6 +26,8 @@ main > .section:has(.application-form-block) > div {
   font-size: 1.5rem;
   font-weight: 700;
   color: #111;
+  text-align: center;
+  width: 100%;
 }
 
 .application-form-block .application-form-subtitle {

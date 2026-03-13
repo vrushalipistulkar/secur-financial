@@ -33,6 +33,12 @@ function buildApplicationFormDef() {
     appliedCssClassNames: 'application-form-form application-form-wizard',
     items: [
       {
+        id: 'heading-application-form',
+        fieldType: 'heading',
+        label: { value: 'Credit Card Application' },
+        appliedCssClassNames: 'col-12 application-form-heading',
+      },
+      {
         id: 'panel-wizard',
         name: 'wizard',
         fieldType: 'panel',
