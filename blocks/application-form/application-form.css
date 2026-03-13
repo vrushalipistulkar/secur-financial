@@ -8,12 +8,12 @@
 }
 
 main > .section:has(.application-form-block) > div {
-  max-width: 720px;
+  background: #fff;
 }
 
 .application-form-block {
   width: 100%;
-  max-width: 100%;
+  max-width: 720px;
   margin: 0 auto;
   padding: 0 2rem 2rem;
   font-family: var(--body-font-family, system-ui, sans-serif);
