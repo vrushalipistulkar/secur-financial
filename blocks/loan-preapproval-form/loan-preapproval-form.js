@@ -141,7 +141,7 @@ function buildLoanPreapprovalFormDef() {
                 fieldType: 'button',
                 buttonType: 'submit',
                 label: { value: 'Submit' },
-                appliedCssClassNames: 'loan-preapproval-form-submit-btn col-12',
+                appliedCssClassNames: 'loan-preapproval-form-submit-btn',
               },
             ],
           },

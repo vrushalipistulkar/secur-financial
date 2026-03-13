@@ -144,7 +144,8 @@ main > .section:has(.loan-preapproval-form-block) > div {
 .loan-preapproval-form-block .loan-preapproval-form-wizard .wizard-button-wrapper > .submit-wrapper {
   order: 3;
   width: auto !important;
-  flex: 0 0 auto;
+  max-width: none;
+  flex: 0 0 auto !important;
   margin-top: 0;
   display: none;
 }
@@ -205,6 +206,8 @@ main > .section:has(.loan-preapproval-form-block) > div {
 .loan-preapproval-form-block .loan-preapproval-form-wizard .submit-wrapper button,
 .loan-preapproval-form-block .loan-preapproval-form-submit-btn {
   width: auto !important;
+  min-width: auto !important;
+  max-width: none !important;
   padding: 0.75rem 1.5rem !important;
   background: var(--loan-preapproval-teal) !important;
   color: #fff !important;
@@ -213,6 +216,17 @@ main > .section:has(.loan-preapproval-form-block) > div {
   font-size: 1rem;
   font-weight: 600;
   cursor: pointer;
+}
+
+/* Keep Submit same size as Back/Next when in the button row (override form.css width: 100% and col-12) */
+.loan-preapproval-form-block .loan-preapproval-form-wizard .wizard-button-wrapper > .submit-wrapper,
+.loan-preapproval-form-block .loan-preapproval-form-wizard .wizard-button-wrapper > .submit-wrapper.field-wrapper {
+  grid-column: unset;
+}
+
+.loan-preapproval-form-block .loan-preapproval-form-wizard .wizard-button-wrapper > .submit-wrapper button {
+  width: auto !important;
+  min-width: auto !important;
 }
 
 .loan-preapproval-form-block .loan-preapproval-form-wizard .submit-wrapper button:hover,

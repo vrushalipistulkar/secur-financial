@@ -146,9 +146,19 @@ main > .section:has(.application-form-block) > div {
 .application-form-block .application-form-wizard .wizard-button-wrapper > .submit-wrapper {
   order: 3;
   width: auto !important;
-  flex: 0 0 auto;
+  flex: 0 0 auto !important;
   margin-top: 0;
   display: none;
+}
+
+.application-form-block .application-form-wizard .wizard-button-wrapper > .submit-wrapper,
+.application-form-block .application-form-wizard .wizard-button-wrapper > .submit-wrapper.field-wrapper {
+  grid-column: unset;
+}
+
+.application-form-block .application-form-wizard .wizard-button-wrapper > .submit-wrapper button {
+  width: auto !important;
+  min-width: auto !important;
 }
 
 .application-form-block .application-form-wizard .current-wizard-step.panel-wrapper:last-of-type ~ .wizard-button-wrapper > .submit-wrapper {
@@ -206,8 +216,9 @@ main > .section:has(.application-form-block) > div {
   justify-content: flex-end;
 }
 
-.application-form-block .application-form-wizard .submit-wrapper button{
+.application-form-block .application-form-wizard .submit-wrapper button {
   width: auto !important;
+  min-width: auto !important;
   padding: 0.75rem 1.5rem !important;
   background: var(--application-form-teal) !important;
   color: #fff !important;

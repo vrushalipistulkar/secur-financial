@@ -99,7 +99,7 @@ function buildApplicationFormDef() {
                 fieldType: 'button',
                 buttonType: 'submit',
                 label: { value: 'Submit' },
-                appliedCssClassNames: 'application-form-submit-btn col-12',
+                appliedCssClassNames: 'application-form-submit-btn',
               },
             ],
           },
