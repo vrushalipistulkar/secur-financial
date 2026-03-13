@@ -63,6 +63,10 @@
             {
               "name": "Fly Theme",
               "value": "fly-theme"
+            },
+            {
+              "name": "SecurBank Theme",
+              "value": "securbank-theme"
             }
           ]
       },

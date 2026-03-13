@@ -345,7 +345,18 @@ body.green-theme {
 
 .wehealthcare-theme {
   --main-accent-color: #00c4ff;
-  --nav-text-color:#000000;
+  --nav-text-color: #000000;
+}
+
+/* WeHealthcare: white footer, black text */
+body.wehealthcare-theme header .nav-wrapper,
+body.wehealthcare-theme footer {
+  background-color: #fff;
+  color: #000;
+}
+
+body.wehealthcare-theme footer a:any-link {
+  color: #000;
 }
 
 /* Fly theme (copy of wehealthcare – buttons, header, etc.) */
@@ -359,12 +370,35 @@ body.fly-theme footer {
   background-color: #fff;
   color: var(--nav-text-color);
 }
-
 body.fly-theme header .nav-wrapper nav .nav-sections ul > li > a::before {
   background: var(--main-accent-color);
 }
 
 body.fly-theme header .nav-wrapper nav .nav-sections ul > li > a:hover {
+  color: var(--main-accent-color);
+}
+body.fly-theme footer a:any-link {
+  color: #000;
+}
+/* SecurBank theme (same as weHealthcare – white header/footer, black text) */
+.securbank-theme {
+  --main-accent-color: #0296a6;
+  --nav-text-color: #000000;
+}
+
+body.securbank-theme header .nav-wrapper,
+body.securbank-theme footer {
+  background-color: #fff;
+  color: #000;
+}
+body.securbank-theme footer a:any-link {
+  color: #000;
+}
+body.securbank-theme header .nav-wrapper nav .nav-sections ul > li > a::before {
+  background: var(--main-accent-color);
+}
+
+body.securbank-theme header .nav-wrapper nav .nav-sections ul > li > a:hover {
   color: var(--main-accent-color);
 }
 

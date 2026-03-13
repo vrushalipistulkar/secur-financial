@@ -72,6 +72,17 @@ header nav[aria-expanded='true'] {
   padding: 22px 32px;
 }
 
+.securbank-theme header nav[aria-expanded='true'] {
+  min-height: 0;
+  overflow: visible;
+  padding: 0;
+  height: auto;
+}
+
+.securbank-theme .section.nav-sections {
+  padding: 22px 32px;
+}
+
 header nav p {
   margin: 0;
   line-height: 1;
@@ -185,6 +196,10 @@ header .nav-brand {
   flex-basis: unset;
 }
 
+.securbank-theme header .nav-brand {
+  flex-basis: unset;
+}
+
 header nav .nav-brand img {
   width: 100px;
   height: auto;
@@ -196,6 +211,11 @@ header nav .nav-brand img {
 }
 
 .fly-theme header nav .nav-brand img {
+  width: auto;
+  height: 36.5px;
+}
+
+.securbank-theme header nav .nav-brand img {
   width: auto;
   height: 36.5px;
 }
@@ -481,6 +501,19 @@ body.fly-theme .lang-switcher .lang-button {
   border: 1px solid rgb(0 0 0 / 40%);
 }
 
+body.securbank-theme header nav .nav-sections ul > li > a {
+  color: #000;
+}
+
+body.securbank-theme header .nav-wrapper {
+  background-color: #fff;
+}
+
+body.securbank-theme .lang-switcher .lang-button {
+  color: #000;
+  border: 1px solid rgb(0 0 0 / 40%);
+}
+
 /* ensure search and language switcher sit side-by-side inside tools */
 header nav .nav-tools .search-wrapper { display: flex; align-items: center; }
 header nav .nav-tools .lang-switcher { display: inline-flex; }
@@ -518,6 +551,10 @@ header nav .nav-tools .lang-switcher { display: inline-flex; }
   }
 
   body.fly-theme header nav .nav-sections ul > li > a {
+    color: #000;
+  }
+
+  body.securbank-theme header nav .nav-sections ul > li > a {
     color: #000;
   }
 
