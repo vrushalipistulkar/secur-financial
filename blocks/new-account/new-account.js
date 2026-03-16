@@ -192,6 +192,67 @@ function setupStepIndicator(block) {
 
   const submitWrapper = wizard.querySelector('.submit-wrapper');
   if (submitWrapper) btnWrapper.appendChild(submitWrapper);
+
+  attachNewAccountWizardDataLayerTracking(wizard, totalSteps);
+}
+
+const NEW_ACCOUNT_WIZARD_NAME = 'New Account Application';
+
+function buildNewAccountWizardMeta(totalSteps) {
+  if (!totalSteps || totalSteps <= 0) return null;
+  const steps = {};
+  for (let i = 0; i < totalSteps; i += 1) {
+    steps[i] = {
+      name: `new-account-step-${i + 1}`,
+      title: `New Account Step ${i + 1}`,
+    };
+  }
+  return {
+    name: NEW_ACCOUNT_WIZARD_NAME,
+    title: NEW_ACCOUNT_WIZARD_NAME,
+    steps,
+  };
+}
+
+function getActiveWizardStepIndex(wizard) {
+  const current = wizard.querySelector('.current-wizard-step');
+  if (current && typeof current.dataset.index !== 'undefined') {
+    const index = Number.parseInt(current.dataset.index, 10);
+    if (!Number.isNaN(index)) return index;
+  }
+  const first = wizard.querySelector('.panel-wrapper');
+  if (first && typeof first.dataset.index !== 'undefined') {
+    const fallbackIndex = Number.parseInt(first.dataset.index, 10);
+    if (!Number.isNaN(fallbackIndex)) return fallbackIndex;
+  }
+  return 0;
+}
+
+/**
+ * Keep the wizard metadata in sync with the dataLayer (similar to user-registration updates).
+ */
+function updateNewAccountWizardDataLayer(meta, stepIndex) {
+  if (!window.updateDataLayer || !meta) return;
+  const safeIndex = Number.isFinite(stepIndex) ? stepIndex : 0;
+  window.updateDataLayer({
+    wizard: {
+      ...meta,
+      currentStep: safeIndex + 1,
+    },
+  });
+}
+
+function attachNewAccountWizardDataLayerTracking(wizard, totalSteps) {
+  const meta = buildNewAccountWizardMeta(totalSteps);
+  if (!meta) return;
+  const handleNavigation = (event) => {
+    const index = event?.detail?.currStep?.index;
+    const safeIndex = Number.isFinite(index) ? index : getActiveWizardStepIndex(wizard);
+    updateNewAccountWizardDataLayer(meta, safeIndex);
+  };
+
+  wizard.addEventListener('wizard:navigate', handleNavigation);
+  updateNewAccountWizardDataLayer(meta, getActiveWizardStepIndex(wizard));
 }
 
 export default async function decorate(block) {

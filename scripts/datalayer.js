@@ -115,7 +115,8 @@ function getInitialDataLayerFromDataElements() {
     partnerData: {},
     project: {
       id: "securfinancial2"
-    }
+    },
+    wizard: {}
   };
   return initialDataLayer;
 }
