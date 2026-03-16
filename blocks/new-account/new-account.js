@@ -193,19 +193,23 @@ function setupStepIndicator(block) {
   const submitWrapper = wizard.querySelector('.submit-wrapper');
   if (submitWrapper) btnWrapper.appendChild(submitWrapper);
 
-  attachNewAccountWizardDataLayerTracking(wizard, totalSteps);
+  attachNewAccountWizardDataLayerTracking(wizard);
 }
 
 const NEW_ACCOUNT_WIZARD_NAME = 'New Account Application';
 
-function buildNewAccountWizardMeta(totalSteps) {
-  if (!totalSteps || totalSteps <= 0) return null;
+function buildStepMeta(stepIndex) {
+  return {
+    name: `new-account-step-${stepIndex + 1}`,
+    title: `New Account Step ${stepIndex + 1}`,
+  };
+}
+
+function buildWizardPayload(currentStepIndex) {
+  if (currentStepIndex < 0) return null;
   const steps = {};
-  for (let i = 0; i < totalSteps; i += 1) {
-    steps[i] = {
-      name: `new-account-step-${i + 1}`,
-      title: `New Account Step ${i + 1}`,
-    };
+  for (let i = 0; i <= currentStepIndex; i += 1) {
+    steps[i] = buildStepMeta(i);
   }
   return {
     name: NEW_ACCOUNT_WIZARD_NAME,
@@ -231,28 +235,29 @@ function getActiveWizardStepIndex(wizard) {
 /**
  * Keep the wizard metadata in sync with the dataLayer (similar to user-registration updates).
  */
-function updateNewAccountWizardDataLayer(meta, stepIndex) {
-  if (!window.updateDataLayer || !meta) return;
+function updateNewAccountWizardDataLayer(stepIndex) {
+  if (!window.updateDataLayer) return;
   const safeIndex = Number.isFinite(stepIndex) ? stepIndex : 0;
+  const payload = buildWizardPayload(safeIndex);
+  if (!payload) return;
   window.updateDataLayer({
     wizard: {
-      ...meta,
+      ...payload,
       currentStep: safeIndex + 1,
     },
   });
 }
 
-function attachNewAccountWizardDataLayerTracking(wizard, totalSteps) {
-  const meta = buildNewAccountWizardMeta(totalSteps);
-  if (!meta) return;
+function attachNewAccountWizardDataLayerTracking(wizard) {
+  if (!wizard) return;
   const handleNavigation = (event) => {
     const index = event?.detail?.currStep?.index;
     const safeIndex = Number.isFinite(index) ? index : getActiveWizardStepIndex(wizard);
-    updateNewAccountWizardDataLayer(meta, safeIndex);
+    updateNewAccountWizardDataLayer(safeIndex);
   };
 
   wizard.addEventListener('wizard:navigate', handleNavigation);
-  updateNewAccountWizardDataLayer(meta, getActiveWizardStepIndex(wizard));
+  updateNewAccountWizardDataLayer(getActiveWizardStepIndex(wizard));
 }
 
 export default async function decorate(block) {
