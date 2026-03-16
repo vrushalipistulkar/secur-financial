@@ -54,9 +54,7 @@ export function buildFormDataLayerUpdates(form, fieldMap) {
     if (!hasData(value)) return;
     setNestedValue(updates, path, value);
     if (fieldName === 'isMember' && typeof value === 'string') {
-      const normalized = value.toLowerCase();
-      const memberFlag = normalized === 'yes' ? 'y' : 'n';
-      setNestedValue(updates, 'person.isMember', memberFlag);
+      setNestedValue(updates, 'person.isMember', value);
     }
   });
   return Object.keys(updates).length ? updates : null;

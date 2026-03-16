@@ -73,7 +73,7 @@ export default async function decorate(block) {
             name: "isMember",
             fieldType: "drop-down",
             label: { value: "WKND Fly Member" },
-            enum: ["", "yes", "no"],
+            enum: ["", "y", "n"],
             enumNames: ["Select...", "Yes", "No"],
             type: "string",
             properties: { colspan: 12 },
