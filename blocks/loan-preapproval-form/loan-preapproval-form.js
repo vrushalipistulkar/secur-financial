@@ -8,7 +8,7 @@
 
 import { readBlockConfig, loadCSS } from '../../scripts/aem.js';
 import { dispatchCustomEvent } from '../../scripts/custom-events.js';
-import { syncFormDataLayer, DEFAULT_FORM_FIELD_MAP } from '../../scripts/form-data-layer.js';
+import { syncFormDataLayer, DEFAULT_FORM_FIELD_MAP, attachLiveFormSync } from '../../scripts/form-data-layer.js';
 
 function applyButtonConfigToSubmitButton(block, config) {
   const submitButton = block.querySelector("form button[type='submit']");
@@ -257,6 +257,7 @@ function attachLoanPreapprovalFormStepEvents(wizard, form) {
   wizard.addEventListener('wizard:navigate', handleNavigation);
   if (form) {
     syncFormDataLayer(form, DEFAULT_FORM_FIELD_MAP);
+    attachLiveFormSync(form, DEFAULT_FORM_FIELD_MAP);
   }
   dispatchCustomEvent('form-start');
 }

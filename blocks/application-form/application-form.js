@@ -8,7 +8,7 @@
 
 import { readBlockConfig, loadCSS } from '../../scripts/aem.js';
 import { dispatchCustomEvent } from '../../scripts/custom-events.js';
-import { syncFormDataLayer, DEFAULT_FORM_FIELD_MAP } from '../../scripts/form-data-layer.js';
+import { syncFormDataLayer, DEFAULT_FORM_FIELD_MAP, attachLiveFormSync } from '../../scripts/form-data-layer.js';
 
 const APPLICATION_FORM_TEAL = '#0d9488';
 const APPLICATION_FORM_GREY = '#e5e7eb';
@@ -274,6 +274,7 @@ function attachApplicationFormStepEvents(wizard, form) {
   wizard.addEventListener('wizard:navigate', handleNavigation);
   if (form) {
     syncFormDataLayer(form, DEFAULT_FORM_FIELD_MAP);
+    attachLiveFormSync(form, DEFAULT_FORM_FIELD_MAP);
   }
   dispatchCustomEvent('form-start');
 }
