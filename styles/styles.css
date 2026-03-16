@@ -345,18 +345,7 @@ body.green-theme {
 
 .wehealthcare-theme {
   --main-accent-color: #00c4ff;
-  --nav-text-color: #000000;
-}
-
-/* WeHealthcare: white footer, black text */
-body.wehealthcare-theme header .nav-wrapper,
-body.wehealthcare-theme footer {
-  background-color: #fff;
-  color: #000;
-}
-
-body.wehealthcare-theme footer a:any-link {
-  color: #000;
+  --nav-text-color:#000000;
 }
 
 /* Fly theme (copy of wehealthcare – buttons, header, etc.) */
@@ -370,41 +359,12 @@ body.fly-theme footer {
   background-color: #fff;
   color: var(--nav-text-color);
 }
+
 body.fly-theme header .nav-wrapper nav .nav-sections ul > li > a::before {
   background: var(--main-accent-color);
 }
 
 body.fly-theme header .nav-wrapper nav .nav-sections ul > li > a:hover {
-  color: var(--main-accent-color);
-}
-body.fly-theme footer a:any-link {
-  color: #000;
-}
-/* SecurBank theme (same as weHealthcare – white header/footer, black text) */
-.securbank-theme {
-  --main-accent-color: #0296a6;
-  --nav-text-color: #000000;
-  --light-color: #f3f2f6;
-}
-
-body.securbank-theme ul li::marker,
-body.securbank-theme ol li::marker {
-  color: var(--main-accent-color);
-}
-
-body.securbank-theme header .nav-wrapper,
-body.securbank-theme footer {
-  background-color: #fff;
-  color: #000;
-}
-body.securbank-theme footer a:any-link {
-  color: #000;
-}
-body.securbank-theme header .nav-wrapper nav .nav-sections ul > li > a::before {
-  background: var(--main-accent-color);
-}
-
-body.securbank-theme header .nav-wrapper nav .nav-sections ul > li > a:hover {
   color: var(--main-accent-color);
 }
 
@@ -1364,18 +1324,41 @@ table {
   filter: brightness(1.1);
 }
 
-/*custom-classes-start*/
-.custom-text-class {
-  color: #fff !important;
+/* .section.home-getoffer-container: 2 columns – left: Mortgage card + Get offer (stacked, dark); right: Credit + Savings cards (stacked) */
+main .section.home-getoffer-container {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-auto-rows: auto;
+  gap: 24px;
+  align-items: stretch;
 }
-li.credit-cards-custom.cards-card--alignment-left {
-  border: 0 !important;
-  box-shadow: none !important;
+main .section.home-getoffer-container > .cards-wrapper:nth-child(1) {
+  grid-column: 1;
+  grid-row: 1;
+  background-color: #1a232f;
+  color: #fff;
+  padding: 24px;
+  box-sizing: border-box;
 }
-li.image-right.credit-cards-custom.cards-card--alignment-left img {
-  min-height: 400px;
+main .section.home-getoffer-container > .cards-wrapper:nth-child(1) .cards-card-body,
+main .section.home-getoffer-container > .cards-wrapper:nth-child(1) .cards-card-body h2,
+main .section.home-getoffer-container > .cards-wrapper:nth-child(1) .cards-card-body p,
+main .section.home-getoffer-container > .cards-wrapper:nth-child(1) .cards-card-body a {
+  color: #fff;
 }
-li.image-left.credit-cards-custom.cards-card--alignment-left img {
-  min-height: 400px;
+main .section.home-getoffer-container > .get-offer-wrapper {
+  grid-column: 1;
+  grid-row: 2;
+  background-color: #1a232f;
+  color: #fff;
+  padding: 24px;
+  box-sizing: border-box;
 }
-/*custom-classes-end*/
+main .section.home-getoffer-container > .cards-wrapper:nth-child(3) {
+  grid-column: 2;
+  grid-row: 1;
+}
+main .section.home-getoffer-container > .cards-wrapper:nth-child(4) {
+  grid-column: 2;
+  grid-row: 2;
+}
