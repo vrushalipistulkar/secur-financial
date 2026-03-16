@@ -7,6 +7,8 @@
  */
 
 import { readBlockConfig, loadCSS } from '../../scripts/aem.js';
+import { dispatchCustomEvent } from '../../scripts/custom-events.js';
+import { syncFormDataLayer, DEFAULT_FORM_FIELD_MAP } from '../../scripts/form-data-layer.js';
 
 const APPLICATION_FORM_TEAL = '#0d9488';
 const APPLICATION_FORM_GREY = '#e5e7eb';
@@ -235,4 +237,43 @@ function setupApplicationFormStepIndicator(block) {
   /* Move Submit into the wizard button row so it sits inline with Back and "n/3 step" */
   const submitWrapper = wizard.querySelector('.submit-wrapper');
   if (submitWrapper) btnWrapper.appendChild(submitWrapper);
+  const form = block.querySelector('form');
+  attachApplicationFormStepEvents(wizard, form);
+}
+
+function getApplicationFormWizardStepIndex(wizard) {
+  const current = wizard.querySelector('.current-wizard-step');
+  if (current && typeof current.dataset.index !== 'undefined') {
+    const index = Number.parseInt(current.dataset.index, 10);
+    if (!Number.isNaN(index)) return index;
+  }
+  const first = wizard.querySelector('.panel-wrapper');
+  if (first && typeof first.dataset.index !== 'undefined') {
+    const fallbackIndex = Number.parseInt(first.dataset.index, 10);
+    if (!Number.isNaN(fallbackIndex)) return fallbackIndex;
+  }
+  return 0;
+}
+
+function attachApplicationFormStepEvents(wizard, form) {
+  if (!wizard) return;
+  const handleNavigation = (event) => {
+    const index = Number.isFinite(event?.detail?.currStep?.index)
+      ? event.detail.currStep.index
+      : getApplicationFormWizardStepIndex(wizard);
+    if (form) {
+      syncFormDataLayer(form, DEFAULT_FORM_FIELD_MAP);
+    }
+    const prevIndex = Number.isFinite(event?.detail?.prevStep?.index)
+      ? event.detail.prevStep.index
+      : index - 1;
+    if (Number.isFinite(prevIndex) && index > prevIndex) {
+      dispatchCustomEvent('form-step');
+    }
+  };
+  wizard.addEventListener('wizard:navigate', handleNavigation);
+  if (form) {
+    syncFormDataLayer(form, DEFAULT_FORM_FIELD_MAP);
+  }
+  dispatchCustomEvent('form-start');
 }

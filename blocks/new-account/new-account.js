@@ -8,6 +8,7 @@
 
 import { readBlockConfig, loadCSS } from '../../scripts/aem.js';
 import { dispatchCustomEvent } from '../../scripts/custom-events.js';
+import { syncFormDataLayer, DEFAULT_FORM_FIELD_MAP } from '../../scripts/form-data-layer.js';
 
 function applyButtonConfigToSubmitButton(block, config) {
   const submitButton = block.querySelector("form button[type='submit']");
@@ -194,7 +195,8 @@ function setupStepIndicator(block) {
   const submitWrapper = wizard.querySelector('.submit-wrapper');
   if (submitWrapper) btnWrapper.appendChild(submitWrapper);
 
-  attachNewAccountWizardDataLayerTracking(wizard);
+  const form = block.querySelector('form');
+  attachNewAccountWizardDataLayerTracking(wizard, form);
 }
 
 const NEW_ACCOUNT_WIZARD_NAME = 'New Account Application';
@@ -249,12 +251,15 @@ function updateNewAccountWizardDataLayer(stepIndex) {
   });
 }
 
-function attachNewAccountWizardDataLayerTracking(wizard) {
+function attachNewAccountWizardDataLayerTracking(wizard, form) {
   if (!wizard) return;
   const handleNavigation = (event) => {
     const index = event?.detail?.currStep?.index;
     const safeIndex = Number.isFinite(index) ? index : getActiveWizardStepIndex(wizard);
     updateNewAccountWizardDataLayer(safeIndex);
+    if (form) {
+      syncFormDataLayer(form, DEFAULT_FORM_FIELD_MAP);
+    }
     const prevIndex = Number.isFinite(event?.detail?.prevStep?.index)
       ? event.detail.prevStep.index
       : safeIndex - 1;
@@ -264,6 +269,9 @@ function attachNewAccountWizardDataLayerTracking(wizard) {
   };
   wizard.addEventListener('wizard:navigate', handleNavigation);
   updateNewAccountWizardDataLayer(getActiveWizardStepIndex(wizard));
+  if (form) {
+    syncFormDataLayer(form, DEFAULT_FORM_FIELD_MAP);
+  }
   dispatchCustomEvent('form-start');
 }
 
