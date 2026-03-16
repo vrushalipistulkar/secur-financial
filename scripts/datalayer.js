@@ -117,11 +117,6 @@ function getInitialDataLayerFromDataElements() {
       id: "securfinancial2"
     }
   };
-  initialDataLayer.partnerData = {
-    PartnerID: 'Partner123-local',
-    mortgage_interest_rate: 7,
-    likely_mortgage_refinancers: 2,
-  };
   return initialDataLayer;
 }
 
