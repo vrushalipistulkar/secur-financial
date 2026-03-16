@@ -1,6 +1,7 @@
 import { isAuthorEnvironment } from "../../scripts/scripts.js";
 import { readBlockConfig } from "../../scripts/aem.js";
 import { dispatchCustomEvent } from "../../scripts/custom-events.js";
+import { syncFormDataLayer, DEFAULT_FORM_FIELD_MAP, attachLiveFormSync } from "../../scripts/form-data-layer.js";
 
 // Adobe Profile API Configuration
 const PROFILE_API_CONFIG = {
@@ -209,6 +210,8 @@ function attachSignInHandler(block) {
   form = newForm; // Update reference to use the new form
 
   prefillEmail(form);
+  syncFormDataLayer(form, DEFAULT_FORM_FIELD_MAP);
+  attachLiveFormSync(form, DEFAULT_FORM_FIELD_MAP);
 
   // Now attach our custom submit handler to the clean form
   form.addEventListener("submit", async (event) => {
@@ -342,22 +345,8 @@ function attachSignInHandler(block) {
         })
       );
 
-      // Update dataLayer before firing custom event (same pattern as flight-search and user-registration)
-      if (typeof window.updateDataLayer === "function") {
-        const updates = { personalEmail: { address: enteredEmail } };
-        if (enteredEmail && String(enteredEmail).trim()) {
-          updates._demosystem4 = {
-            identification: {
-              core: {
-                email: String(enteredEmail).trim(),
-              },
-            },
-          };
-        }
-        window.updateDataLayer(updates);
-      }
-
       // If button has an authored event type, fire it (for Launch, same pattern as flight-search)
+      syncFormDataLayer(form, DEFAULT_FORM_FIELD_MAP);
       const submitBtn = form.querySelector("button[type='submit']");
       const authoredEventType = submitBtn?.dataset?.buttonEventType?.trim();
       if (authoredEventType) {

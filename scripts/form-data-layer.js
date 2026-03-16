@@ -37,6 +37,7 @@ export const DEFAULT_FORM_FIELD_MAP = {
   state: 'homeAddress.state',
   country: 'homeAddress.country',
   dateOfBirth: 'person.birthDate',
+  isMember: 'person.isMember',
 };
 
 export function buildFormDataLayerUpdates(form, fieldMap) {
@@ -52,6 +53,11 @@ export function buildFormDataLayerUpdates(form, fieldMap) {
     const value = normalizeValue(rawValue);
     if (!hasData(value)) return;
     setNestedValue(updates, path, value);
+    if (fieldName === 'isMember' && typeof value === 'string') {
+      const normalized = value.toLowerCase();
+      const memberFlag = normalized === 'yes' ? 'y' : 'n';
+      setNestedValue(updates, 'person.isMember', memberFlag);
+    }
   });
   return Object.keys(updates).length ? updates : null;
 }
@@ -61,4 +67,17 @@ export function syncFormDataLayer(form, fieldMap) {
   const updates = buildFormDataLayerUpdates(form, fieldMap);
   if (!updates) return;
   window.updateDataLayer(updates);
+}
+
+export function attachLiveFormSync(form, fieldMap) {
+  if (!form || !fieldMap) return;
+  const handler = () => syncFormDataLayer(form, fieldMap);
+  const fields = form.querySelectorAll('input, select, textarea');
+  fields.forEach((field) => {
+    const eventType = field.type === 'text' || field.type === 'email' || field.tagName.toLowerCase() === 'textarea' ? 'blur' : 'change';
+    field.addEventListener(eventType, handler);
+    if (eventType === 'change') {
+      field.addEventListener('input', handler);
+    }
+  });
 }
