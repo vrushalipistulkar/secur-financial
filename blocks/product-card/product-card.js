@@ -74,6 +74,21 @@ function pickProductFromResponse(payload) {
   return payload;
 }
 
+function normalizeContentFragmentPath(rawPath) {
+  if (!rawPath) return '';
+  let path = String(rawPath).trim();
+  try {
+    const parsed = new URL(path);
+    path = parsed.pathname;
+  } catch (error) {
+    // ignore invalid URLs, treat value as relative path
+  }
+  const match = path.match(/(content\/dam\/.+?)(?:\.html)?(?:$|\?)/);
+  if (match) path = match[1];
+  path = path.replace(/^\//, '');
+  return path;
+}
+
 async function fetchProductData(contentFragmentPath) {
   const isAuthor = isAuthorEnvironment();
   const pathParam = contentFragmentPath ? `path=${encodeURIComponent(contentFragmentPath)}` : '';
@@ -188,13 +203,14 @@ function createButtonFromConfig(config) {
 
 export default async function decorate(block) {
   const config = readBlockConfig(block) || {};
-  const contentFragmentPath =
+  const rawContentFragmentPath =
     config['content-fragment-folder'] || config.contentfragmentfolder || config.contentFragmentFolder || '';
+  const contentFragmentPath = normalizeContentFragmentPath(rawContentFragmentPath);
   if (contentFragmentPath) {
     block.dataset.contentFragmentPath = contentFragmentPath;
   }
   const buttonConfig = createButtonFromConfig({
-    text: config.text,
+    text: config.buttontext,
     link: config.link,
     eventType: config.buttoneventtype,
     webhook: config.buttonwebhookurl,
