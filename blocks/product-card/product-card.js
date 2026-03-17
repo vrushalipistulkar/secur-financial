@@ -105,6 +105,25 @@ async function fetchProductData() {
   }
 }
 
+function appendProductIdToButton(buttonConfig, product) {
+  if (!buttonConfig?.node || !product?.sku) return buttonConfig;
+  const anchor = buttonConfig.node.querySelector('a');
+  if (!anchor) return buttonConfig;
+  const productId = String(product.sku || product.id || '').trim();
+  if (!productId) return buttonConfig;
+  try {
+    const url = new URL(anchor.href || window.location.href);
+    url.searchParams.set('productId', productId);
+    anchor.href = url.href;
+  } catch (error) {
+    const encodedId = encodeURIComponent(productId);
+    const href = anchor.href || '';
+    const separator = href.includes('?') ? '&' : '?';
+    anchor.href = `${href}${separator}productId=${encodedId}`;
+  }
+  return buttonConfig;
+}
+
 function createCard(product, buttonConfig) {
   const photo = document.createElement('div');
   photo.className = 'product-card-image';
@@ -129,11 +148,7 @@ function createCard(product, buttonConfig) {
   description.className = 'product-card-description';
   if (product.description) description.innerHTML = product.description;
 
-  const sku = document.createElement('p');
-  sku.className = 'product-card-sku';
-  sku.textContent = `SKU: ${product.sku || product.id || ''}`;
-
-  body.append(category, name, description, sku);
+  body.append(category, name, description);
 
   const li = document.createElement('li');
   li.append(photo, body);
@@ -201,7 +216,8 @@ export default async function decorate(block) {
   const wrapper = document.createElement('div');
   wrapper.className = 'cards product-card-block';
   const list = document.createElement('ul');
-  list.append(createCard(product, buttonConfig));
+  const productButtonConfig = appendProductIdToButton(buttonConfig, product);
+  list.append(createCard(product, productButtonConfig));
   wrapper.append(list);
   block.append(wrapper);
 }
