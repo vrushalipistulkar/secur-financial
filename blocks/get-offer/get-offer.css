@@ -12,6 +12,8 @@
   max-width: 480px;
   margin: 0 auto;
   box-sizing: border-box;
+  border: none;
+  box-shadow: none;
 }
 
 .get-offer-input {
