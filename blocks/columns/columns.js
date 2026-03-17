@@ -90,8 +90,8 @@ function normalizeLiveActionButtonsInColumn(col) {
       a.setAttribute('data-aue-prop', 'label');
       b.setAttribute('data-aue-prop', 'title');
       c.setAttribute('data-aue-prop', 'style');
-      wrapper.append(a, b, c);
       col.insertBefore(wrapper, a);
+      wrapper.append(a, b, c);
       created.push(wrapper);
       i += 3;
     } else {
