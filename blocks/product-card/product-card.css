@@ -1,6 +1,6 @@
 .product-card-block {
   margin: 0 auto;
-  max-width: 640px;
+  max-width: 100%;
   padding: 0px;
 }
 
@@ -42,10 +42,6 @@
 
 .product-card-block .cards.product-card-layout-side-by-side > ul > li .product-card-body {
   padding: 24px;
-}
-
-.product-card-block .product-card-layout-side-by-side {
-  max-width: inherit;
 }
 
 .product-card-block .product-card-image {
