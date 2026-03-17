@@ -209,6 +209,9 @@ export default async function decorate(block) {
   if (contentFragmentPath) {
     block.dataset.contentFragmentPath = contentFragmentPath;
   }
+  const layout = ['side-by-side', 'stacked'].includes((config.layout || '').toLowerCase())
+    ? config.layout.toLowerCase()
+    : 'stacked';
   const buttonConfig = createButtonFromConfig({
     text: config.buttontext,
     link: config.link,
@@ -227,6 +230,7 @@ export default async function decorate(block) {
 
   const wrapper = document.createElement('div');
   wrapper.className = 'cards product-card-block';
+  wrapper.classList.add(`product-card-layout-${layout}`);
   const list = document.createElement('ul');
   const productButtonConfig = appendProductIdToButton(buttonConfig, product);
   list.append(createCard(product, productButtonConfig));
