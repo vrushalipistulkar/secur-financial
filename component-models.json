@@ -753,6 +753,16 @@
     "id": "product-card",
     "fields": [
       {
+        "component": "aem-content",
+        "name": "contentFragmentFolder",
+        "label": "Content Fragment Folder",
+        "description": "Select folder containing particular product content fragments",
+        "valueType": "string",
+        "validation": {
+          "rootPath": "/content/dam"
+        }
+      },
+      {
         "component": "richtext",
         "name": "text",
         "value": "",

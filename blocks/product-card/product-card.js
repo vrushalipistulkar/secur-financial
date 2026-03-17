@@ -1,6 +1,5 @@
 import { createOptimizedPicture } from '../../scripts/aem.js';
 import { isAuthorEnvironment } from '../../scripts/scripts.js';
-import { readBlockConfig } from '../../scripts/aem.js';
 
 const FALLBACK_PRODUCT = {
   id: 'f0I76hY77',
@@ -185,26 +184,45 @@ function createButtonFromConfig(config) {
 }
 
 export default async function decorate(block) {
-  const config = readBlockConfig(block);
-  const ctaStyleEl = block.querySelector('p[data-aue-prop="ctastyle"]') || block.querySelector('[data-aue-prop="ctastyle"]');
-  const ctaStyle = ctaStyleEl?.textContent?.trim() || 'default';
-  const customStylesEl = block.querySelector('p[data-aue-prop="customstyles"]') || block.querySelector('[data-aue-prop="customstyles"]');
-  const customStylesRaw = customStylesEl?.textContent?.trim() || '';
-  const firstFieldRow = block.querySelector(':scope > div:nth-child(1)');
-  const firstFieldCell = firstFieldRow?.children?.[1] ?? firstFieldRow?.children?.[0];
-  const firstFieldLink = firstFieldCell?.querySelector('a.cta, a');
-  const ctaLink = firstFieldLink || block.querySelector('a.cta, a');
-  const fieldTextValue = firstFieldLink?.textContent?.trim() || firstFieldCell?.textContent?.trim();
-  const fieldHrefValue = firstFieldLink?.href;
+  const rowValue = (n) => {
+    const row = block.querySelector(`:scope > div:nth-child(${n})`);
+    if (!row?.children?.length) return undefined;
+    const cell = row.children[1] ?? row.children[0];
+    if (!cell) return undefined;
+    const anchors = [...cell.querySelectorAll('a')];
+    if (anchors.length === 1) {
+      return anchors[0].href || anchors[0].textContent?.trim();
+    }
+    if (anchors.length > 1) {
+      return anchors.map((anchor) => anchor.href || anchor.textContent?.trim());
+    }
+    const paragraphs = [...cell.querySelectorAll('p')];
+    if (paragraphs.length === 1) return paragraphs[0].textContent?.trim();
+    if (paragraphs.length) return paragraphs.map((p) => p.textContent?.trim());
+    return cell.textContent?.trim();
+  };
+  const rowLabel = (n) => block.querySelector(`:scope > div:nth-child(${n})`)?.children?.[0]?.textContent?.trim()?.toLowerCase();
+  const firstRowIsContentFragment = rowLabel(1)?.includes('content fragment');
+  const offset = firstRowIsContentFragment ? 1 : 0;
+  const buttonText = rowValue(offset + 1);
+  const buttonStyle = rowValue(offset + 2) || 'default';
+  const buttonLinkValue = rowValue(offset + 3);
+  const buttonEventType = rowValue(offset + 6);
+  const buttonWebhookUrl = rowValue(offset + 7);
+  const buttonFormId = rowValue(offset + 8);
+  const buttonData = rowValue(offset + 9);
+  const buttonCustomStyles = rowValue(offset + 10);
+  const linkRow = block.querySelector(`:scope > div:nth-child(${offset + 3})`);
+  const ctaLink = linkRow?.querySelector('a.cta, a') || block.querySelector('a.cta, a');
   const buttonConfig = createButtonFromConfig({
-    text: config.text ?? fieldTextValue,
-    link: config.link ?? fieldHrefValue,
-    eventType: ctaLink?.dataset?.buttonEventType,
-    webhook: ctaLink?.dataset?.buttonWebhookUrl,
-    formId: ctaLink?.dataset?.buttonFormId,
-    buttonData: ctaLink?.dataset?.buttonData,
-    style: ctaStyle,
-    customStyles: customStylesRaw,
+    text: buttonText ?? ctaLink?.textContent?.trim(),
+    link: buttonLinkValue ?? ctaLink?.href,
+    eventType: buttonEventType ?? ctaLink?.dataset?.buttonEventType,
+    webhook: buttonWebhookUrl ?? ctaLink?.dataset?.buttonWebhookUrl,
+    formId: buttonFormId ?? ctaLink?.dataset?.buttonFormId,
+    buttonData: buttonData ?? ctaLink?.dataset?.buttonData,
+    style: buttonStyle,
+    customStyles: buttonCustomStyles,
     customAttributes: ctaLink ? { ...ctaLink.dataset } : null,
   });
   [...block.children].forEach((row) => row.remove());
