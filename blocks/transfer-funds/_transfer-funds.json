@@ -1,0 +1,31 @@
+{
+  "definitions": [
+    {
+      "title": "Transfer Funds",
+      "id": "transfer-funds",
+      "plugins": {
+        "xwalk": {
+          "page": {
+            "resourceType": "core/franklin/components/block/v1/block",
+            "template": {
+              "name": "Transfer Funds",
+              "model": "transfer-funds"
+            }
+          }
+        }
+      }
+    }
+  ],
+  "models": [
+    {
+      "id": "transfer-funds",
+      "fields": []
+    }
+  ],
+  "filters": [
+    {
+      "id": "transfer-funds",
+      "components": []
+    }
+  ]
+}
