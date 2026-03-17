@@ -44,6 +44,10 @@
   padding: 24px;
 }
 
+.product-card-block .product-card-layout-side-by-side {
+  max-width: inherit;
+}
+
 .product-card-block .product-card-image {
   position: relative;
   background-color: transparent;
