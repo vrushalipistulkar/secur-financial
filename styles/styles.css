@@ -354,6 +354,33 @@ body.green-theme {
   --nav-text-color: #000000;
 }
 
+/* SecurFinancial / SecurBank theme */
+.securbank-theme,
+body.securbank-theme,
+.securfinancial-theme,
+body.securfinancial-theme {
+  --main-accent-color: #0296a6;
+  --link-hover-color: #038f9e;
+}
+
+body.securbank-theme header .nav-wrapper,
+body.securbank-theme footer,
+body.securfinancial-theme header .nav-wrapper,
+body.securfinancial-theme footer {
+  background-color: var(--main-accent-color);
+  color: var(--text-light);
+}
+
+body.securbank-theme header .nav-wrapper nav .nav-sections ul > li > a::before,
+body.securfinancial-theme header .nav-wrapper nav .nav-sections ul > li > a::before {
+  background: var(--text-light);
+}
+
+body.securbank-theme header .nav-wrapper nav .nav-sections ul > li > a:hover,
+body.securfinancial-theme header .nav-wrapper nav .nav-sections ul > li > a:hover {
+  color: var(--text-light);
+}
+
 body.fly-theme header .nav-wrapper,
 body.fly-theme footer {
   background-color: #fff;
