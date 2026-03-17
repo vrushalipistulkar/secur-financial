@@ -1,5 +1,6 @@
 import { createOptimizedPicture } from '../../scripts/aem.js';
 import { isAuthorEnvironment } from '../../scripts/scripts.js';
+import { readBlockConfig } from '../../scripts/aem.js';
 
 const FALLBACK_PRODUCT = {
   id: 'f0I76hY77',
@@ -104,12 +105,16 @@ async function fetchProductData() {
   }
 }
 
-function createCard(product) {
+function createCard(product, buttonConfig) {
   const photo = document.createElement('div');
   photo.className = 'product-card-image';
-  const imageUrl = normalizeImageUrl(product.image) || FALLBACK_PRODUCT.image;
-  const picture = createOptimizedPicture(imageUrl, product.name || '', false, [{ width: '1200' }, { width: '750' }]);
-  photo.appendChild(picture);
+  const imageUrl = normalizeImageUrl(product.image);
+  if (imageUrl) {
+    const picture = createOptimizedPicture(imageUrl, product.name || '', false, [{ width: '1200' }, { width: '750' }]);
+    photo.appendChild(picture);
+  } else {
+    photo.classList.add('product-card-image--hidden');
+  }
 
   const body = document.createElement('div');
   body.className = 'product-card-body';
@@ -132,20 +137,67 @@ function createCard(product) {
 
   const li = document.createElement('li');
   li.append(photo, body);
+  if (buttonConfig?.node) body.appendChild(buttonConfig.node);
   return li;
 }
 
+function createButtonFromConfig(config) {
+  if (!config || (!config.text && !config.link)) return null;
+  const container = document.createElement('p');
+  container.className = 'button-container';
+  if (config.style) container.classList.add(config.style);
+  if (config.customStyles) {
+    config.customStyles.split(/[\s,]+/).forEach((part) => {
+      const cls = part.trim();
+      if (cls) container.classList.add(cls);
+    });
+  }
+  const anchor = document.createElement('a');
+  anchor.textContent = config.text || 'Learn more';
+  if (config.link) anchor.href = config.link;
+  if (config.eventType) anchor.dataset.buttonEventType = config.eventType;
+  if (config.webhook) anchor.dataset.buttonWebhookUrl = config.webhook;
+  if (config.formId) anchor.dataset.buttonFormId = config.formId;
+  if (config.buttonData) anchor.dataset.buttonData = config.buttonData;
+  if (config.openInNewTab) anchor.rel = 'noreferrer noopener';
+  if (config.customAttributes) {
+    Object.entries(config.customAttributes).forEach(([key, value]) => {
+      anchor.dataset[key] = value;
+    });
+  }
+  container.appendChild(anchor);
+  return { node: container };
+}
+
 export default async function decorate(block) {
+  const config = readBlockConfig(block);
   [...block.children].forEach((row) => row.remove());
   block.classList.add('product-card-block');
   block.innerHTML = '';
+
+  const ctaStyleEl = block.querySelector('p[data-aue-prop="ctastyle"]') || block.querySelector('[data-aue-prop="ctastyle"]');
+  const ctaStyle = ctaStyleEl?.textContent?.trim() || 'default';
+  const customStylesEl = block.querySelector('p[data-aue-prop="customstyles"]') || block.querySelector('[data-aue-prop="customstyles"]');
+  const customStylesRaw = customStylesEl?.textContent?.trim() || '';
+  const ctaLink = block.querySelector('a.cta, a');
+  const buttonConfig = createButtonFromConfig({
+    text: ctaLink?.textContent?.trim(),
+    link: ctaLink?.href,
+    eventType: ctaLink?.dataset?.buttonEventType,
+    webhook: ctaLink?.dataset?.buttonWebhookUrl,
+    formId: ctaLink?.dataset?.buttonFormId,
+    buttonData: ctaLink?.dataset?.buttonData,
+    style: ctaStyle,
+    customStyles: customStylesRaw,
+    customAttributes: ctaLink ? { ...ctaLink.dataset } : null,
+  });
 
   const product = await fetchProductData();
 
   const wrapper = document.createElement('div');
   wrapper.className = 'cards product-card-block';
   const list = document.createElement('ul');
-  list.append(createCard(product));
+  list.append(createCard(product, buttonConfig));
   wrapper.append(list);
   block.append(wrapper);
 }

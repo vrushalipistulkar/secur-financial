@@ -1,7 +1,7 @@
 .product-card-block {
   margin: 0 auto;
   max-width: 640px;
-  padding: 0 16px;
+  padding: 0px;
 }
 
 .product-card-block .cards {
@@ -79,4 +79,10 @@
   font-size: 0.95rem;
   color: var(--accent-color, #0d9488);
   font-weight: 600;
+}
+
+@media (width >= 900px) {
+    main > .section > div.product-card-wrapper {
+        padding: 0px;
+    }
 }

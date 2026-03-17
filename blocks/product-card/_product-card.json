@@ -19,7 +19,105 @@
   "models": [
     {
       "id": "product-card",
-      "fields": []
+      "fields": [
+        {
+          "component": "richtext",
+          "name": "text",
+          "value": "",
+          "label": "Text",
+          "valueType": "string"
+        },
+        {
+          "component": "select",
+          "name": "ctastyle",
+          "label": "CTA Style",
+          "valueType": "string",
+          "value": "button",
+          "options": [
+            {
+              "name": "Primary Button",
+              "value": "button"
+            },
+            {
+              "name": "Secondary Button",
+              "value": "button-secondary"
+            },
+            {
+              "name": "Dark Button",
+              "value": "button-dark"
+            }
+          ]
+        },
+        {
+          "component": "aem-content",
+          "name": "link",
+          "label": "Section Link",
+          "description": "Optional link for entire card"
+        },
+        {
+          "component": "boolean",
+          "name": "selectable",
+          "label": "Selectable",
+          "value": "false",
+          "valueType": "boolean"
+        },
+        {
+          "component": "select",
+          "name": "alignment",
+          "label": "Alignment",
+          "options": [
+            {
+              "name": "Left",
+              "value": "left"
+            },
+            {
+              "name": "Center",
+              "value": "center"
+            },
+            {
+              "name": "Right",
+              "value": "right"
+            }
+          ]
+        },
+        {
+          "component": "text",
+          "name": "buttoneventtype",
+          "label": "Button Event Type",
+          "value": "",
+          "valueType": "string"
+        },
+        {
+          "component": "text",
+          "name": "buttonwebhookurl",
+          "label": "Button Webhook URL",
+          "value": "",
+          "valueType": "string"
+        },
+        {
+          "component": "text",
+          "name": "buttonformid",
+          "label": "Button Form ID",
+          "value": "",
+          "valueType": "string"
+        },
+        {
+          "component": "text",
+          "name": "buttondata",
+          "label": "Button Data",
+          "value": "",
+          "valueType": "string",
+          "description": "Comma-separated key,value pairs"
+        },
+        {
+          "component": "text",
+          "name": "customStyles",
+          "label": "Custom Styles",
+          "value": "",
+          "valueType": "string",
+          "description": "Custom styles for the card"
+        }
+      ]
     }
   ],
   "filters": []
