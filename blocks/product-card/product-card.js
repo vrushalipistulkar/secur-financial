@@ -49,6 +49,7 @@ function pickProductFromResponse(payload) {
   if (!payload) return undefined;
 
   const fallbackPaths = [
+    'data.securFinancialProductByPath.item',
     'data.productCardByPath.item',
     'data.productByPath.item',
     'data.productCard.item',
@@ -107,12 +108,14 @@ async function fetchProductData(contentFragmentPath) {
     const rawProduct = pickProductFromResponse(payload);
     if (!rawProduct) return FALLBACK_PRODUCT;
     return {
-      id: rawProduct?.id || rawProduct?.sku || FALLBACK_PRODUCT.id,
-      name: rawProduct?.name || rawProduct?.title || FALLBACK_PRODUCT.name,
-      category: rawProduct?.category || FALLBACK_PRODUCT.category,
-      description: rawProduct?.description || FALLBACK_PRODUCT.description,
-      sku: rawProduct?.sku || rawProduct?.id || FALLBACK_PRODUCT.sku,
-      image: normalizeImageUrl(rawProduct?.image) || normalizeImageUrl(rawProduct?.bannerimage) || FALLBACK_PRODUCT.image,
+      id: rawProduct?.productSku || rawProduct?.id || rawProduct?.sku || FALLBACK_PRODUCT.id,
+      name: rawProduct?.productName || rawProduct?.name || rawProduct?.title || FALLBACK_PRODUCT.name,
+      category: rawProduct?.productCategory || rawProduct?.category || FALLBACK_PRODUCT.category,
+      description:
+        rawProduct?.productDescription?.markdown || rawProduct?.description || FALLBACK_PRODUCT.description,
+      sku: rawProduct?.productSku || rawProduct?.sku || rawProduct?.id || FALLBACK_PRODUCT.sku,
+      image:
+        normalizeImageUrl(rawProduct?.productImage)
     };
   } catch (error) {
     /* eslint-disable-next-line no-console */
