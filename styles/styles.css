@@ -1486,3 +1486,12 @@ main .section.home-getoffer-container > div:nth-child(4) {
 .custom-text-class div {
   color: #fff !important;
 }
+.transparant-bg {
+  background: transparent !important;
+  border: none !important;
+  box-shadow: none !important;
+}
+.transparant-bg .cards-card-body {
+  background: transparent !important;
+  color:#fff !important;
+}
