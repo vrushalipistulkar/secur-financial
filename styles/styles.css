@@ -372,6 +372,12 @@ body.securfinancial-theme button {
   border-radius: 30px;
 }
 
+body.securbank-theme h2,
+body.securfinancial-theme h2 {
+  font-size: 36px;
+  line-height: 1.5;
+}
+
 body.securbank-theme header .nav-wrapper,
 body.securfinancial-theme header .nav-wrapper {
   background-color: var(--main-accent-color);
@@ -407,6 +413,14 @@ body.securfinancial-theme header .nav-wrapper nav .nav-sections ul > li > a::bef
 body.securbank-theme header .nav-wrapper nav .nav-sections ul > li > a:hover,
 body.securfinancial-theme header .nav-wrapper nav .nav-sections ul > li > a:hover {
   color: #000;
+}
+
+/* SecurFinancial theme: search icon no invert */
+body.securbank-theme .search.search-icon .search-box .icon img,
+body.securbank-theme .search.search-icon .search-trigger .icon img,
+body.securfinancial-theme .search.search-icon .search-box .icon img,
+body.securfinancial-theme .search.search-icon .search-trigger .icon img {
+  filter: invert(0);
 }
 
 body.fly-theme header .nav-wrapper,
