@@ -1,8 +1,13 @@
+/* ============================================
+   Create Account Form Styling
+   Matches user-registration form styling
+   ============================================ */
+
 main .create-account {
   width: 100%;
-  max-width: 1180px;
+  max-width: 900px;
   margin: 0 auto;
-  padding: 72px 56px 80px;
+  padding: 60px 40px;
   background: #fff;
 }
 
@@ -12,23 +17,27 @@ main .create-account form {
 
 main .create-account .create-account-form {
   --form-columns: 12;
-  --form-field-vert-gap: 30px;
-  --form-field-horz-gap: 32px;
-  --form-label-color: #2f3136;
-  --form-label-font-size: 18px;
-  --form-label-font-weight: 600;
-  --form-input-font-size: 18px;
-  --form-input-border-color: #ececf3;
-  --form-input-padding: 20px 26px;
+  --form-button-background-color: #2874F0;
+  --form-button-background-hover-color: #0052cc;
+  --form-input-border-color: #cbd5e1;
+  --form-label-color: #1e293b;
+  --form-label-font-weight: 500;
+  --form-label-font-size: 16px;
+  --form-field-vert-gap: 24px;
+  --form-field-horz-gap: 24px;
 }
 
 main .create-account .panel-wrapper {
   display: grid !important;
   grid-template-columns: repeat(12, minmax(0, 1fr)) !important;
-  gap: 30px 32px !important;
+  gap: 24px !important;
   padding: 0 !important;
   border: none !important;
   margin: 0 !important;
+}
+
+main .create-account .heading-wrapper label {
+  display: none !important;
 }
 
 main .create-account .heading-wrapper {
@@ -37,78 +46,68 @@ main .create-account .heading-wrapper {
   padding: 0 !important;
 }
 
-main .create-account .heading-wrapper label {
-  display: none !important;
-}
-
 main .create-account h2#heading-create-account {
-  margin: 0 0 30px;
-  font-size: clamp(2.75rem, 5vw, 4.5rem);
-  font-weight: 800;
-  line-height: 1;
-  letter-spacing: -0.04em;
-  color: #2f2f33;
+  font-size: 2.25rem;
+  font-weight: 400;
+  margin: 0 0 40px;
+  padding: 0;
+  color: #1e293b;
+  line-height: 1.2;
 }
 
 main .create-account h2#communicationHeading {
-  margin: 6px 0 -4px;
-  font-size: 18px;
-  font-weight: 700;
-  line-height: 1.3;
-  color: #2f3136;
+  font-size: 1.25rem;
+  font-weight: 600;
+  margin: 40px 0 0;
+  padding: 0;
+  color: #1e293b;
+  letter-spacing: 0.05em;
+}
+
+main .create-account .panel-wrapper > .heading-wrapper {
+  grid-column: span 12 !important;
 }
 
 main .create-account label {
+  color: #334155;
+  font-weight: 500;
+  font-size: 15px;
+  margin-bottom: 0;
   display: inline-block;
-  margin: 0 0 12px;
-  color: #35363a;
-  font-size: 17px;
-  font-weight: 700;
-  line-height: 1.25;
 }
 
 main .create-account input[type="text"],
 main .create-account input[type="email"],
-main .create-account input[type="date"],
-main .create-account textarea,
 main .create-account select {
   width: 100%;
-  height: auto;
-  margin: 0;
-  padding: 22px 26px;
-  border: 2px solid #ececf3;
-  border-radius: 10px;
+  padding: 12px 16px;
+  border: 1px solid #cbd5e1;
+  border-radius: 6px;
+  font-size: 15px;
+  color: #1e293b;
   background: #fff;
-  color: #2f3136;
-  font-size: 18px;
-  line-height: 1.2;
-  transition: border-color 0.2s ease, box-shadow 0.2s ease;
-}
-
-main .create-account input[type="text"]::placeholder,
-main .create-account input[type="email"]::placeholder,
-main .create-account input[type="date"]::placeholder,
-main .create-account textarea::placeholder {
-  color: #2f3136;
-  opacity: 1;
-}
-
-main .create-account input[type="text"]:hover,
-main .create-account input[type="email"]:hover,
-main .create-account input[type="date"]:hover,
-main .create-account textarea:hover,
-main .create-account select:hover {
-  border-color: #d8d8e2;
+  transition: all 0.2s ease;
+  margin-top: 8px;
+  margin-bottom: 0;
 }
 
 main .create-account input[type="text"]:focus,
 main .create-account input[type="email"]:focus,
-main .create-account input[type="date"]:focus,
-main .create-account textarea:focus,
 main .create-account select:focus {
   outline: none;
-  border-color: #0b97a7;
-  box-shadow: 0 0 0 3px rgba(11, 151, 167, 0.12);
+  border-color: #2874F0;
+  box-shadow: 0 0 0 3px rgba(40, 116, 240, 0.1);
+}
+
+main .create-account input[type="text"]:hover,
+main .create-account input[type="email"]:hover,
+main .create-account select:hover {
+  border-color: #94a3b8;
+}
+
+main .create-account input::placeholder {
+  color: #94a3b8;
+  font-size: 14px;
 }
 
 main .create-account .field-wrapper {
@@ -130,120 +129,144 @@ main .create-account .field-wrapper[data-colspan="4"] {
   grid-column: span 4 !important;
 }
 
+main .create-account .submit-wrapper.col-12 {
+  grid-column: span 12 !important;
+}
+
 main .create-account .field-wrapper.switch {
   display: flex;
   align-items: center;
-  gap: 20px;
-  min-height: 42px;
+  gap: 12px;
+  margin: 0;
+  padding: 8px 0;
 }
 
 main .create-account .field-wrapper.switch label {
   order: 2;
-  margin: 0;
-  font-size: 18px;
-  font-weight: 700;
+  font-size: 15px;
+  color: #334155;
   cursor: pointer;
+  margin: 0;
 }
 
 main .create-account .field-wrapper.switch input[type="checkbox"] {
   order: 1;
-  width: 52px;
-  min-width: 52px;
-  height: 30px;
+  width: 44px;
+  height: 24px;
+  cursor: pointer;
   margin: 0;
   appearance: none;
-  background: #d3d3d6;
-  border: none;
-  border-radius: 999px;
-  cursor: pointer;
+  background: #ccc;
+  border-radius: 12px;
   position: relative;
-  transition: background-color 0.2s ease;
+  transition: background 0.2s;
 }
 
 main .create-account .field-wrapper.switch input[type="checkbox"]::before {
-  content: "";
+  content: '';
   position: absolute;
-  top: 4px;
-  left: 4px;
-  width: 22px;
-  height: 22px;
-  border-radius: 50%;
+  top: 2px;
+  left: 2px;
+  width: 20px;
+  height: 20px;
   background: #fff;
-  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.18);
-  transition: transform 0.2s ease;
+  border-radius: 50%;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+  transition: transform 0.2s;
 }
 
 main .create-account .field-wrapper.switch input[type="checkbox"]:checked {
-  background: #0c98a8;
+  background: #2874F0;
 }
 
 main .create-account .field-wrapper.switch input[type="checkbox"]:checked::before {
-  transform: translateX(22px);
+  transform: translateX(20px);
 }
 
 main .create-account .submit-wrapper {
+  margin-top: 32px;
   grid-column: span 12 !important;
-  margin-top: 8px;
 }
 
 main .create-account .submit-wrapper button {
-  width: auto;
-  min-width: 205px;
-  margin: 0;
-  padding: 18px 34px;
-  border: none;
-  border-radius: 999px;
-  background: #0c98a8;
+  background: #2874F0;
   color: #fff;
-  font-size: 18px;
-  font-weight: 700;
-  line-height: 1.1;
-  text-transform: none;
-  box-shadow: none;
-  transition: background-color 0.2s ease, transform 0.2s ease;
+  padding: 16px 60px;
+  font-size: 15px;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  box-shadow: 0 2px 8px rgba(40, 116, 240, 0.2);
 }
 
 main .create-account .submit-wrapper button:hover {
-  background: #087d8b;
+  background: #0052cc;
+  box-shadow: 0 4px 12px rgba(40, 116, 240, 0.3);
   transform: translateY(-1px);
 }
 
 main .create-account .submit-wrapper button:active {
   transform: translateY(0);
+  box-shadow: 0 1px 4px rgba(40, 116, 240, 0.2);
 }
 
 main .create-account [data-required="true"] > label::after {
   content: " *";
-  color: #35363a;
-  font-weight: 700;
+  color: #ef4444;
+  font-weight: 600;
 }
 
 .create-account input.error,
 .create-account select.error,
 .create-account textarea.error {
-  border-color: #d94242 !important;
-  background-color: #fff5f5 !important;
+  border-color: #f44336 !important;
+  background-color: #ffebee !important;
+}
+
+.create-account input.error:focus,
+.create-account select.error:focus,
+.create-account textarea.error:focus {
+  outline-color: #f44336;
+  border-color: #f44336;
 }
 
 .create-account .form-message {
-  margin: 0 0 20px;
-  padding: 14px 18px;
-  border-radius: 10px;
-  font-weight: 600;
+  padding: 15px;
+  margin: 20px 0;
+  border-radius: 4px;
+  text-align: center;
+  font-weight: bold;
+  animation: slideDown 0.3s ease-out;
 }
 
 .create-account .form-message.success {
-  background: #e8f7ea;
-  color: #1d6e2f;
+  background-color: #4caf50;
+  color: white;
 }
 
 .create-account .form-message.error {
-  background: #fdecec;
-  color: #a52323;
+  background-color: #f44336;
+  color: white;
+}
+
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 .create-account button[type="submit"]:disabled {
-  opacity: 0.65;
+  opacity: 0.6;
   cursor: not-allowed;
 }
 
@@ -263,7 +286,7 @@ main .create-account [data-required="true"] > label::after {
 
 @media (width <= 768px) {
   main .create-account {
-    padding: 48px 20px 56px;
+    padding: 40px 20px;
   }
 
   main .create-account .panel-wrapper > .field-wrapper[class*="col-"] {
@@ -271,14 +294,28 @@ main .create-account [data-required="true"] > label::after {
   }
 
   main .create-account h2#heading-create-account {
-    margin-bottom: 18px;
+    font-size: 1.875rem;
+    margin-bottom: 32px;
   }
 
-  main .create-account .field-wrapper.switch {
-    gap: 14px;
+  main .create-account h2#communicationHeading {
+    font-size: 1.125rem;
+    margin: 32px 0 0;
   }
 
   main .create-account .submit-wrapper button {
     width: 100%;
+    padding: 16px 32px;
+  }
+}
+
+@media (width <= 480px) {
+  main .create-account {
+    padding: 30px 16px;
+  }
+
+  main .create-account h2#heading-create-account {
+    font-size: 1.75rem;
+    margin-bottom: 28px;
   }
 }
