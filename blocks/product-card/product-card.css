@@ -52,6 +52,8 @@
   display: block;
   object-fit: cover;
   aspect-ratio: 16 / 9;
+  max-height: 100%;
+
 }
 
 .product-card-block .product-card-body {
