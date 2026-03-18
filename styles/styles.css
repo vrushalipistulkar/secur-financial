@@ -1287,13 +1287,17 @@ table {
   position: fixed;
   inset: 0;
   z-index: 99999;
-  display: flex;
+  display: none;
   align-items: flex-end;
   justify-content: center;
   background-color: rgba(0, 0, 0, 0.5);
   padding: 1.5rem;
   padding-bottom: 30px;
   box-sizing: border-box;
+}
+
+#consentModal.consent-visible {
+  display: flex;
 }
 
 /* Ensure modal card stays centered when Launch adds wrapper divs */
