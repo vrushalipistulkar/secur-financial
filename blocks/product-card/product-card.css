@@ -99,6 +99,10 @@
   padding: 20px 50px;
 }
 
+.cards.product-card-block > ul > li {
+    background: transparent;
+}
+
 @media (width >= 900px) {
     main > .section > div.product-card-wrapper {
         padding: 0px;
