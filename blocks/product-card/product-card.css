@@ -17,11 +17,7 @@
 }
 
 .product-card-block .cards > ul > li {
-  border: 1px solid var(--accent-background-color, #e5e7eb);
-  background-color: var(--card-background-color, #ffffff);
   overflow: hidden;
-  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.08);
-  border-radius: 8px;
   display: flex;
   flex-direction: column;
 }
