@@ -170,7 +170,7 @@ function attachApplicationFormSubmitHandler(block) {
     // eslint-disable-next-line no-console
     console.log('Application form data:', data);
 
-    dispatchCustomEvent('form.submit');
+    dispatchCustomEvent('form-submit');
     redirectAfterApplicationSubmit();
   });
 }

@@ -188,7 +188,7 @@ function attachLoanPreapprovalFormSubmitHandler(block) {
     // eslint-disable-next-line no-console
     console.log('Loan preapproval form data:', data);
 
-    dispatchCustomEvent('web.formFilledOut');
+    dispatchCustomEvent('home-loan-application-submit');
     redirectAfterPreapprovalSubmit();
   });
 }

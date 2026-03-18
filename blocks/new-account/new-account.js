@@ -163,7 +163,7 @@ function attachSubmitHandler(block) {
     const data = collectFormData(form);
     // eslint-disable-next-line no-console
     console.log('New account form data:', data);
-    dispatchCustomEvent('form.submit');
+    dispatchCustomEvent('form-submit');
     redirectAfterSubmit();
   });
 }
