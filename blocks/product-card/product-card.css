@@ -129,3 +129,6 @@
     flex-direction: column;
   }
 }
+.custom-text-class .product-card-block a, .custom-text-class .product-card-block a:after{
+    color: #fff !important;
+}
