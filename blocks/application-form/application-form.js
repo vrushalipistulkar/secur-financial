@@ -54,7 +54,7 @@ function buildApplicationFormDef() {
             items: [
               { id: 'firstName', name: 'firstName', fieldType: 'text-input', label: { value: 'First name' }, properties: { colspan: 6 } },
               { id: 'lastName', name: 'lastName', fieldType: 'text-input', label: { value: 'Last name' }, properties: { colspan: 6 } },
-              { id: 'email', name: 'email', fieldType: 'email', label: { value: 'Email address' }, properties: { colspan: 12 } },
+              { id: 'email', name: 'email', fieldType: 'text-input', label: { value: 'Email address' }, properties: { colspan: 12 } },
               { id: 'phone', name: 'phone', fieldType: 'text-input', label: { value: 'Phone number' }, properties: { colspan: 12 } },
             ],
           },
@@ -209,6 +209,7 @@ export default async function decorate(block) {
       formatDateOfBirthInput(form);
     }
   }, 100);
+  setupApplicationFormAbandonEvents();
 }
 
 function setupApplicationFormStepIndicator(block) {
@@ -279,4 +280,30 @@ function attachApplicationFormStepEvents(wizard, form) {
     attachLiveFormSync(form, DEFAULT_FORM_FIELD_MAP);
   }
   dispatchCustomEvent('form-start');
+}
+
+let abandonEventsInitialized = false;
+let abandonedEventDispatched = false;
+
+function dispatchFormAbandonedEvent() {
+  if (abandonedEventDispatched) return;
+  abandonedEventDispatched = true;
+  dispatchCustomEvent('form-abandoned');
+}
+
+function handleBeforeUnload() {
+  dispatchFormAbandonedEvent();
+}
+
+function handleVisibilityChange() {
+  if (document.visibilityState === 'hidden') {
+    dispatchFormAbandonedEvent();
+  }
+}
+
+function setupApplicationFormAbandonEvents() {
+  if (abandonEventsInitialized) return;
+  abandonEventsInitialized = true;
+  window.addEventListener('beforeunload', handleBeforeUnload);
+  document.addEventListener('visibilitychange', handleVisibilityChange);
 }
