@@ -1850,10 +1850,18 @@
       {
         "component": "text",
         "valueType": "string",
-        "name": "iframeUrl",
+        "name": "url",
         "value": "",
-        "label": "iFrame URL",
+        "label": "URL",
         "description": "Please provide a URL to an iFrame app."
+      },
+      {
+        "component": "text",
+        "valueType": "string",
+        "name": "title",
+        "value": "",
+        "label": "Title",
+        "description": "Accessible title for the iframe."
       }
     ]
   },
