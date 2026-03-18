@@ -222,6 +222,7 @@ function attachLoanPreapprovalFormSubmitHandler(block) {
   form.addEventListener('submit', (e) => {
     e.preventDefault();
     e.stopPropagation();
+    loanFormSubmitting = true;
     const data = collectLoanPreapprovalFormData(form);
     // eslint-disable-next-line no-console
     console.log('Loan preapproval form data:', data);
@@ -329,4 +330,34 @@ export default async function decorate(block) {
     attachLoanPreapprovalFormSubmitHandler(block);
     setupLoanPreapprovalStepIndicator(block);
   }, 100);
+  setupLoanPreapprovalAbandonEvents();
+}
+
+let loanAbandonEventsInitialized = false;
+let loanAbandonedEventDispatched = false;
+let loanFormSubmitting = false;
+
+function dispatchLoanFormAbandonedEvent() {
+  if (loanAbandonedEventDispatched || loanFormSubmitting) return;
+  loanAbandonedEventDispatched = true;
+  dispatchCustomEvent('form-abandoned');
+}
+
+function handleLoanBeforeUnload() {
+  if (loanFormSubmitting) return;
+  dispatchLoanFormAbandonedEvent();
+}
+
+function handleLoanVisibilityChange() {
+  if (loanFormSubmitting) return;
+  if (document.visibilityState === 'hidden') {
+    dispatchLoanFormAbandonedEvent();
+  }
+}
+
+function setupLoanPreapprovalAbandonEvents() {
+  if (loanAbandonEventsInitialized) return;
+  loanAbandonEventsInitialized = true;
+  window.addEventListener('beforeunload', handleLoanBeforeUnload);
+  document.addEventListener('visibilitychange', handleLoanVisibilityChange);
 }
