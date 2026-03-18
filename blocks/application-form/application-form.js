@@ -204,6 +204,7 @@ function attachApplicationFormSubmitHandler(block) {
   form.addEventListener('submit', (e) => {
     e.preventDefault();
     e.stopPropagation();
+    formSubmitting = true;
     const data = collectApplicationFormData(form);
     // eslint-disable-next-line no-console
     console.log('Application form data:', data);
@@ -322,18 +323,21 @@ function attachApplicationFormStepEvents(wizard, form) {
 
 let abandonEventsInitialized = false;
 let abandonedEventDispatched = false;
+let formSubmitting = false;
 
 function dispatchFormAbandonedEvent() {
-  if (abandonedEventDispatched) return;
+  if (abandonedEventDispatched || formSubmitting) return;
   abandonedEventDispatched = true;
   dispatchCustomEvent('form-abandoned');
 }
 
 function handleBeforeUnload() {
+  if (formSubmitting) return;
   dispatchFormAbandonedEvent();
 }
 
 function handleVisibilityChange() {
+  if (formSubmitting) return;
   if (document.visibilityState === 'hidden') {
     dispatchFormAbandonedEvent();
   }
