@@ -192,6 +192,7 @@ function attachLoanPreapprovalFormSubmitHandler(block) {
     } else {
       form.insertBefore(success, form.firstChild);
     }
+    dispatchCustomEvent('web.formFilledOut');
   });
 }
 

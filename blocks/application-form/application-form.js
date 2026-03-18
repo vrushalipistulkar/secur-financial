@@ -162,6 +162,8 @@ function attachApplicationFormSubmitHandler(block) {
     // eslint-disable-next-line no-console
     console.log('Application form data:', data);
 
+    dispatchCustomEvent('form.submit');
+
     const msg = block.querySelector('.application-form-success-msg');
     if (msg) msg.remove();
     const success = document.createElement('p');

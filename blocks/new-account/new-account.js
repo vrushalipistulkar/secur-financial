@@ -156,6 +156,7 @@ function attachSubmitHandler(block) {
     const data = collectFormData(form);
     // eslint-disable-next-line no-console
     console.log('New account form data:', data);
+    dispatchCustomEvent('form.submit');
     const msg = block.querySelector('.new-account-success-msg');
     if (msg) msg.remove();
     const success = document.createElement('p');
