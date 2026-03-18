@@ -98,6 +98,10 @@
 .cards.product-card-layout-stacked {
   padding: 20px 50px;
 }
+
+.cards.product-card-block > ul > li {
+    background: transparent;
+}
 .product-card-layout-stacked .product-card-image img {
   max-width: 400px;
   max-height: 260px;
