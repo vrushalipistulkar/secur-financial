@@ -1,0 +1,429 @@
+import { readBlockConfig } from "../../scripts/aem.js";
+import { dispatchCustomEvent } from "../../scripts/custom-events.js";
+import { syncFormDataLayer, DEFAULT_FORM_FIELD_MAP, attachLiveFormSync } from "../../scripts/form-data-layer.js";
+
+function applyButtonConfigToSubmitButton(block, config) {
+  const submitButton = block.querySelector("form button[type='submit']");
+  if (!submitButton) return;
+  const eventType = config.buttoneventtype ?? config["button-event-type"];
+  if (eventType && String(eventType).trim()) submitButton.dataset.buttonEventType = String(eventType).trim();
+  const webhookUrl = config.buttonwebhookurl ?? config["button-webhook-url"];
+  if (webhookUrl && String(webhookUrl).trim()) submitButton.dataset.buttonWebhookUrl = String(webhookUrl).trim();
+  const formId = config.buttonformid ?? config["button-form-id"];
+  if (formId && String(formId).trim()) submitButton.dataset.buttonFormId = String(formId).trim();
+  const buttonData = config.buttondata ?? config["button-data"];
+  if (buttonData && String(buttonData).trim()) submitButton.dataset.buttonData = String(buttonData).trim();
+}
+
+function buildCreateAccountFormDef() {
+  return {
+    id: "create-account",
+    fieldType: "form",
+    appliedCssClassNames: "create-account-form",
+    items: [
+      {
+        id: "heading-create-account",
+        fieldType: "heading",
+        label: { value: "Create an account" },
+        appliedCssClassNames: "col-12",
+      },
+      {
+        id: "panel-main",
+        name: "main",
+        fieldType: "panel",
+        items: [
+          {
+            id: "firstName",
+            name: "firstName",
+            fieldType: "text-input",
+            label: { value: "First name" },
+            required: true,
+            properties: { colspan: 6 },
+          },
+          {
+            id: "lastName",
+            name: "lastName",
+            fieldType: "text-input",
+            label: { value: "Last name" },
+            required: true,
+            properties: { colspan: 6 },
+          },
+          {
+            id: "email",
+            name: "email",
+            fieldType: "email",
+            label: { value: "Email address" },
+            required: true,
+            autoComplete: "email",
+            properties: { colspan: 12 },
+          },
+          {
+            id: "phone",
+            name: "phone",
+            fieldType: "text-input",
+            label: { value: "Phone number" },
+            autoComplete: "tel",
+            properties: { colspan: 12 },
+          },
+          {
+            id: "address",
+            name: "address",
+            fieldType: "text-input",
+            label: { value: "Address" },
+            autoComplete: "street-address",
+            properties: { colspan: 12 },
+          },
+          {
+            id: "zipCode",
+            name: "zipCode",
+            fieldType: "text-input",
+            label: { value: "ZIP code" },
+            autoComplete: "postal-code",
+            properties: { colspan: 6 },
+          },
+          {
+            id: "city",
+            name: "city",
+            fieldType: "text-input",
+            label: { value: "City" },
+            autoComplete: "address-level2",
+            properties: { colspan: 6 },
+          },
+          {
+            id: "dateOfBirth",
+            name: "dateOfBirth",
+            fieldType: "text-input",
+            label: { value: "Date of birth (YYYY-MM-DD)" },
+            placeholder: "YYYY-MM-DD",
+            properties: { colspan: 12 },
+          },
+          {
+            id: "communicationHeading",
+            fieldType: "heading",
+            label: { value: "Communication preferences" },
+            appliedCssClassNames: "col-12 communication-heading",
+          },
+          {
+            id: "prefEmail",
+            name: "prefEmail",
+            fieldType: "checkbox",
+            label: { value: "Email" },
+            enum: ["true"],
+            type: "string",
+            properties: {
+              variant: "switch",
+              alignment: "horizontal",
+              colspan: 4,
+            },
+          },
+          {
+            id: "prefPhone",
+            name: "prefPhone",
+            fieldType: "checkbox",
+            label: { value: "Phone" },
+            enum: ["true"],
+            type: "string",
+            properties: {
+              variant: "switch",
+              alignment: "horizontal",
+              colspan: 4,
+            },
+          },
+          {
+            id: "prefSms",
+            name: "prefSms",
+            fieldType: "checkbox",
+            label: { value: "SMS" },
+            enum: ["true"],
+            type: "string",
+            properties: {
+              variant: "switch",
+              alignment: "horizontal",
+              colspan: 4,
+            },
+          },
+          {
+            id: "submit-btn",
+            name: "submitButton",
+            fieldType: "button",
+            buttonType: "submit",
+            label: { value: "Submit" },
+            appliedCssClassNames: "submit-wrapper col-12",
+          },
+        ],
+      },
+    ],
+  };
+}
+
+export default async function decorate(block) {
+  const config = readBlockConfig(block) || {};
+  [...block.children].forEach((row) => { row.style.display = "none"; });
+
+  const formDef = buildCreateAccountFormDef();
+  const formContainer = document.createElement("div");
+  formContainer.className = "form";
+
+  const pre = document.createElement("pre");
+  const code = document.createElement("code");
+  code.textContent = JSON.stringify(formDef);
+  pre.append(code);
+  formContainer.append(pre);
+  block.replaceChildren(formContainer);
+
+  const formModule = await import("../form/form.js");
+  await formModule.default(formContainer);
+
+  setTimeout(() => {
+    applyButtonConfigToSubmitButton(block, config);
+    prePopulateFormFromDataLayer(block);
+    attachDataLayerUpdaters(block);
+    attachCreateAccountSubmitHandler(block);
+    const form = block.querySelector("form");
+    if (form) {
+      syncFormDataLayer(form, DEFAULT_FORM_FIELD_MAP);
+      attachLiveFormSync(form, DEFAULT_FORM_FIELD_MAP);
+    }
+  }, 100);
+}
+
+function attachCreateAccountSubmitHandler(block) {
+  const form = block.querySelector("form");
+  if (!form) return;
+
+  form.addEventListener(
+    "submit",
+    async (event) => {
+      event.preventDefault();
+      event.stopImmediatePropagation();
+
+      const requiredFields = ["firstName", "lastName", "email"];
+      const formData = {};
+      let isValid = true;
+
+      const allFields = form.querySelectorAll("input, select, textarea");
+      allFields.forEach((field) => {
+        const fieldName = field.name || field.id;
+        if (!fieldName) return;
+
+        if (field.type === "checkbox") {
+          formData[fieldName] = field.checked ? field.value || "true" : "";
+        } else {
+          formData[fieldName] = field.value;
+        }
+
+        if (requiredFields.includes(fieldName)) {
+          if (!field.value || field.value.trim() === "") {
+            isValid = false;
+            field.classList.add("error");
+          } else {
+            field.classList.remove("error");
+          }
+        }
+      });
+
+      const dobValue = String(formData.dateOfBirth || "").trim();
+      if (dobValue && !/^\d{4}-\d{2}-\d{2}$/.test(dobValue)) {
+        isValid = false;
+        const dobField = form.querySelector('[name="dateOfBirth"]');
+        dobField?.classList.add("error");
+      } else {
+        const dobField = form.querySelector('[name="dateOfBirth"]');
+        dobField?.classList.remove("error");
+      }
+
+      if (!isValid) return;
+
+      try {
+        const registrationData = {
+          ...formData,
+          communicationPreferences: {
+            email: formData.prefEmail === "true",
+            phone: formData.prefPhone === "true",
+            sms: formData.prefSms === "true",
+          },
+          registeredAt: new Date().toISOString(),
+          userId: generateUserId(),
+        };
+
+        localStorage.setItem(
+          "com.adobe.reactor.dataElements.Identities",
+          JSON.stringify({
+            Email: [
+              {
+                id: formData.email,
+                primary: true,
+                authenticatedState: "authenticated",
+              },
+            ],
+          })
+        );
+
+        sessionStorage.setItem(
+          "com.adobe.reactor.dataElements.Identity Map",
+          JSON.stringify({
+            Email: [
+              {
+                id: formData.email,
+                primary: true,
+                authenticatedState: "authenticated",
+              },
+            ],
+          })
+        );
+
+        if (registrationData.email) {
+          try {
+            localStorage.setItem("com.adobe.reactor.dataElements.Profile - Email", registrationData.email);
+            if (typeof window._satellite !== "undefined" && typeof window._satellite.setVar === "function") {
+              window._satellite.setVar("Profile - Email", registrationData.email);
+            }
+          } catch (e) {
+            // ignore storage errors
+          }
+        }
+
+        localStorage.setItem("wkndfly_registered_user", JSON.stringify(registrationData));
+
+        const submitBtn = form.querySelector("button[type='submit']");
+        const authoredEventType = submitBtn?.dataset?.buttonEventType?.trim();
+        if (authoredEventType) {
+          dispatchCustomEvent(authoredEventType);
+        }
+
+        showSuccessMessage(form, "Account created successfully! Redirecting to sign-in...");
+
+        setTimeout(() => {
+          window.location.href = "/en/sign-in";
+        }, 2000);
+      } catch (error) {
+        // eslint-disable-next-line no-console
+        console.error("Create account error:", error);
+        showErrorMessage(form, "Account creation failed. Please try again.");
+      }
+    },
+    true
+  );
+}
+
+function generateUserId() {
+  return `user_${Date.now()}_${Math.random().toString(36).slice(2, 11)}`;
+}
+
+function showSuccessMessage(form, message) {
+  const existingMessages = form.querySelectorAll(".form-message");
+  existingMessages.forEach((msg) => msg.remove());
+
+  const messageEl = document.createElement("div");
+  messageEl.className = "form-message success";
+  messageEl.textContent = message;
+
+  const submitButton = form.querySelector('button[type="submit"]');
+  if (submitButton) {
+    submitButton.parentNode.insertBefore(messageEl, submitButton);
+    submitButton.disabled = true;
+  } else {
+    form.appendChild(messageEl);
+  }
+}
+
+function showErrorMessage(form, message) {
+  const existingMessages = form.querySelectorAll(".form-message");
+  existingMessages.forEach((msg) => msg.remove());
+
+  const messageEl = document.createElement("div");
+  messageEl.className = "form-message error";
+  messageEl.textContent = message;
+
+  const submitButton = form.querySelector('button[type="submit"]');
+  if (submitButton) {
+    submitButton.parentNode.insertBefore(messageEl, submitButton);
+  } else {
+    form.appendChild(messageEl);
+  }
+}
+
+const fieldToDataLayerMap = {
+  firstName: "person.name.firstName",
+  lastName: "person.name.lastName",
+  email: "personalEmail.address",
+  phone: "mobilePhone.number",
+  address: "person.address.street1",
+  zipCode: "person.address.postalCode",
+  city: "person.address.city",
+  dateOfBirth: "person.birthDate",
+  prefEmail: "consents.marketing.email.val",
+  prefPhone: "consents.marketing.phone.val",
+  prefSms: "consents.marketing.sms.val",
+};
+
+function prePopulateFormFromDataLayer(block) {
+  if (!window.dataLayer) return;
+
+  const form = block.querySelector("form");
+  if (!form) return;
+
+  const getNestedProperty = (obj, path) => path.split(".").reduce((current, prop) => current?.[prop], obj);
+
+  Object.keys(fieldToDataLayerMap).forEach((fieldName) => {
+    const value = getNestedProperty(window.dataLayer, fieldToDataLayerMap[fieldName]);
+    if (value === undefined || value === null || value === "") return;
+
+    const field = form.querySelector(`[name="${fieldName}"]`);
+    if (!field) return;
+
+    if (field.type === "checkbox") {
+      field.checked = value === true || value === "true";
+    } else {
+      field.value = value;
+    }
+  });
+}
+
+function updateDataLayerField(fieldName, value) {
+  if (!window.updateDataLayer) return;
+  const dataLayerPath = fieldToDataLayerMap[fieldName];
+  if (!dataLayerPath) return;
+
+  const pathParts = dataLayerPath.split(".");
+  const updateObj = {};
+  let current = updateObj;
+
+  for (let i = 0; i < pathParts.length - 1; i += 1) {
+    current[pathParts[i]] = {};
+    current = current[pathParts[i]];
+  }
+
+  if (fieldName.startsWith("pref")) {
+    current[pathParts[pathParts.length - 1]] = value === "true" || value === true;
+  } else {
+    current[pathParts[pathParts.length - 1]] = value || "";
+  }
+
+  window.updateDataLayer(updateObj);
+}
+
+function handleFieldUpdate(fieldName, field) {
+  if (field.type === "checkbox") {
+    updateDataLayerField(fieldName, field.checked ? field.value || "true" : "");
+    return;
+  }
+  updateDataLayerField(fieldName, field.value);
+}
+
+function attachDataLayerUpdaters(block) {
+  const form = block.querySelector("form");
+  if (!form) return;
+
+  const fields = form.querySelectorAll("input, select, textarea");
+  fields.forEach((field) => {
+    const fieldName = field.name || field.id;
+    if (!fieldName) return;
+
+    if (field.type === "checkbox" || field.type === "radio" || field.tagName.toLowerCase() === "select") {
+      field.addEventListener("change", () => handleFieldUpdate(fieldName, field));
+    } else {
+      field.addEventListener("blur", () => handleFieldUpdate(fieldName, field));
+    }
+  });
+}
