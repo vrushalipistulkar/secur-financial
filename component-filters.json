@@ -38,6 +38,7 @@
       "user-registration",
       "create-account",
       "child-account-application",
+      "name-change-request",
       "sign-in",
       "transfer-funds",
       "set-up-auto-save",
