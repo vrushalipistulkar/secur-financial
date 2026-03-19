@@ -277,7 +277,6 @@ function attachCreateAccountSubmitHandler(block) {
 
         syncFormDataLayer(form, DEFAULT_FORM_FIELD_MAP);
         clearProductObject();
-        dispatchCustomEvent("create-account-submit");
 
         const submitBtn = form.querySelector("button[type='submit']");
         const authoredEventType = submitBtn?.dataset?.buttonEventType?.trim();
