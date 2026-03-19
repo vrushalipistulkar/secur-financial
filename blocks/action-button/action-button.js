@@ -1,4 +1,5 @@
 import { div, a, span } from '../../scripts/dom-helpers.js';
+import { isAuthorEnvironment } from '../../scripts/scripts.js';
 
 function getTextFromSelector(block, selector) {
   const el = block.querySelector(selector);
@@ -8,18 +9,47 @@ function getTextFromSelector(block, selector) {
 }
 
 export default function decorate(block) {
-  /* Read from AUE props first (author/live), then fallback to index-based for sheet content */
+  const rowVal = (n) => {
+    const row = block.querySelector(`:scope > div:nth-child(${n})`);
+    if (!row?.children?.length) return undefined;
+    const col = row.children[1] ?? row.children[0];
+    if (col?.querySelector?.('a')) {
+      const as = [...col.querySelectorAll('a')];
+      return as.length === 1 ? as[0].href : as.map((a) => a.href);
+    }
+    return col?.textContent?.trim();
+  };
+
+  const normalizeRowValue = (value) => {
+    if (Array.isArray(value)) return value.length ? value[0] : '';
+    return value ?? '';
+  };
+
+  const appendHtmlIfAuthor = (value) => {
+    if (!value) return value;
+    if (!isAuthorEnvironment()) return value;
+    return value.toLowerCase().endsWith('.html') ? value : `${value}.html`;
+  };
+
+  const rowLinkElement = block.querySelector(':scope > div:nth-child(1) a');
+  const rowLink = appendHtmlIfAuthor(rowLinkElement?.textContent?.trim() || '');
+  const rowLinkUrl = appendHtmlIfAuthor(rowLinkElement?.getAttribute('href')?.trim() || '');
+  const rowLabel = normalizeRowValue(rowVal(2));
+  const rowTitle = normalizeRowValue(rowVal(3));
+  const rowStyle = normalizeRowValue(rowVal(4));
+
   const linkEl = block.querySelector('a[href]');
-  const buttonLink = linkEl?.getAttribute('href')?.trim() || '#';
+  const buttonLink = linkEl?.getAttribute('href')?.trim() || rowLinkUrl || '#';
 
   const buttonLabel = getTextFromSelector(block, '[data-aue-prop="label"]')
     || getTextFromSelector(block, '[data-aue-prop="title"]')
+    || rowLabel
     || getTextFromSelector(block, 'p')
     || 'Button';
 
-  const buttonTitle = getTextFromSelector(block, '[data-aue-prop="title"]') || '';
+  const buttonTitle = getTextFromSelector(block, '[data-aue-prop="title"]') || rowTitle || '';
 
-  const buttonStyle = (getTextFromSelector(block, '[data-aue-prop="style"]') || 'default-button').trim()
+  const buttonStyle = (getTextFromSelector(block, '[data-aue-prop="style"]') || rowStyle || 'default-button').trim()
     || 'default-button';
 
   const buttonElement = div({ class: `button-container ${buttonStyle}` },
