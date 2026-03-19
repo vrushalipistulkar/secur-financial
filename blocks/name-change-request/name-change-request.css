@@ -175,11 +175,21 @@ main .name-change-request .file-drag-area {
   padding: 0;
   border: none;
   background: transparent;
+  position: relative;
 }
 
 main .name-change-request .file-dragIcon,
 main .name-change-request .file-dragText {
   display: none;
+}
+
+main .name-change-request .file-drag-area input[type="file"] {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  width: 0;
+  height: 0;
+  pointer-events: none;
 }
 
 main .name-change-request .file-attachButton {

@@ -1,6 +1,8 @@
 import { readBlockConfig } from "../../scripts/aem.js";
 import { dispatchCustomEvent } from "../../scripts/custom-events.js";
 import { syncFormDataLayer, DEFAULT_FORM_FIELD_MAP, attachLiveFormSync } from "../../scripts/form-data-layer.js";
+import { isAuthorEnvironment } from "../../scripts/scripts.js";
+import { getPathDetails } from "../../scripts/utils.js";
 
 function applyButtonConfigToSubmitButton(block, config) {
   const submitButton = block.querySelector("form button[type='submit']");
@@ -172,7 +174,9 @@ function attachSubmitHandler(block) {
           dispatchCustomEvent(authoredEventType);
         }
 
-        showSuccessMessage(form, "Name change request submitted successfully.");
+        setTimeout(() => {
+          window.location.href = getSuccessRedirectPath();
+        }, 0);
       } catch (error) {
         // eslint-disable-next-line no-console
         console.error("Name change request error:", error);
@@ -183,20 +187,18 @@ function attachSubmitHandler(block) {
   );
 }
 
-function showSuccessMessage(form, message) {
-  const existingMessages = form.querySelectorAll(".form-message");
-  existingMessages.forEach((msg) => msg.remove());
+function getSuccessRedirectPath() {
+  const authorPath = "/content/secur-financial/language-masters/en/settings/sign-name-change-request.html";
 
-  const messageEl = document.createElement("div");
-  messageEl.className = "form-message success";
-  messageEl.textContent = message;
-
-  const submitButton = form.querySelector('button[type="submit"]');
-  if (submitButton) {
-    submitButton.parentNode.insertBefore(messageEl, submitButton);
-  } else {
-    form.appendChild(messageEl);
+  if (isAuthorEnvironment()) {
+    return authorPath;
   }
+
+  const { langCode, prefix } = getPathDetails();
+  const language = langCode || "en";
+  return prefix
+    ? `${prefix}/${language}/settings/sign-name-change-request`
+    : `/${language}/settings/sign-name-change-request`;
 }
 
 function showErrorMessage(form, message) {
