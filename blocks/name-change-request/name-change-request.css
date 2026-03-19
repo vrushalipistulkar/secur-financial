@@ -221,29 +221,32 @@ main .name-change-request .submit-wrapper {
 }
 
 main .name-change-request .submit-wrapper button {
-  background: #2874F0;
-  color: #fff;
+  background: var(--main-accent-color, #C2410C);
+  color: var(--text-light, #fff);
   padding: 16px 60px;
-  font-size: 15px;
+  font-size: 18px;
   font-weight: 600;
-  letter-spacing: 0.5px;
-  text-transform: uppercase;
-  border: none;
+  line-height: 1.2;
+  text-transform: none;
+  border: 2px solid var(--main-accent-color, #C2410C);
   border-radius: 4px;
   cursor: pointer;
   transition: all 0.2s ease;
-  box-shadow: 0 2px 8px rgba(40, 116, 240, 0.2);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  font-family: var(--heading-font-family);
 }
 
 main .name-change-request .submit-wrapper button:hover {
-  background: #0052cc;
-  box-shadow: 0 4px 12px rgba(40, 116, 240, 0.3);
+  background: transparent;
+  color: var(--main-accent-color, #C2410C);
+  border-color: var(--main-accent-color, #C2410C);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
   transform: translateY(-1px);
 }
 
 main .name-change-request .submit-wrapper button:active {
   transform: translateY(0);
-  box-shadow: 0 1px 4px rgba(40, 116, 240, 0.2);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
 .name-change-request input.error,
