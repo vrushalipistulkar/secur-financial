@@ -287,9 +287,9 @@ function attachCreateAccountSubmitHandler(block) {
 
         showSuccessMessage(form, "Account created successfully! Redirecting to sign-in...");
 
-        // setTimeout(() => {
-        //   window.location.href = "/en/sign-in";
-        // }, 2000);
+        setTimeout(() => {
+          window.location.href = "/en/sign-in";
+        }, 2000);
       } catch (error) {
         // eslint-disable-next-line no-console
         console.error("Create account error:", error);
