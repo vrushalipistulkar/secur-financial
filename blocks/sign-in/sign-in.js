@@ -460,16 +460,16 @@ function addCreateAccountLink(block, isAuthor) {
   let registrationPath;
 
   if (isAuthor) {
-    // For author, replace 'sign-in.html' with 'registration.html'
+    // For author, replace 'sign-in.html' with 'create-account.html'
     registrationPath = currentPath.replace(
       "/sign-in.html",
-      "/registration.html"
+      "/create-account.html"
     );
   } else {
-    // For EDS publish, replace '/sign-in' with '/registration'
+    // For EDS publish, replace '/sign-in' with '/create-account'
     registrationPath = currentPath.replace(
       /\/sign-in(\.html)?$/,
-      "/registration"
+      "/create-account"
     );
   }
 
