@@ -10,12 +10,13 @@ import { readBlockConfig, loadCSS } from '../../scripts/aem.js';
 import { dispatchCustomEvent } from '../../scripts/custom-events.js';
 import { syncFormDataLayer, DEFAULT_FORM_FIELD_MAP, attachLiveFormSync } from '../../scripts/form-data-layer.js';
 
-const LOAN_PREAPPROVAL_FORM_WIZARD_NAME = 'Loan Preapproval Form';
+const LOAN_PREAPPROVAL_FORM_WIZARD_TITLE = 'Home Loan Application Form';
+const LOAN_PREAPPROVAL_FORM_WIZARD_NAME = "home-loan-application"
 
 function buildStepMeta(stepIndex) {
   return {
-    name: `loan-preapproval-form-step-${stepIndex + 1}`,
-    title: `Loan Preapproval Step ${stepIndex + 1}`,
+    name: `home-loan-application-step-${stepIndex + 1}`,
+    title: `Home Loan Application Step ${stepIndex + 1}`,
   };
 }
 
@@ -27,7 +28,7 @@ function buildWizardPayload(currentStepIndex, totalSteps) {
   const steps = Array.from({ length: totalSteps }, (_, idx) => buildStepMeta(idx));
   return {
     name: LOAN_PREAPPROVAL_FORM_WIZARD_NAME,
-    title: LOAN_PREAPPROVAL_FORM_WIZARD_NAME,
+    title: LOAN_PREAPPROVAL_FORM_WIZARD_TITLE,
     steps,
     currentStep: safeIndex + 1,
   };

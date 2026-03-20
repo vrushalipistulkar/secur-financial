@@ -10,12 +10,13 @@ import { readBlockConfig, loadCSS } from '../../scripts/aem.js';
 import { dispatchCustomEvent } from '../../scripts/custom-events.js';
 import { syncFormDataLayer, DEFAULT_FORM_FIELD_MAP, attachLiveFormSync } from '../../scripts/form-data-layer.js';
 
-const APPLICATION_FORM_WIZARD_NAME = 'Application Form';
+const APPLICATION_FORM_WIZARD_NAME = 'Credit Card Application';
+const APPLICATION_FORM_WIZARD_TITLE = 'Credit Card Application';
 
 function buildStepMeta(stepIndex) {
   return {
-    name: `application-form-step-${stepIndex + 1}`,
-    title: `Application Form Step ${stepIndex + 1}`,
+    name: `credit-card-application-step-${stepIndex + 1}`,
+    title: `Credit Card Application Step ${stepIndex + 1}`,
   };
 }
 
@@ -27,7 +28,7 @@ function buildWizardPayload(currentStepIndex, totalSteps) {
   const steps = Array.from({ length: totalSteps }, (_, idx) => buildStepMeta(idx));
   return {
     name: APPLICATION_FORM_WIZARD_NAME,
-    title: APPLICATION_FORM_WIZARD_NAME,
+    title: APPLICATION_FORM_WIZARD_TITLE,
     steps,
     currentStep: safeIndex + 1,
   };
