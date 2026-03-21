@@ -255,6 +255,7 @@ function createButtonFromConfig(config) {
 }
 
 export default async function decorate(block) {
+  block.classList.add('product-card-block', 'product-card-block--loading');
   const config = readBlockConfig(block) || {};
   const rawContentFragmentPath =
     config['content-fragment-folder'] || config.contentfragmentfolder || config.contentFragmentFolder || '';
@@ -278,7 +279,6 @@ export default async function decorate(block) {
     customStyles: config.customstyles ?? config.customStyles,
   });
   [...block.children].forEach((row) => row.remove());
-  block.classList.add('product-card-block');
   block.innerHTML = '';
 
   const product = await fetchProductData(contentFragmentPath);
@@ -295,4 +295,5 @@ export default async function decorate(block) {
   list.append(createCard(product, productButtonConfig));
   wrapper.append(list);
   block.append(wrapper);
+  block.classList.remove('product-card-block--loading');
 }

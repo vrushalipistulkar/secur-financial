@@ -4,6 +4,11 @@
   padding: 0px;
 }
 
+.product-card-block.product-card-block--loading {
+  visibility: hidden;
+  pointer-events: none;
+}
+
 .product-card-block .cards {
   display: flex;
   justify-content: center;
