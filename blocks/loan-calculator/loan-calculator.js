@@ -83,20 +83,46 @@ function normalizeConfig(cfg) {
     maxTerm,
     minDownPayment,
     maxDownPayment,
+    buttonEventType: (
+      cfg['button-event-type']
+        ?? cfg.buttoneventtype
+        ?? cfg.buttonEventType
+        ?? ''
+    ).toString().trim(),
+    buttonWebhookUrl: (
+      cfg['button-webhook-url']
+        ?? cfg.buttonwebhookurl
+        ?? cfg.buttonWebhookUrl
+        ?? ''
+    ).toString().trim(),
+    customStyles: (
+      cfg.customStyles
+        ?? cfg.customstyles
+        ?? cfg['custom-styles']
+        ?? ''
+    ).toString().trim(),
   };
+}
+
+function fireButtonCustomEventIfConfigured(eventType) {
+  if (!eventType) return;
+  dispatchCustomEvent(eventType);
 }
 
 export default async function decorate(block) {
   const codeBasePath = window.hlx?.codeBasePath || '';
   await loadCSS(`${codeBasePath}/blocks/loan-calculator/loan-calculator.css`);
+  const config = normalizeConfig(readBlockConfig(block) || {});
   block.classList.add('loan-calculator-block');
+  if (config.customStyles) {
+    config.customStyles
+      .split(/\s+/)
+      .filter(Boolean)
+      .forEach((cls) => block.classList.add(cls));
+  }
 
-  /** Returns normalized config from current source (key-value rows). */
-  const getConfig = () => normalizeConfig(readBlockConfig(block) || {});
-
-  /** Builds calculator UI using getConfig() for rate/CTA/description. Call after UE replaces block content. */
+  /** Builds calculator UI using config for rate/CTA/description. Call after UE replaces block content. */
   function buildCalculatorRoot() {
-    const config = getConfig();
     const contentRoot = document.createElement('div');
     contentRoot.className = 'loan-calculator-root';
 
@@ -186,14 +212,18 @@ export default async function decorate(block) {
     cta.className = 'loan-calculator-apply-button';
     cta.href = config.applyNowLink || '#';
     cta.textContent = config.applyNowText;
+    if (config.buttonWebhookUrl) {
+      cta.dataset.buttonWebhookUrl = config.buttonWebhookUrl;
+    } else {
+      delete cta.dataset.buttonWebhookUrl;
+    }
 
     function pushCalculationFinishEvent() {
-      const c = getConfig();
       const monthlyPaymentFromDisplay = Math.round(parseNumber(amountEl.textContent, 0));
       const payload = {
         mortgage: {
           term: termYears,
-          interestRate: c.interestRate,
+          interestRate: config.interestRate,
           downPayment,
           monthlyPayment: monthlyPaymentFromDisplay,
           price: purchasePrice,
@@ -201,11 +231,12 @@ export default async function decorate(block) {
       };
       window.dataLayer = window.dataLayer || [];
       window.updateDataLayer(payload);
-      dispatchCustomEvent('calculation-finish');
     }
 
     cta.addEventListener('click', (e) => {
       pushCalculationFinishEvent();
+      const eventType = config.buttonEventType;
+      fireButtonCustomEventIfConfigured(eventType);
       const href = cta.href || '';
       const invalidHref = !href || href === '#' || href.endsWith('#');
       if (invalidHref) {
@@ -225,9 +256,8 @@ export default async function decorate(block) {
     grid.append(right);
 
     function updatePayment() {
-      const c = getConfig();
       const principal = Math.max(0, purchasePrice - downPayment);
-      const payment = monthlyPayment(principal, c.interestRate, termYears);
+      const payment = monthlyPayment(principal, config.interestRate, termYears);
       amountEl.textContent = formatCurrency(Math.round(payment));
     }
 

@@ -1014,6 +1014,28 @@
         "label": "Description",
         "value": "Estimate how much you could be paying monthly for your loan",
         "valueType": "string"
+      },
+      {
+        "component": "text",
+        "name": "buttoneventtype",
+        "label": "Button Event Type",
+        "value": "calculation-finish",
+        "valueType": "string"
+      },
+      {
+        "component": "text",
+        "name": "buttonwebhookurl",
+        "label": "Button Webhook URL",
+        "value": "",
+        "valueType": "string"
+      },
+      {
+        "component": "text",
+        "name": "customStyles",
+        "label": "Custom Styles",
+        "value": "",
+        "valueType": "string",
+        "description": "Custom styles for the calculator"
       }
     ]
   },
