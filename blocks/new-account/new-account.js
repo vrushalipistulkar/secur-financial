@@ -10,11 +10,12 @@ import { readBlockConfig, loadCSS } from '../../scripts/aem.js';
 import { dispatchCustomEvent } from '../../scripts/custom-events.js';
 import { syncFormDataLayer, DEFAULT_FORM_FIELD_MAP, attachLiveFormSync } from '../../scripts/form-data-layer.js';
 
-function applyButtonConfigToSubmitButton(block, config) {
+function applyButtonConfigToSubmitButton(block, config, defaultEventType = 'form-submit') {
   const submitButton = block.querySelector("form button[type='submit']");
   if (!submitButton) return;
   const eventType = config.buttoneventtype ?? config['button-event-type'];
-  if (eventType && String(eventType).trim()) submitButton.dataset.buttonEventType = String(eventType).trim();
+  const normalizedEvent = (eventType && String(eventType).trim()) || defaultEventType;
+  if (normalizedEvent) submitButton.dataset.buttonEventType = normalizedEvent;
   const webhookUrl = config.buttonwebhookurl ?? config['button-webhook-url'];
   if (webhookUrl && String(webhookUrl).trim()) submitButton.dataset.buttonWebhookUrl = String(webhookUrl).trim();
   const formId = config.buttonformid ?? config['button-form-id'];
@@ -170,7 +171,9 @@ function attachSubmitHandler(block) {
     // eslint-disable-next-line no-console
     console.log('New account form data:', data);
     clearProductObject();
-    dispatchCustomEvent('form-submit');
+    const submitBtn = form.querySelector("button[type='submit']");
+    const authoredEventType = submitBtn?.dataset?.buttonEventType?.trim() || 'form-submit';
+    dispatchCustomEvent(authoredEventType);
     redirectAfterSubmit();
   });
 }
@@ -308,7 +311,7 @@ export default async function decorate(block) {
   await formModule.default(formContainer);
 
   setTimeout(() => {
-    applyButtonConfigToSubmitButton(block, config);
+    applyButtonConfigToSubmitButton(block, config, 'form-submit');
     attachSubmitHandler(block);
     setupStepIndicator(block);
     const form = block.querySelector('form');

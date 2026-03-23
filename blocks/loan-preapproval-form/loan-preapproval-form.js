@@ -49,11 +49,12 @@ function updateLoanPreapprovalWizardDataLayer(wizard, stepIndex) {
   });
 }
 
-function applyButtonConfigToSubmitButton(block, config) {
+function applyButtonConfigToSubmitButton(block, config, defaultEventType = 'home-loan-application-submit') {
   const submitButton = block.querySelector("form button[type='submit']");
   if (!submitButton) return;
   const eventType = config.buttoneventtype ?? config['button-event-type'];
-  if (eventType && String(eventType).trim()) submitButton.dataset.buttonEventType = String(eventType).trim();
+  const normalizedEvent = (eventType && String(eventType).trim()) || defaultEventType;
+  if (normalizedEvent) submitButton.dataset.buttonEventType = normalizedEvent;
   const webhookUrl = config.buttonwebhookurl ?? config['button-webhook-url'];
   if (webhookUrl && String(webhookUrl).trim()) submitButton.dataset.buttonWebhookUrl = String(webhookUrl).trim();
   const formId = config.buttonformid ?? config['button-form-id'];
@@ -235,7 +236,9 @@ function attachLoanPreapprovalFormSubmitHandler(block) {
     console.log('Loan preapproval form data:', data);
 
     clearProductObject();
-    dispatchCustomEvent('home-loan-application-submit');
+    const submitButton = form.querySelector('button[type=\"submit\"]');
+    const authoredEventType = submitButton?.dataset?.buttonEventType?.trim() || 'home-loan-application-submit';
+    dispatchCustomEvent(authoredEventType);
     redirectAfterPreapprovalSubmit();
   });
 }
@@ -334,7 +337,7 @@ export default async function decorate(block) {
   await formModule.default(formContainer);
 
   setTimeout(() => {
-    applyButtonConfigToSubmitButton(block, config);
+    applyButtonConfigToSubmitButton(block, config, 'home-loan-application-submit');
     attachLoanPreapprovalFormSubmitHandler(block);
     setupLoanPreapprovalStepIndicator(block);
   }, 100);

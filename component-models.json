@@ -890,11 +890,87 @@
   },
   {
     "id": "application-form",
-    "fields": []
+    "fields": [
+      {
+        "component": "text",
+        "name": "buttoneventtype",
+        "label": "Button Event Type",
+        "value": "form-submit",
+        "valueType": "string"
+      },
+      {
+        "component": "text",
+        "name": "buttonwebhookurl",
+        "label": "Button Webhook URL",
+        "value": "",
+        "valueType": "string"
+      },
+      {
+        "component": "text",
+        "name": "buttonformid",
+        "label": "Button Form ID",
+        "value": "",
+        "valueType": "string"
+      },
+      {
+        "component": "text",
+        "name": "buttondata",
+        "label": "Button Data",
+        "value": "",
+        "valueType": "string",
+        "description": "Comma-separated key,value pairs"
+      },
+      {
+        "component": "text",
+        "name": "customstyles",
+        "label": "Custom Styles",
+        "value": "",
+        "valueType": "string",
+        "description": "Custom styles for the application form"
+      }
+    ]
   },
   {
     "id": "loan-preapproval-form",
-    "fields": []
+    "fields": [
+      {
+        "component": "text",
+        "name": "buttoneventtype",
+        "label": "Button Event Type",
+        "value": "home-loan-application-submit",
+        "valueType": "string"
+      },
+      {
+        "component": "text",
+        "name": "buttonwebhookurl",
+        "label": "Button Webhook URL",
+        "value": "",
+        "valueType": "string"
+      },
+      {
+        "component": "text",
+        "name": "buttonformid",
+        "label": "Button Form ID",
+        "value": "",
+        "valueType": "string"
+      },
+      {
+        "component": "text",
+        "name": "buttondata",
+        "label": "Button Data",
+        "value": "",
+        "valueType": "string",
+        "description": "Comma-separated key,value pairs"
+      },
+      {
+        "component": "text",
+        "name": "customstyles",
+        "label": "Custom Styles",
+        "value": "",
+        "valueType": "string",
+        "description": "Custom styles for the preapproval form"
+      }
+    ]
   },
   {
     "id": "get-offer",
@@ -902,7 +978,45 @@
   },
   {
     "id": "new-account",
-    "fields": []
+    "fields": [
+      {
+        "component": "text",
+        "name": "buttoneventtype",
+        "label": "Button Event Type",
+        "value": "form-submit",
+        "valueType": "string"
+      },
+      {
+        "component": "text",
+        "name": "buttonwebhookurl",
+        "label": "Button Webhook URL",
+        "value": "",
+        "valueType": "string"
+      },
+      {
+        "component": "text",
+        "name": "buttonformid",
+        "label": "Button Form ID",
+        "value": "",
+        "valueType": "string"
+      },
+      {
+        "component": "text",
+        "name": "buttondata",
+        "label": "Button Data",
+        "value": "",
+        "valueType": "string",
+        "description": "Comma-separated key,value pairs"
+      },
+      {
+        "component": "text",
+        "name": "customstyles",
+        "label": "Custom Styles",
+        "value": "",
+        "valueType": "string",
+        "description": "Custom styles for the new account form"
+      }
+    ]
   },
   {
     "id": "insurance",
@@ -1180,6 +1294,43 @@
         "validation": {
           "rootPath": "/content"
         }
+      },
+      {
+        "component": "text",
+        "name": "buttoneventtype",
+        "label": "Button Event Type",
+        "value": "transfer-funds-form-submit",
+        "valueType": "string"
+      },
+      {
+        "component": "text",
+        "name": "buttonwebhookurl",
+        "label": "Button Webhook URL",
+        "value": "",
+        "valueType": "string"
+      },
+      {
+        "component": "text",
+        "name": "buttonformid",
+        "label": "Button Form ID",
+        "value": "",
+        "valueType": "string"
+      },
+      {
+        "component": "text",
+        "name": "buttondata",
+        "label": "Button Data",
+        "value": "",
+        "valueType": "string",
+        "description": "Comma-separated key,value pairs"
+      },
+      {
+        "component": "text",
+        "name": "customstyles",
+        "label": "Custom Styles",
+        "value": "",
+        "valueType": "string",
+        "description": "Custom styles for the transfer funds form"
       }
     ]
   },
@@ -1196,6 +1347,43 @@
         "validation": {
           "rootPath": "/content"
         }
+      },
+      {
+        "component": "text",
+        "name": "buttoneventtype",
+        "label": "Button Event Type",
+        "value": "auto-save-form-submit",
+        "valueType": "string"
+      },
+      {
+        "component": "text",
+        "name": "buttonwebhookurl",
+        "label": "Button Webhook URL",
+        "value": "",
+        "valueType": "string"
+      },
+      {
+        "component": "text",
+        "name": "buttonformid",
+        "label": "Button Form ID",
+        "value": "",
+        "valueType": "string"
+      },
+      {
+        "component": "text",
+        "name": "buttondata",
+        "label": "Button Data",
+        "value": "",
+        "valueType": "string",
+        "description": "Comma-separated key,value pairs"
+      },
+      {
+        "component": "text",
+        "name": "customstyles",
+        "label": "Custom Styles",
+        "value": "",
+        "valueType": "string",
+        "description": "Custom styles for the auto-save form"
       }
     ]
   },
@@ -1528,7 +1716,7 @@
         "component": "text",
         "name": "buttoneventtype",
         "label": "Button Event Type",
-        "value": "",
+        "value": "form-submit",
         "valueType": "string"
       },
       {

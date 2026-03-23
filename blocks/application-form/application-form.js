@@ -60,11 +60,12 @@ function redirectAfterApplicationSubmit() {
 const APPLICATION_FORM_TEAL = '#0d9488';
 const APPLICATION_FORM_GREY = '#e5e7eb';
 
-function applyButtonConfigToSubmitButton(block, config) {
+function applyButtonConfigToSubmitButton(block, config, defaultEventType = 'form-submit') {
   const submitButton = block.querySelector("form button[type='submit']");
   if (!submitButton) return;
   const eventType = config.buttoneventtype ?? config['button-event-type'];
-  if (eventType && String(eventType).trim()) submitButton.dataset.buttonEventType = String(eventType).trim();
+  const normalizedEvent = (eventType && String(eventType).trim()) || defaultEventType;
+  if (normalizedEvent) submitButton.dataset.buttonEventType = normalizedEvent;
   const webhookUrl = config.buttonwebhookurl ?? config['button-webhook-url'];
   if (webhookUrl && String(webhookUrl).trim()) submitButton.dataset.buttonWebhookUrl = String(webhookUrl).trim();
   const formId = config.buttonformid ?? config['button-form-id'];
@@ -210,7 +211,9 @@ function attachApplicationFormSubmitHandler(block) {
     // eslint-disable-next-line no-console
     console.log('Application form data:', data);
 
-    dispatchCustomEvent('form-submit');
+    const submitButton = form.querySelector("button[type='submit']");
+    const authoredEventType = submitButton?.dataset?.buttonEventType?.trim() || 'form-submit';
+    dispatchCustomEvent(authoredEventType);
     redirectAfterApplicationSubmit();
   });
 }
@@ -239,7 +242,7 @@ export default async function decorate(block) {
   await formModule.default(formContainer);
 
   setTimeout(() => {
-    applyButtonConfigToSubmitButton(block, config);
+    applyButtonConfigToSubmitButton(block, config, 'form-submit');
     attachApplicationFormSubmitHandler(block);
     setupApplicationFormStepIndicator(block);
     const form = block.querySelector('form');

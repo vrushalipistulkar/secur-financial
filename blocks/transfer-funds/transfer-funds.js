@@ -1,6 +1,20 @@
 import { readBlockConfig } from '../../scripts/aem.js';
 import { dispatchCustomEvent } from '../../scripts/custom-events.js';
 
+function applyButtonConfigToSubmitButton(block, config, defaultEventType = 'transfer-funds-form-submit') {
+  const submitButton = block.querySelector("form button[type='submit']");
+  if (!submitButton) return;
+  const eventType = config.buttoneventtype ?? config['button-event-type'];
+  const normalizedEvent = (eventType && String(eventType).trim()) || defaultEventType;
+  if (normalizedEvent) submitButton.dataset.buttonEventType = normalizedEvent;
+  const webhookUrl = config.buttonwebhookurl ?? config['button-webhook-url'];
+  if (webhookUrl && String(webhookUrl).trim()) submitButton.dataset.buttonWebhookUrl = String(webhookUrl).trim();
+  const formId = config.buttonformid ?? config['button-form-id'];
+  if (formId && String(formId).trim()) submitButton.dataset.buttonFormId = String(formId).trim();
+  const buttonData = config.buttondata ?? config['button-data'];
+  if (buttonData && String(buttonData).trim()) submitButton.dataset.buttonData = String(buttonData).trim();
+}
+
 function getSubmitLink(block, config) {
   // readBlockConfig uses toClassName(label) so "Submit button link" -> "submit-button-link"
   const fromConfig = (config['submit-button-link'] ?? config['submit-link'] ?? config.redirectUrl ?? config.submitLink ?? '').toString().trim();
@@ -97,10 +111,13 @@ export default async function decorate(block) {
       window.location.href = REDIRECT_PATH_AFTER_TRANSFER;
     }, 2000);
   }
+  applyButtonConfigToSubmitButton(block, config, 'transfer-funds-form-submit');
   form.addEventListener('submit', (event) => {
     event.preventDefault();
     event.stopPropagation();
-    dispatchCustomEvent('transfer-funds-form-submit');
+    const submitButton = form.querySelector('button[type="submit"]');
+    const authoredEventType = submitButton?.dataset?.buttonEventType?.trim() || 'transfer-funds-form-submit';
+    dispatchCustomEvent(authoredEventType);
     redirectAfterTransferSubmit();
   });
 }
