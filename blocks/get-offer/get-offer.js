@@ -3,12 +3,7 @@
  * No click handler on the button for now.
  */
 
-import { loadCSS } from '../../scripts/aem.js';
-
 export default async function decorate(block) {
-  const codeBasePath = window.hlx?.codeBasePath || '';
-  await loadCSS(`${codeBasePath}/blocks/get-offer/get-offer.css`);
-
   const rows = [...block.children];
   const placeholder = rows[0]?.textContent?.trim() || 'me@adobetest.com';
   const buttonLabel = rows[1]?.textContent?.trim() || 'Get offer';

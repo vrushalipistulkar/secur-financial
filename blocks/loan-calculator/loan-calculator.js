@@ -3,7 +3,7 @@
  * monthly payment output and Apply now CTA. Interest rate from UE (block config).
  */
 
-import { readBlockConfig, loadCSS } from '../../scripts/aem.js';
+import { readBlockConfig } from '../../scripts/aem.js';
 import { dispatchCustomEvent } from '../../scripts/custom-events.js';
 
 const DEFAULT_INTEREST_RATE = 6.5;
@@ -104,8 +104,6 @@ function fireButtonCustomEventIfConfigured(eventType) {
 }
 
 export default async function decorate(block) {
-  const codeBasePath = window.hlx?.codeBasePath || '';
-  await loadCSS(`${codeBasePath}/blocks/loan-calculator/loan-calculator.css`);
   const config = normalizeConfig(readBlockConfig(block) || {});
   block.classList.add('loan-calculator-block');
   if (config.customStyles) {

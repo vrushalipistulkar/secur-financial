@@ -294,7 +294,6 @@ export default async function decorate(block) {
 
   const codeBasePath = window.hlx?.codeBasePath || '';
   await loadCSS(`${codeBasePath}/blocks/form/form.css`);
-  await loadCSS(`${codeBasePath}/blocks/new-account/new-account.css`);
 
   const formDef = buildNewAccountFormDef();
   const formContainer = document.createElement('div');

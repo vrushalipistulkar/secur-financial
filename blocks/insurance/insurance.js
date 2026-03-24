@@ -70,7 +70,6 @@ function collectInsuranceFormData(form) {
 export default async function decorate(block) {
   const codeBasePath = window.hlx?.codeBasePath || '';
   await loadCSS(`${codeBasePath}/blocks/form/form.css`);
-  await loadCSS(`${codeBasePath}/blocks/insurance/insurance.css`);
 
   block.classList.add('insurance-block');
 

@@ -136,7 +136,6 @@ function collectFormData(form) {
 export default async function decorate(block) {
   const codeBasePath = window.hlx?.codeBasePath || '';
   await loadCSS(`${codeBasePath}/blocks/form/form.css`);
-  await loadCSS(`${codeBasePath}/blocks/add-external/add-external.css`);
 
   block.classList.add('add-external-block');
 
