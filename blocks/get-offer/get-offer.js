@@ -3,10 +3,16 @@
  * No click handler on the button for now.
  */
 
+import { readBlockConfig } from '../../scripts/aem.js';
+
 export default async function decorate(block) {
+  const config = readBlockConfig(block) || {};
   const rows = [...block.children];
-  const placeholder = rows[0]?.textContent?.trim() || 'me@adobetest.com';
-  const buttonLabel = rows[1]?.textContent?.trim() || 'Get offer';
+  const placeholder = config.placeholder?.trim() || rows[0]?.textContent?.trim() || 'me@adobetest.com';
+  const buttonLabel = config['button-label']?.trim()
+    || config.buttonLabel?.trim()
+    || rows[1]?.textContent?.trim()
+    || 'Get offer';
 
   block.innerHTML = '';
 

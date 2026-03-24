@@ -703,14 +703,6 @@
         "value": "",
         "valueType": "string",
         "description": "Custom styles for the card"
-      },
-      {
-        "component": "text",
-        "name": "custom-class",
-        "label": "Custom class",
-        "value": "",
-        "valueType": "string",
-        "description": "Space-separated class names to add to the block"
       }
     ]
   },
@@ -927,14 +919,6 @@
         "value": "",
         "valueType": "string",
         "description": "Custom styles for the card"
-      },
-      {
-        "component": "text",
-        "name": "custom-class",
-        "label": "Custom class",
-        "value": "",
-        "valueType": "string",
-        "description": "Space-separated class names to add to the block"
       }
     ]
   },
@@ -977,14 +961,6 @@
         "value": "",
         "valueType": "string",
         "description": "Custom styles for the application form"
-      },
-      {
-        "component": "text",
-        "name": "custom-class",
-        "label": "Custom class",
-        "value": "",
-        "valueType": "string",
-        "description": "Space-separated class names to add to the block"
       }
     ]
   },
@@ -1027,20 +1003,26 @@
         "value": "",
         "valueType": "string",
         "description": "Custom styles for the preapproval form"
-      },
-      {
-        "component": "text",
-        "name": "custom-class",
-        "label": "Custom class",
-        "value": "",
-        "valueType": "string",
-        "description": "Space-separated class names to add to the block"
       }
     ]
   },
   {
     "id": "get-offer",
     "fields": [
+      {
+        "component": "text",
+        "name": "placeholder",
+        "label": "Placeholder",
+        "value": "",
+        "valueType": "string"
+      },
+      {
+        "component": "text",
+        "name": "button-label",
+        "label": "Button Label",
+        "value": "",
+        "valueType": "string"
+      },
       {
         "component": "text",
         "name": "custom-class",
@@ -1090,14 +1072,6 @@
         "value": "",
         "valueType": "string",
         "description": "Custom styles for the new account form"
-      },
-      {
-        "component": "text",
-        "name": "custom-class",
-        "label": "Custom class",
-        "value": "",
-        "valueType": "string",
-        "description": "Space-separated class names to add to the block"
       }
     ]
   },
@@ -1255,14 +1229,6 @@
         "value": "",
         "valueType": "string",
         "description": "Custom styles for the calculator"
-      },
-      {
-        "component": "text",
-        "name": "custom-class",
-        "label": "Custom class",
-        "value": "",
-        "valueType": "string",
-        "description": "Space-separated class names to add to the block"
       }
     ]
   },
@@ -1477,14 +1443,6 @@
         "value": "",
         "valueType": "string",
         "description": "Custom styles for the transfer funds form"
-      },
-      {
-        "component": "text",
-        "name": "custom-class",
-        "label": "Custom class",
-        "value": "",
-        "valueType": "string",
-        "description": "Space-separated class names to add to the block"
       }
     ]
   },
@@ -1538,14 +1496,6 @@
         "value": "",
         "valueType": "string",
         "description": "Custom styles for the auto-save form"
-      },
-      {
-        "component": "text",
-        "name": "custom-class",
-        "label": "Custom class",
-        "value": "",
-        "valueType": "string",
-        "description": "Space-separated class names to add to the block"
       }
     ]
   },
@@ -1867,14 +1817,6 @@
         "value": "",
         "valueType": "string",
         "description": "Custom styles for the hero section"
-      },
-      {
-        "component": "text",
-        "name": "custom-class",
-        "label": "Custom class",
-        "value": "",
-        "valueType": "string",
-        "description": "Space-separated class names to add to the block"
       }
     ]
   },
