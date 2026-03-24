@@ -49,6 +49,14 @@
           "value": "",
           "valueType": "string",
           "description": "Comma-separated key,value pairs"
+        },
+        {
+          "component": "text",
+          "name": "custom-class",
+          "label": "Custom class",
+          "value": "",
+          "valueType": "string",
+          "description": "Space-separated class names to add to the block"
         }
       ]
     }

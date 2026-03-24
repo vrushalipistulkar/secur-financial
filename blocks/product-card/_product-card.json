@@ -21,30 +21,39 @@
       "id": "product-card",
       "fields": [
         {
-        "component": "aem-content",
-        "name": "contentFragmentFolder",
-        "label": "Content Fragment Folder",
-        "description": "Select folder containing particular product content fragments",
-        "valueType": "string",
-        "validation": {
-          "rootPath": "/content/dam"
-        }
-      },
-      {
-        "component": "select",
-        "name": "layout",
-        "label": "Layout",
-        "valueType": "string",
-        "value": "stacked",
-        "options": [
-          { "name": "Stacked", "value": "stacked" },
-          { "name": "Compact Stacked Card", "value": "compact-stacked-card" },
-          { "name": "Side by Side", "value": "side-by-side" }
-        ]
-      },
-      {
-        "component": "text",
-        "name": "buttonText",
+          "component": "aem-content",
+          "name": "contentFragmentFolder",
+          "label": "Content Fragment Folder",
+          "description": "Select folder containing particular product content fragments",
+          "valueType": "string",
+          "validation": {
+            "rootPath": "/content/dam"
+          }
+        },
+        {
+          "component": "select",
+          "name": "layout",
+          "label": "Layout",
+          "valueType": "string",
+          "value": "stacked",
+          "options": [
+            {
+              "name": "Stacked",
+              "value": "stacked"
+            },
+            {
+              "name": "Compact Stacked Card",
+              "value": "compact-stacked-card"
+            },
+            {
+              "name": "Side by Side",
+              "value": "side-by-side"
+            }
+          ]
+        },
+        {
+          "component": "text",
+          "name": "buttonText",
           "label": "Button Text",
           "valueType": "string"
         },
@@ -75,11 +84,11 @@
             }
           ]
         },
-      {
-        "component": "select",
-        "name": "alignment",
-        "label": "Alignment",
-        "options": [
+        {
+          "component": "select",
+          "name": "alignment",
+          "label": "Alignment",
+          "options": [
             {
               "name": "Left",
               "value": "left"
@@ -144,6 +153,14 @@
           "value": "",
           "valueType": "string",
           "description": "Custom styles for the card"
+        },
+        {
+          "component": "text",
+          "name": "custom-class",
+          "label": "Custom class",
+          "value": "",
+          "valueType": "string",
+          "description": "Space-separated class names to add to the block"
         }
       ]
     }

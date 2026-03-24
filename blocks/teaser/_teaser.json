@@ -35,8 +35,14 @@
           "label": "Style",
           "valueType": "string",
           "options": [
-            { "name": "Video", "value": "video" },
-            { "name": "Image", "value": "image" }
+            {
+              "name": "Video",
+              "value": "video"
+            },
+            {
+              "name": "Image",
+              "value": "image"
+            }
           ]
         },
         {
@@ -46,8 +52,14 @@
           "label": "Style",
           "valueType": "string",
           "options": [
-            { "name": "Video", "value": "video" },
-            { "name": "Image", "value": "image" }
+            {
+              "name": "Video",
+              "value": "video"
+            },
+            {
+              "name": "Image",
+              "value": "image"
+            }
           ]
         },
         {
@@ -55,7 +67,14 @@
           "label": "Video Properties",
           "name": "videoProperties",
           "valueType": "string",
-          "condition": { "===": [{ "var": "teaserStyle" }, "video"] },
+          "condition": {
+            "===": [
+              {
+                "var": "teaserStyle"
+              },
+              "video"
+            ]
+          },
           "fields": [
             {
               "component": "text",
@@ -72,8 +91,14 @@
               "label": "Video Behavior (on load)",
               "valueType": "string",
               "options": [
-                { "name": "Autoplay", "value": "autoplay" },
-                { "name": "Pause", "value": "pause" }
+                {
+                  "name": "Autoplay",
+                  "value": "autoplay"
+                },
+                {
+                  "name": "Pause",
+                  "value": "pause"
+                }
               ]
             }
           ]
@@ -83,7 +108,14 @@
           "label": "Image Properties",
           "name": "imageProperties",
           "valueType": "string",
-          "condition": { "===": [{ "var": "teaserStyle" }, "image"] },
+          "condition": {
+            "===": [
+              {
+                "var": "teaserStyle"
+              },
+              "image"
+            ]
+          },
           "fields": [
             {
               "component": "reference",
@@ -148,7 +180,7 @@
               ]
             }
           ]
-        },        
+        },
         {
           "component": "boolean",
           "label": "Enable Swoosh Effect",
@@ -156,6 +188,14 @@
           "name": "useSwoosh",
           "value": "true",
           "valueType": "boolean"
+        },
+        {
+          "component": "text",
+          "name": "custom-class",
+          "label": "Custom class",
+          "value": "",
+          "valueType": "string",
+          "description": "Space-separated class names to add to the block"
         }
       ]
     }

@@ -34,7 +34,6 @@
         "name": "theme",
         "label": "Theme",
         "description": "Note: This takes priority over CF based theme.",
-
         "options": [
           {
             "name": "default",
@@ -195,16 +194,26 @@
           {
             "name": "Dark Button",
             "value": "cta-button-dark"
-           }]
+          }
+        ]
       },
       {
         "component": "select",
         "name": "alignment",
         "label": "Alignment",
         "options": [
-          { "name": "Left", "value": "left" },
-          { "name": "Center", "value": "center" },
-          { "name": "Right", "value": "right" }
+          {
+            "name": "Left",
+            "value": "left"
+          },
+          {
+            "name": "Center",
+            "value": "center"
+          },
+          {
+            "name": "Right",
+            "value": "right"
+          }
         ]
       },
       {
@@ -636,9 +645,18 @@
         "name": "alignment",
         "label": "Text Alignment",
         "options": [
-          { "name": "Left", "value": "left" },
-          { "name": "Center", "value": "center" },
-          { "name": "Right", "value": "right" }
+          {
+            "name": "Left",
+            "value": "left"
+          },
+          {
+            "name": "Center",
+            "value": "center"
+          },
+          {
+            "name": "Right",
+            "value": "right"
+          }
         ]
       },
       {
@@ -685,6 +703,14 @@
         "value": "",
         "valueType": "string",
         "description": "Custom styles for the card"
+      },
+      {
+        "component": "text",
+        "name": "custom-class",
+        "label": "Custom class",
+        "value": "",
+        "valueType": "string",
+        "description": "Space-separated class names to add to the block"
       }
     ]
   },
@@ -712,6 +738,14 @@
         "value": "",
         "label": "Column widths (%)",
         "description": "Comma-separated width percentages per column, e.g. 20,80 or 33,33,34"
+      },
+      {
+        "component": "text",
+        "name": "custom-class",
+        "label": "Custom class",
+        "value": "",
+        "valueType": "string",
+        "description": "Space-separated class names to add to the block"
       }
     ]
   },
@@ -746,6 +780,14 @@
         "value": "",
         "valueType": "string",
         "description": "Comma-separated key,value pairs"
+      },
+      {
+        "component": "text",
+        "name": "custom-class",
+        "label": "Custom class",
+        "value": "",
+        "valueType": "string",
+        "description": "Space-separated class names to add to the block"
       }
     ]
   },
@@ -885,6 +927,14 @@
         "value": "",
         "valueType": "string",
         "description": "Custom styles for the card"
+      },
+      {
+        "component": "text",
+        "name": "custom-class",
+        "label": "Custom class",
+        "value": "",
+        "valueType": "string",
+        "description": "Space-separated class names to add to the block"
       }
     ]
   },
@@ -927,6 +977,14 @@
         "value": "",
         "valueType": "string",
         "description": "Custom styles for the application form"
+      },
+      {
+        "component": "text",
+        "name": "custom-class",
+        "label": "Custom class",
+        "value": "",
+        "valueType": "string",
+        "description": "Space-separated class names to add to the block"
       }
     ]
   },
@@ -969,12 +1027,29 @@
         "value": "",
         "valueType": "string",
         "description": "Custom styles for the preapproval form"
+      },
+      {
+        "component": "text",
+        "name": "custom-class",
+        "label": "Custom class",
+        "value": "",
+        "valueType": "string",
+        "description": "Space-separated class names to add to the block"
       }
     ]
   },
   {
     "id": "get-offer",
-    "fields": []
+    "fields": [
+      {
+        "component": "text",
+        "name": "custom-class",
+        "label": "Custom class",
+        "value": "",
+        "valueType": "string",
+        "description": "Space-separated class names to add to the block"
+      }
+    ]
   },
   {
     "id": "new-account",
@@ -1015,6 +1090,14 @@
         "value": "",
         "valueType": "string",
         "description": "Custom styles for the new account form"
+      },
+      {
+        "component": "text",
+        "name": "custom-class",
+        "label": "Custom class",
+        "value": "",
+        "valueType": "string",
+        "description": "Space-separated class names to add to the block"
       }
     ]
   },
@@ -1028,6 +1111,14 @@
         "value": "Life Insurance",
         "valueType": "string",
         "description": "Main heading of the form"
+      },
+      {
+        "component": "text",
+        "name": "custom-class",
+        "label": "Custom class",
+        "value": "",
+        "valueType": "string",
+        "description": "Space-separated class names to add to the block"
       }
     ]
   },
@@ -1042,9 +1133,23 @@
         "valueType": "string",
         "description": "Form variant: Add external account (Type: Bank Account) or Add external credit card (Type: Credit Card)",
         "options": [
-          { "name": "Add external account", "value": "account" },
-          { "name": "Add external credit card", "value": "credit-card" }
+          {
+            "name": "Add external account",
+            "value": "account"
+          },
+          {
+            "name": "Add external credit card",
+            "value": "credit-card"
+          }
         ]
+      },
+      {
+        "component": "text",
+        "name": "custom-class",
+        "label": "Custom class",
+        "value": "",
+        "valueType": "string",
+        "description": "Space-separated class names to add to the block"
       }
     ]
   },
@@ -1150,12 +1255,29 @@
         "value": "",
         "valueType": "string",
         "description": "Custom styles for the calculator"
+      },
+      {
+        "component": "text",
+        "name": "custom-class",
+        "label": "Custom class",
+        "value": "",
+        "valueType": "string",
+        "description": "Space-separated class names to add to the block"
       }
     ]
   },
   {
     "id": "confirmation",
-    "fields": []
+    "fields": [
+      {
+        "component": "text",
+        "name": "custom-class",
+        "label": "Custom class",
+        "value": "",
+        "valueType": "string",
+        "description": "Space-separated class names to add to the block"
+      }
+    ]
   },
   {
     "id": "join-us",
@@ -1188,6 +1310,14 @@
         "value": "",
         "valueType": "string",
         "description": "Comma-separated key,value pairs"
+      },
+      {
+        "component": "text",
+        "name": "custom-class",
+        "label": "Custom class",
+        "value": "",
+        "valueType": "string",
+        "description": "Space-separated class names to add to the block"
       }
     ]
   },
@@ -1216,6 +1346,14 @@
           }
         ],
         "description": "Controls how items inside the column are aligned - vertically (stacked) or horizontally (side by side)"
+      },
+      {
+        "component": "text",
+        "name": "custom-class",
+        "label": "Custom class",
+        "value": "",
+        "valueType": "string",
+        "description": "Space-separated class names to add to the block"
       }
     ]
   },
@@ -1226,6 +1364,14 @@
         "component": "aem-content",
         "name": "reference",
         "label": "Reference"
+      },
+      {
+        "component": "text",
+        "name": "custom-class",
+        "label": "Custom class",
+        "value": "",
+        "valueType": "string",
+        "description": "Space-separated class names to add to the block"
       }
     ]
   },
@@ -1331,6 +1477,14 @@
         "value": "",
         "valueType": "string",
         "description": "Custom styles for the transfer funds form"
+      },
+      {
+        "component": "text",
+        "name": "custom-class",
+        "label": "Custom class",
+        "value": "",
+        "valueType": "string",
+        "description": "Space-separated class names to add to the block"
       }
     ]
   },
@@ -1384,6 +1538,14 @@
         "value": "",
         "valueType": "string",
         "description": "Custom styles for the auto-save form"
+      },
+      {
+        "component": "text",
+        "name": "custom-class",
+        "label": "Custom class",
+        "value": "",
+        "valueType": "string",
+        "description": "Space-separated class names to add to the block"
       }
     ]
   },
@@ -1405,7 +1567,14 @@
         "value": "",
         "valueType": "string",
         "description": "Persisted variation for publish; leave empty for master.",
-        "condition": { "==": [ { "var": "__alwaysFalse" }, true ] }
+        "condition": {
+          "==": [
+            {
+              "var": "__alwaysFalse"
+            },
+            true
+          ]
+        }
       },
       {
         "component": "select",
@@ -1475,6 +1644,14 @@
             "value": "cta-button-dark"
           }
         ]
+      },
+      {
+        "component": "text",
+        "name": "custom-class",
+        "label": "Custom class",
+        "value": "",
+        "valueType": "string",
+        "description": "Space-separated class names to add to the block"
       }
     ]
   },
@@ -1592,9 +1769,18 @@
         "name": "alignment",
         "label": "Alignment",
         "options": [
-          { "name": "Left", "value": "left" },
-          { "name": "Center", "value": "center" },
-          { "name": "Right", "value": "right" }
+          {
+            "name": "Left",
+            "value": "left"
+          },
+          {
+            "name": "Center",
+            "value": "center"
+          },
+          {
+            "name": "Right",
+            "value": "right"
+          }
         ]
       },
       {
@@ -1602,9 +1788,18 @@
         "name": "verticalalignment",
         "label": "Vertical Alignment",
         "options": [
-          { "name": "Top", "value": "top" },
-          { "name": "Middle", "value": "middle" },
-          { "name": "Bottom", "value": "bottom" }
+          {
+            "name": "Top",
+            "value": "top"
+          },
+          {
+            "name": "Middle",
+            "value": "middle"
+          },
+          {
+            "name": "Bottom",
+            "value": "bottom"
+          }
         ]
       },
       {
@@ -1672,6 +1867,14 @@
         "value": "",
         "valueType": "string",
         "description": "Custom styles for the hero section"
+      },
+      {
+        "component": "text",
+        "name": "custom-class",
+        "label": "Custom class",
+        "value": "",
+        "valueType": "string",
+        "description": "Space-separated class names to add to the block"
       }
     ]
   },
@@ -1706,6 +1909,14 @@
         "value": "",
         "valueType": "string",
         "description": "Comma-separated key,value pairs"
+      },
+      {
+        "component": "text",
+        "name": "custom-class",
+        "label": "Custom class",
+        "value": "",
+        "valueType": "string",
+        "description": "Space-separated class names to add to the block"
       }
     ]
   },
@@ -1740,6 +1951,14 @@
         "value": "",
         "valueType": "string",
         "description": "Comma-separated key,value pairs"
+      },
+      {
+        "component": "text",
+        "name": "custom-class",
+        "label": "Custom class",
+        "value": "",
+        "valueType": "string",
+        "description": "Space-separated class names to add to the block"
       }
     ]
   },
@@ -1774,6 +1993,14 @@
         "value": "",
         "valueType": "string",
         "description": "Comma-separated key,value pairs"
+      },
+      {
+        "component": "text",
+        "name": "custom-class",
+        "label": "Custom class",
+        "value": "",
+        "valueType": "string",
+        "description": "Space-separated class names to add to the block"
       }
     ]
   },
@@ -1808,6 +2035,14 @@
         "value": "",
         "valueType": "string",
         "description": "Comma-separated key,value pairs"
+      },
+      {
+        "component": "text",
+        "name": "custom-class",
+        "label": "Custom class",
+        "value": "",
+        "valueType": "string",
+        "description": "Space-separated class names to add to the block"
       }
     ]
   },
@@ -1842,6 +2077,14 @@
         "value": "",
         "valueType": "string",
         "description": "Comma-separated key,value pairs"
+      },
+      {
+        "component": "text",
+        "name": "custom-class",
+        "label": "Custom class",
+        "value": "",
+        "valueType": "string",
+        "description": "Space-separated class names to add to the block"
       }
     ]
   },
@@ -1855,6 +2098,14 @@
         "label": "Title",
         "value": "BECOME A MEMBER",
         "description": "Main heading for the membership form"
+      },
+      {
+        "component": "text",
+        "name": "custom-class",
+        "label": "Custom class",
+        "value": "",
+        "valueType": "string",
+        "description": "Space-separated class names to add to the block"
       }
     ]
   },
@@ -1879,7 +2130,7 @@
         "valueType": "boolean",
         "name": "enableSmartCrop",
         "label": "Enable Smart Crop",
-          "value":false
+        "value": false
       },
       {
         "component": "select",
@@ -1908,7 +2159,14 @@
         "label": "Border Settings",
         "name": "borderSettings",
         "valueType": "string",
-          "condition": { "==": [{ "var": "preset" }, "border"] },
+        "condition": {
+          "==": [
+            {
+              "var": "preset"
+            },
+            "border"
+          ]
+        },
         "fields": [
           {
             "component": "text",
@@ -2017,6 +2275,14 @@
         "label": "Crop",
         "description": "Crop the final image using four values: left, top, width, and height, all in percentages. For example, 10p,10p,50p,50p means crop the image starting 10% from the left and top, and take 50% of the image's width and height",
         "valueType": "string"
+      },
+      {
+        "component": "text",
+        "name": "custom-class",
+        "label": "Custom class",
+        "value": "",
+        "valueType": "string",
+        "description": "Space-separated class names to add to the block"
       }
     ]
   },
@@ -2060,6 +2326,14 @@
         "label": "Muted",
         "description": "Start the video muted",
         "valueType": "boolean"
+      },
+      {
+        "component": "text",
+        "name": "custom-class",
+        "label": "Custom class",
+        "value": "",
+        "valueType": "string",
+        "description": "Space-separated class names to add to the block"
       }
     ]
   },
@@ -2079,6 +2353,14 @@
         "value": "",
         "label": "Attribution",
         "valueType": "string"
+      },
+      {
+        "component": "text",
+        "name": "custom-class",
+        "label": "Custom class",
+        "value": "",
+        "valueType": "string",
+        "description": "Space-separated class names to add to the block"
       }
     ]
   },
@@ -2104,6 +2386,14 @@
             "value": "search-icon"
           }
         ]
+      },
+      {
+        "component": "text",
+        "name": "custom-class",
+        "label": "Custom class",
+        "value": "",
+        "valueType": "string",
+        "description": "Space-separated class names to add to the block"
       }
     ]
   },
@@ -2115,6 +2405,14 @@
         "valueType": "string",
         "name": "card",
         "value": ""
+      },
+      {
+        "component": "text",
+        "name": "custom-class",
+        "label": "Custom class",
+        "value": "",
+        "valueType": "string",
+        "description": "Space-separated class names to add to the block"
       }
     ]
   },
@@ -2125,9 +2423,17 @@
         "component": "text",
         "valueType": "string",
         "required": true,
-       "description" : "Any direct full URL of publicly available video. e.g. video URL of aem publish instance, Dynamic Media etc.",
+        "description": "Any direct full URL of publicly available video. e.g. video URL of aem publish instance, Dynamic Media etc.",
         "name": "videoUrl",
         "label": "Video Url"
+      },
+      {
+        "component": "text",
+        "name": "custom-class",
+        "label": "Custom class",
+        "value": "",
+        "valueType": "string",
+        "description": "Space-separated class names to add to the block"
       }
     ]
   },
@@ -2202,6 +2508,14 @@
         "value": "",
         "label": "Title",
         "description": "Accessible title for the iframe."
+      },
+      {
+        "component": "text",
+        "name": "custom-class",
+        "label": "Custom class",
+        "value": "",
+        "valueType": "string",
+        "description": "Space-separated class names to add to the block"
       }
     ]
   },
@@ -2228,7 +2542,12 @@
       },
       {
         "condition": {
-            "===": [{ "var": "config_source" }, "inline"]
+          "===": [
+            {
+              "var": "config_source"
+            },
+            "inline"
+          ]
         },
         "component": "text",
         "name": "dm_template_url",
@@ -2238,7 +2557,12 @@
       },
       {
         "condition": {
-            "===": [{ "var": "config_source" }, "inline"]
+          "===": [
+            {
+              "var": "config_source"
+            },
+            "inline"
+          ]
         },
         "component": "text",
         "valueType": "string",
@@ -2250,7 +2574,12 @@
       },
       {
         "condition": {
-            "===": [{ "var": "config_source" }, "cf"]
+          "===": [
+            {
+              "var": "config_source"
+            },
+            "cf"
+          ]
         },
         "component": "aem-content",
         "name": "reference",
@@ -2260,6 +2589,14 @@
         "validation": {
           "rootPath": "/content/dam"
         }
+      },
+      {
+        "component": "text",
+        "name": "custom-class",
+        "label": "Custom class",
+        "value": "",
+        "valueType": "string",
+        "description": "Space-separated class names to add to the block"
       }
     ]
   },
@@ -2414,6 +2751,14 @@
             "value": "button-dark"
           }
         ]
+      },
+      {
+        "component": "text",
+        "name": "custom-class",
+        "label": "Custom class",
+        "value": "",
+        "valueType": "string",
+        "description": "Space-separated class names to add to the block"
       }
     ]
   },
@@ -2429,6 +2774,14 @@
         "validation": {
           "rootPath": "/content/forms/af"
         }
+      },
+      {
+        "component": "text",
+        "name": "custom-class",
+        "label": "Custom class",
+        "value": "",
+        "valueType": "string",
+        "description": "Space-separated class names to add to the block"
       }
     ]
   },
@@ -2619,6 +2972,14 @@
             "valueType": "boolean"
           }
         ]
+      },
+      {
+        "component": "text",
+        "name": "custom-class",
+        "label": "Custom class",
+        "value": "",
+        "valueType": "string",
+        "description": "Space-separated class names to add to the block"
       }
     ]
   },
@@ -5623,6 +5984,14 @@
             "value": "card-style-tab"
           }
         ]
+      },
+      {
+        "component": "text",
+        "name": "custom-class",
+        "label": "Custom class",
+        "value": "",
+        "valueType": "string",
+        "description": "Space-separated class names to add to the block"
       }
     ]
   },
@@ -5681,6 +6050,14 @@
         "value": "",
         "label": "Content",
         "valueType": "string"
+      },
+      {
+        "component": "text",
+        "name": "custom-class",
+        "label": "Custom class",
+        "value": "",
+        "valueType": "string",
+        "description": "Space-separated class names to add to the block"
       }
     ]
   },
@@ -7592,6 +7969,14 @@
             "value": "EUR"
           }
         ]
+      },
+      {
+        "component": "text",
+        "name": "custom-class",
+        "label": "Custom class",
+        "value": "",
+        "valueType": "string",
+        "description": "Space-separated class names to add to the block"
       }
     ]
   },
@@ -7757,6 +8142,14 @@
         "value": "",
         "label": "Text",
         "valueType": "string"
+      },
+      {
+        "component": "text",
+        "name": "custom-class",
+        "label": "Custom class",
+        "value": "",
+        "valueType": "string",
+        "description": "Space-separated class names to add to the block"
       }
     ]
   },
@@ -7824,7 +8217,14 @@
         "validation": {
           "rootPath": "/content/dam"
         },
-          "condition": { "==": [{ "var": "dataSourceType" }, "content-fragments"] }
+        "condition": {
+          "==": [
+            {
+              "var": "dataSourceType"
+            },
+            "content-fragments"
+          ]
+        }
       },
       {
         "component": "text",
@@ -7832,7 +8232,14 @@
         "name": "apiUrl",
         "label": "API URL",
         "description": "External API endpoint for doctor data",
-        "condition": { "==": [{ "var": "dataSourceType" }, "api"] }
+        "condition": {
+          "==": [
+            {
+              "var": "dataSourceType"
+            },
+            "api"
+          ]
+        }
       },
       {
         "component": "boolean",
@@ -7868,7 +8275,22 @@
         "name": "submitUrl",
         "label": "Submit URL",
         "description": "URL to redirect to when Book Appointment is clicked (if Submit Action is enabled)",
-        "condition": { "==": [{ "var": "enableSubmitAction" }, true] }
+        "condition": {
+          "==": [
+            {
+              "var": "enableSubmitAction"
+            },
+            true
+          ]
+        }
+      },
+      {
+        "component": "text",
+        "name": "custom-class",
+        "label": "Custom class",
+        "value": "",
+        "valueType": "string",
+        "description": "Space-separated class names to add to the block"
       }
     ]
   },
@@ -7992,6 +8414,14 @@
         "value": "",
         "valueType": "string",
         "description": "Comma-separated key,value pairs"
+      },
+      {
+        "component": "text",
+        "name": "custom-class",
+        "label": "Custom class",
+        "value": "",
+        "valueType": "string",
+        "description": "Space-separated class names to add to the block"
       }
     ]
   }

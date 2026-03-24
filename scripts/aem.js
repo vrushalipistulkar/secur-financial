@@ -161,6 +161,7 @@ function init() {
   sampleRUM.collectBaseURL = window.origin;
   sampleRUM();
   setupSectionItemWidthsUE();
+  setupBlockCustomClassUE();
 }
 
 /**
@@ -554,6 +555,24 @@ function applySectionCustomClass(section, value) {
   }
 }
 
+/**
+ * Applies custom class(es) to a block from UE/config. Space-separated for multiple.
+ * @param {Element} block The block element
+ * @param {string} value Class name(s), space-separated
+ */
+function applyBlockCustomClass(block, value) {
+  const prev = (block.dataset.blockCustomClass ?? '').trim();
+  if (prev) {
+    prev.split(/\s+/).filter(Boolean).forEach((c) => block.classList.remove(c));
+  }
+  delete block.dataset.blockCustomClass;
+  const next = (value ?? '').toString().trim();
+  if (next) {
+    block.dataset.blockCustomClass = next;
+    next.split(/\s+/).filter(Boolean).forEach((c) => block.classList.add(c));
+  }
+}
+
 function applySectionTextColor(section, colorValue) {
   const isHexColor = (s) => {
     const t = String(s).trim();
@@ -725,6 +744,29 @@ function setupSectionItemWidthsUE() {
   document.body.addEventListener('aue:content-patch', handler);
 }
 
+function setupBlockCustomClassUE() {
+  const handler = (event) => {
+    const resource = event.detail?.request?.target?.resource;
+    const block = resource
+      ? document.querySelector(`.block[data-aue-resource="${resource}"]`)
+      : null;
+    if (!block) return;
+    if (event.type === 'aue:content-details') {
+      const content = event.detail?.content || {};
+      const customClassVal = content['custom-class'] ?? content.customClass ?? '';
+      applyBlockCustomClass(block, customClassVal);
+    }
+    if (event.type === 'aue:content-patch') {
+      const patch = event.detail?.patch;
+      if (patch?.name === 'custom-class' || patch?.name === 'customClass') {
+        applyBlockCustomClass(block, patch.value ?? '');
+      }
+    }
+  };
+  document.body.addEventListener('aue:content-details', handler);
+  document.body.addEventListener('aue:content-patch', handler);
+}
+
 /**
  * Gets placeholders object.
  * @param {string} [prefix] Location of placeholders
@@ -879,9 +921,12 @@ async function loadBlock(block) {
 function decorateBlock(block) {
   const shortBlockName = block.classList[0];
   if (shortBlockName && !block.dataset.blockStatus) {
+    const config = readBlockConfig(block) || {};
+    const customClassVal = config['custom-class'] ?? config.customClass ?? '';
     block.classList.add('block');
     block.dataset.blockName = shortBlockName;
     block.dataset.blockStatus = 'initialized';
+    applyBlockCustomClass(block, customClassVal);
     wrapTextNodes(block);
     const blockWrapper = block.parentElement;
     blockWrapper.classList.add(`${shortBlockName}-wrapper`);

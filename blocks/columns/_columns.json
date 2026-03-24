@@ -58,6 +58,14 @@
           "value": "",
           "label": "Column widths (%)",
           "description": "Comma-separated width percentages per column, e.g. 20,80 or 33,33,34"
+        },
+        {
+          "component": "text",
+          "name": "custom-class",
+          "label": "Custom class",
+          "value": "",
+          "valueType": "string",
+          "description": "Space-separated class names to add to the block"
         }
       ]
     },
@@ -86,6 +94,14 @@
             }
           ],
           "description": "Controls how items inside the column are aligned - vertically (stacked) or horizontally (side by side)"
+        },
+        {
+          "component": "text",
+          "name": "custom-class",
+          "label": "Custom class",
+          "value": "",
+          "valueType": "string",
+          "description": "Space-separated class names to add to the block"
         }
       ]
     }

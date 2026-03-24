@@ -19,7 +19,16 @@
   "models": [
     {
       "id": "add-external",
-      "fields": []
+      "fields": [
+        {
+          "component": "text",
+          "name": "custom-class",
+          "label": "Custom class",
+          "value": "",
+          "valueType": "string",
+          "description": "Space-separated class names to add to the block"
+        }
+      ]
     }
   ],
   "filters": []

@@ -90,7 +90,14 @@
           "validation": {
             "rootPath": "/content/dam"
           },
-          "condition": { "==": [{ "var": "dataSourceType" }, "dam-json"] }
+          "condition": {
+            "==": [
+              {
+                "var": "dataSourceType"
+              },
+              "dam-json"
+            ]
+          }
         },
         {
           "component": "aem-content",
@@ -101,7 +108,14 @@
           "validation": {
             "rootPath": "/content/dam"
           },
-          "condition": { "==": [{ "var": "dataSourceType" }, "content-fragments"] }
+          "condition": {
+            "==": [
+              {
+                "var": "dataSourceType"
+              },
+              "content-fragments"
+            ]
+          }
         },
         {
           "component": "aem-content",
@@ -112,7 +126,14 @@
           "validation": {
             "rootPath": "/content/dam"
           },
-          "condition": { "==": [{ "var": "dataSourceType" }, "content-fragments"] }
+          "condition": {
+            "==": [
+              {
+                "var": "dataSourceType"
+              },
+              "content-fragments"
+            ]
+          }
         },
         {
           "component": "text",
@@ -120,7 +141,14 @@
           "name": "apiUrl",
           "label": "API URL",
           "description": "External API endpoint for doctor data",
-          "condition": { "==": [{ "var": "dataSourceType" }, "api"] }
+          "condition": {
+            "==": [
+              {
+                "var": "dataSourceType"
+              },
+              "api"
+            ]
+          }
         },
         {
           "component": "text",
@@ -129,7 +157,14 @@
           "label": "Static JSON Path",
           "description": "Path to static JSON file",
           "value": "/data/doctors.json",
-          "condition": { "==": [{ "var": "dataSourceType" }, "json"] }
+          "condition": {
+            "==": [
+              {
+                "var": "dataSourceType"
+              },
+              "json"
+            ]
+          }
         },
         {
           "component": "boolean",
@@ -151,6 +186,14 @@
           "label": "Enable Provider Name Search",
           "value": "true",
           "valueType": "boolean"
+        },
+        {
+          "component": "text",
+          "name": "custom-class",
+          "label": "Custom class",
+          "value": "",
+          "valueType": "string",
+          "description": "Space-separated class names to add to the block"
         }
       ]
     }
