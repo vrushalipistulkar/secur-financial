@@ -179,6 +179,35 @@ function attachProductDataLayerHandler(buttonConfig, productPayload) {
   anchor.addEventListener('click', () => publishProductToDataLayer(productPayload));
 }
 
+function makeCardClickable(card, buttonConfig, productPayload) {
+  const anchor = buttonConfig?.node?.querySelector('a[href]');
+  if (!card || !anchor) return;
+
+  card.classList.add('product-card-clickable');
+  card.tabIndex = 0;
+  card.setAttribute('role', 'link');
+  if (anchor.target === '_blank') {
+    card.setAttribute('aria-label', `${anchor.textContent || 'Open product'} (opens in a new tab)`);
+  }
+
+  const triggerAnchor = () => {
+    publishProductToDataLayer(productPayload);
+    anchor.click();
+  };
+
+  card.addEventListener('click', (event) => {
+    if (event.target.closest('a, button, input, select, textarea, summary, label')) return;
+    triggerAnchor();
+  });
+
+  card.addEventListener('keydown', (event) => {
+    if (event.target !== card) return;
+    if (event.key !== 'Enter' && event.key !== ' ') return;
+    event.preventDefault();
+    triggerAnchor();
+  });
+}
+
 function createCard(product, buttonConfig) {
   const photo = document.createElement('div');
   photo.className = 'product-card-image';
@@ -292,7 +321,9 @@ export default async function decorate(block) {
   const list = document.createElement('ul');
   const productButtonConfig = appendProductIdToButton(buttonConfig, product);
   attachProductDataLayerHandler(productButtonConfig, productPayload);
-  list.append(createCard(product, productButtonConfig));
+  const card = createCard(product, productButtonConfig);
+  makeCardClickable(card, productButtonConfig, productPayload);
+  list.append(card);
   wrapper.append(list);
   block.append(wrapper);
   block.classList.remove('product-card-block--loading');
