@@ -123,21 +123,31 @@ async function getInitialDataLayerFromDataElements() {
 
   try {
     const placeholders = await fetchPlaceholders();
+    console.info('Fetched placeholders for datalayer initialization:', placeholders);
     const placeholderDataLayer = placeholders?.datalayer;
+    console.info('Placeholder "datalayer" value:', placeholderDataLayer);
 
     if (!placeholderDataLayer) {
+      console.info('[datalayer] Placeholder "datalayer" missing. Using fallback initial dataLayer object.');
       return fallbackDataLayer;
     }
 
     if (typeof placeholderDataLayer === 'object') {
+      console.info('[datalayer] Initial dataLayer loaded from placeholder object.');
       return placeholderDataLayer;
     }
 
     if (typeof placeholderDataLayer === 'string') {
+      console.info('[datalayer] Initial dataLayer loaded from placeholder JSON string.');
       return JSON.parse(placeholderDataLayer);
     }
+
+    console.info('[datalayer] Placeholder "datalayer" has unsupported type. Using fallback initial dataLayer object.', {
+      placeholderType: typeof placeholderDataLayer,
+    });
   } catch (error) {
     console.warn('Error fetching placeholders for datalayer:', error);
+    console.info('[datalayer] Using fallback initial dataLayer object due to placeholder fetch/parse error.');
   }
 
   return fallbackDataLayer;
@@ -153,7 +163,17 @@ export async function buildCustomDataLayer() {
       const cacheAge = Date.now() - parseInt(savedTimestamp, 10);
       if (cacheAge <= STORAGE_TTL) {
         isDataValid = true;
+        console.info('[datalayer] Restoring from localStorage cache.', {
+          source: 'localStorage',
+          cacheAgeMs: cacheAge,
+          ttlMs: STORAGE_TTL,
+        });
       } else {
+        console.info('[datalayer] Cached dataLayer expired. Re-initializing from placeholders/default.', {
+          source: 'localStorage',
+          cacheAgeMs: cacheAge,
+          ttlMs: STORAGE_TTL,
+        });
         localStorage.removeItem(STORAGE_KEY);
         localStorage.removeItem(STORAGE_TIMESTAMP_KEY);
       }
@@ -161,6 +181,7 @@ export async function buildCustomDataLayer() {
     if (savedDataLayer && isDataValid) {
       _dataLayer = JSON.parse(savedDataLayer);
     } else {
+      console.info('[datalayer] Creating initial dataLayer from placeholders/default.');
       _dataLayer = await getInitialDataLayerFromDataElements();
     }
     applyEcidToDataLayer();
@@ -173,6 +194,10 @@ export async function buildCustomDataLayer() {
       const now = Date.now().toString();
       localStorage.setItem(STORAGE_KEY, JSON.stringify(_dataLayer));
       localStorage.setItem(STORAGE_TIMESTAMP_KEY, now);
+      console.info('[datalayer] Persisted dataLayer to localStorage.', {
+        storageKey: STORAGE_KEY,
+        timestampKey: STORAGE_TIMESTAMP_KEY,
+      });
     } catch (storageError) {
       console.warn('⚠ Could not persist dataLayer:', storageError.message);
     }
@@ -185,6 +210,7 @@ export async function buildCustomDataLayer() {
     }, 0);
   } catch (error) {
     console.error('Error initializing dataLayer:', error);
+    console.info('[datalayer] Falling back to placeholders/default after initialization error.');
     _dataLayer = await getInitialDataLayerFromDataElements();
     syncWindowDataLayer();
     window._dataLayerReady = true;
