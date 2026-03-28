@@ -4,6 +4,8 @@
 // No checkout (not in data-elements). Cart has only total (Reservation-TotalValue).
 // ==========================================
 
+import { fetchPlaceholders } from './aem.js';
+
 window._dataLayerQueue = window._dataLayerQueue || [];
 window._dataLayerReady = false;
 window._dataLayerUpdating = false;
@@ -107,21 +109,41 @@ function processDataLayerQueue() {
  * project: only id, currency (Project-ID, Currency). No locale.
  * cart: only total (Reservation-TotalValue).
  */
-function getInitialDataLayerFromDataElements() {
-  const initialDataLayer = {
+async function getInitialDataLayerFromDataElements() {
+  const fallbackDataLayer = {
     page: {},
     product: {},
     mortgage: {},
     partnerData: {},
     project: {
-      id: "securfinancial2"
+      id: 'securfinancial2',
     },
-    wizard: {}
+    wizard: {},
   };
-  return initialDataLayer;
+
+  try {
+    const placeholders = await fetchPlaceholders();
+    const placeholderDataLayer = placeholders?.datalayer;
+
+    if (!placeholderDataLayer) {
+      return fallbackDataLayer;
+    }
+
+    if (typeof placeholderDataLayer === 'object') {
+      return placeholderDataLayer;
+    }
+
+    if (typeof placeholderDataLayer === 'string') {
+      return JSON.parse(placeholderDataLayer);
+    }
+  } catch (error) {
+    console.warn('Error fetching placeholders for datalayer:', error);
+  }
+
+  return fallbackDataLayer;
 }
 
-export function buildCustomDataLayer() {
+export async function buildCustomDataLayer() {
   try {
     const savedDataLayer = localStorage.getItem(STORAGE_KEY);
     const savedTimestamp = localStorage.getItem(STORAGE_TIMESTAMP_KEY);
@@ -139,7 +161,7 @@ export function buildCustomDataLayer() {
     if (savedDataLayer && isDataValid) {
       _dataLayer = JSON.parse(savedDataLayer);
     } else {
-      _dataLayer = getInitialDataLayerFromDataElements();
+      _dataLayer = await getInitialDataLayerFromDataElements();
     }
     applyEcidToDataLayer();
     if (!_dataLayer.page) _dataLayer.page = {};
@@ -163,7 +185,7 @@ export function buildCustomDataLayer() {
     }, 0);
   } catch (error) {
     console.error('Error initializing dataLayer:', error);
-    _dataLayer = getInitialDataLayerFromDataElements();
+    _dataLayer = await getInitialDataLayerFromDataElements();
     syncWindowDataLayer();
     window._dataLayerReady = true;
     processDataLayerQueue();
