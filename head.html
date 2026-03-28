@@ -1,9 +1,8 @@
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
 
 <!-- Adobe Experience Platform Launch - Secur Financial -->
-<script>
+  <script>
   (function loadLaunchFromPlaceholders() {
-    const DEFAULT_LAUNCH_URL = 'https://assets.adobedtm.com/59610d662d36/82eac5077dd7/launch-0a81dcb5aa51-development.min.js';
     const PLACEHOLDERS_URL = '/placeholders.json';
 
     const toCamelCase = (key) => String(key || '')
@@ -11,6 +10,10 @@
       .replace(/[^a-z0-9]+(.)/g, (_, chr) => (chr ? chr.toUpperCase() : ''));
 
     const appendLaunchScript = (src) => {
+      if (!src) {
+        console.warn('[launch] Placeholder "launch" is missing. Launch script will not be loaded.');
+        return;
+      }
       console.info('[launch] Appending Launch script:', src);
       const script = document.createElement('script');
       script.src = src;
@@ -18,7 +21,7 @@
       document.head.appendChild(script);
     };
 
-    const pickLaunchUrl = (placeholders) => placeholders.launch || DEFAULT_LAUNCH_URL;
+    const pickLaunchUrl = (placeholders) => placeholders.launch || '';
 
     console.info('[launch] Fetching placeholders for Launch URL from:', PLACEHOLDERS_URL);
     fetch(PLACEHOLDERS_URL, { credentials: 'same-origin' })
@@ -31,12 +34,10 @@
             placeholders[toCamelCase(row.Key)] = row.Text;
           });
         console.info('[launch] Placeholder "launch" value:', placeholders.launch);
-        console.info('[launch] Launch URL source:', placeholders.launch ? 'placeholder.launch' : 'default');
         appendLaunchScript(pickLaunchUrl(placeholders));
       })
       .catch((error) => {
-        console.warn('[launch] Failed to fetch placeholders. Using default Launch URL.', error);
-        appendLaunchScript(DEFAULT_LAUNCH_URL);
+        console.warn('[launch] Failed to fetch placeholders. Launch script will not be loaded.', error);
       });
   }());
 </script>

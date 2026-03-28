@@ -110,17 +110,6 @@ function processDataLayerQueue() {
  * cart: only total (Reservation-TotalValue).
  */
 async function getInitialDataLayerFromDataElements() {
-  const fallbackDataLayer = {
-    page: {},
-    product: {},
-    mortgage: {},
-    partnerData: {},
-    project: {
-      id: 'securfinancial2',
-    },
-    wizard: {},
-  };
-
   try {
     const placeholders = await fetchPlaceholders();
     console.info('Fetched placeholders for datalayer initialization:', placeholders);
@@ -128,8 +117,8 @@ async function getInitialDataLayerFromDataElements() {
     console.info('Placeholder "datalayer" value:', placeholderDataLayer);
 
     if (!placeholderDataLayer) {
-      console.info('[datalayer] Placeholder "datalayer" missing. Using fallback initial dataLayer object.');
-      return fallbackDataLayer;
+      console.warn('[datalayer] Placeholder "datalayer" missing. Initializing with empty dataLayer object.');
+      return {};
     }
 
     if (typeof placeholderDataLayer === 'object') {
@@ -142,15 +131,15 @@ async function getInitialDataLayerFromDataElements() {
       return JSON.parse(placeholderDataLayer);
     }
 
-    console.info('[datalayer] Placeholder "datalayer" has unsupported type. Using fallback initial dataLayer object.', {
+    console.warn('[datalayer] Placeholder "datalayer" has unsupported type. Initializing with empty dataLayer object.', {
       placeholderType: typeof placeholderDataLayer,
     });
   } catch (error) {
     console.warn('Error fetching placeholders for datalayer:', error);
-    console.info('[datalayer] Using fallback initial dataLayer object due to placeholder fetch/parse error.');
+    console.warn('[datalayer] Initializing with empty dataLayer object due to placeholder fetch/parse error.');
   }
 
-  return fallbackDataLayer;
+  return {};
 }
 
 export async function buildCustomDataLayer() {
@@ -169,7 +158,7 @@ export async function buildCustomDataLayer() {
           ttlMs: STORAGE_TTL,
         });
       } else {
-        console.info('[datalayer] Cached dataLayer expired. Re-initializing from placeholders/default.', {
+        console.info('[datalayer] Cached dataLayer expired. Re-initializing from placeholder.', {
           source: 'localStorage',
           cacheAgeMs: cacheAge,
           ttlMs: STORAGE_TTL,
@@ -181,7 +170,7 @@ export async function buildCustomDataLayer() {
     if (savedDataLayer && isDataValid) {
       _dataLayer = JSON.parse(savedDataLayer);
     } else {
-      console.info('[datalayer] Creating initial dataLayer from placeholders/default.');
+      console.info('[datalayer] Creating initial dataLayer from placeholder.');
       _dataLayer = await getInitialDataLayerFromDataElements();
     }
     applyEcidToDataLayer();
@@ -210,7 +199,7 @@ export async function buildCustomDataLayer() {
     }, 0);
   } catch (error) {
     console.error('Error initializing dataLayer:', error);
-    console.info('[datalayer] Falling back to placeholders/default after initialization error.');
+    console.warn('[datalayer] Initializing with empty/placeholder data after initialization error.');
     _dataLayer = await getInitialDataLayerFromDataElements();
     syncWindowDataLayer();
     window._dataLayerReady = true;
