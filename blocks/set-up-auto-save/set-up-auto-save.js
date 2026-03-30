@@ -32,6 +32,43 @@ function applyButtonConfigToSubmitButton(block, config, defaultEventType = 'auto
   if (buttonData && String(buttonData).trim()) submitButton.dataset.buttonData = String(buttonData).trim();
 }
 
+function getObjectiveSelection(form) {
+  const objectiveCheckboxes = form.querySelectorAll('fieldset[data-id="objective"] input[type="checkbox"]');
+  if (!objectiveCheckboxes.length) return [];
+
+  const checked = [...objectiveCheckboxes].filter((checkbox) => checkbox.checked);
+  if (checked.length === objectiveCheckboxes.length) {
+    const firstLabel = checked[0]
+      ?.closest('.field-wrapper')
+      ?.querySelector('.field-label')
+      ?.textContent
+      ?.trim();
+    return firstLabel ? [firstLabel] : [];
+  }
+
+  return checked.map((checkbox) => checkbox
+    .closest('.field-wrapper')
+    ?.querySelector('.field-label')
+    ?.textContent
+    ?.trim()).filter(Boolean);
+}
+
+function syncObjectiveToDataLayer(form) {
+  if (typeof window === 'undefined' || typeof window.updateDataLayer !== 'function') return;
+  const objective = getObjectiveSelection(form);
+  window.updateDataLayer({
+    $tenant: {
+      interactionDetails: {
+        fsi: {
+          savings: {
+            objective,
+          },
+        },
+      },
+    },
+  });
+}
+
 export default async function decorate(block) {
   const config = readBlockConfig(block) || {};
   const submitLink = getSubmitLink(block, config);
@@ -85,11 +122,21 @@ export default async function decorate(block) {
             fieldType: "checkbox-group",
             label: { value: "Objective" },
             enum: [
+              "save-for-house",
+              "build-emergency-fund",
+              "establish-a-budget",
+              "pay-off-credit-cards",
+              "save-for-college",
+            ],
+            enumNames: [
+              "Save for house",
               "Build emergency fund",
               "Establish a budget",
               "Pay off credit cards",
               "Save for college",
             ],
+            type: "string[]",
+            value: ["save-for-house"],
             properties: { colspan: 12 },
           },
           {
@@ -129,6 +176,7 @@ export default async function decorate(block) {
     applyButtonConfigToSubmitButton(block, config, 'auto-save-form-submit');
     const submitButton = form.querySelector('button[type="submit"]');
     submitButton?.addEventListener("click", () => {
+      syncObjectiveToDataLayer(form);
       const authoredEventType = submitButton?.dataset?.buttonEventType?.trim() || 'auto-save-form-submit';
       dispatchCustomEvent(authoredEventType);
       redirectAfterTransferSubmit();
